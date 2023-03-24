@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 cd "$(dirname "$0")"
-. ./.env
+. ../.env
 
 cd $WORKDIR
 rm -rf dialog
