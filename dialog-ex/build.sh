@@ -9,6 +9,7 @@ cd "$(dirname "$0")"
 
 rm -rf dialog
 git clone https://github.com/mozilla/dialog.git
+rm -rf dialog/.git
 cd dialog
 
 docker rm -f dialog ||true

@@ -9,13 +9,8 @@ cd "$(dirname "$0")"
 
 rm -rf hubs
 git clone https://github.com/mozilla/hubs.git
+rm -rf hubs/.git
 
 docker rm -f hubs ||true
 docker rmi hubs|| true
 docker build -t hubs .
-
-# cd hubs
-# npm ci
-
-# cd admin
-# npm ci --legacy-peer-deps
