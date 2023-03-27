@@ -10,12 +10,16 @@ RUN apt-get update;apt-get install net-tools
 
 workdir /app
 
-copy package.json .
-copy package-lock.json .
+copy hubs/package.json ./hubs/
+copy hubs/package-lock.json ./hubs/
+copy hubs/admin/package.json ./hubs/admin/
+copy hubs/admin/package-lock.json ./hubs/admin/
+
+workdir /app/hubs
 run npm ci
 
-copy admin/package.json ./admin
-copy admin/package-lock.json ./admin
-run npm ci --legacy-peer-deps --prefix admin
+workdir /app/hubs/admin
+run npm ci --legacy-peer-deps
 
-copy . .
+workdir /app
+copy ./hubs ./hubs
