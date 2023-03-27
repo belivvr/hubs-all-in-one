@@ -7,3 +7,15 @@ RUN DOCKER_PKG="docker-20.10.9.tgz";\
     rm -f $DOCKER_PKG
 
 RUN apt-get update;apt-get install net-tools
+
+workdir /app
+
+copy package.json .
+copy package-lock.json .
+run npm ci
+
+copy admin/package.json ./admin
+copy admin/package-lock.json ./admin
+run npm ci --legacy-peer-deps --prefix admin
+
+copy . .
