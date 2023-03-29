@@ -1,12 +1,12 @@
 #!/bin/sh
 set -e
 cd "$(dirname "$0")"
-. ../.env
-
+THISDIR=$(pwd)
 # .env가 현재 경로를 기준으로 파일을 가져온다.
 cd ..
 . ./.env
-cd "$(dirname "$0")"
+cd $THISDIR
+
 
 # 이거 설정하면 POSTGREST_SERVER로 바로 붙는다.
 # export POSTGREST_SERVER="https://$DOMAIN:3000"
