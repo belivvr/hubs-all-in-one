@@ -49,8 +49,9 @@ ENV PYTHON_VERSION 3.12.0a6
 RUN set -eux; \
     \
     wget -O python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz"; \
-    wget -O python.tar.xz.asc "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc"; \
-    GNUPGHOME="$(mktemp -d)"; export GNUPGHOME; \
+    wget -O python.tar.xz.asc "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc";
+
+RUN    GNUPGHOME="$(mktemp -d)"; export GNUPGHOME; \
     gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys "$GPG_KEY"; \
     gpg --batch --verify python.tar.xz.asc python.tar.xz; \
     command -v gpgconf > /dev/null && gpgconf --kill all || :; \
@@ -154,13 +155,12 @@ RUN echo 'export PATH=$PATH:~/.local/bin' >> ~/.bashrc
 ################################
 RUN apt-get update -y;apt-get install -y inotify-tools
 
+WORKDIR /app
+COPY ./reticulum ./reticulum
+
+WORKDIR /app/reticulum
+
 RUN mix local.hex --force
 RUN mix local.rebar --force
 
-# docker 설치, docker cli만 사용하기 때문에 아래처럼 간단하게 했다.
-RUN DOCKER_PKG="docker-20.10.9.tgz";\
-    curl -fsSLO --compressed "https://download.docker.com/linux/static/stable/$(arch)/$DOCKER_PKG"; \
-    tar -xf $DOCKER_PKG --strip-components 1 --directory /usr/local/bin/ docker/docker; \
-    rm -f $DOCKER_PKG
-
-RUN apt-get update;apt-get install net-tools
+RUN mix deps.get

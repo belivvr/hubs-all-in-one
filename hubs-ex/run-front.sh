@@ -1,12 +1,12 @@
 #!/bin/sh
 set -e
 cd "$(dirname "$0")"
-. ../.env
-
+THISDIR=$(pwd)
 # .env가 현재 경로를 기준으로 파일을 가져온다.
 cd ..
 . ./.env
-cd "$(dirname "$0")"
+cd $THISDIR
+
 
 # Domain for short links
 # export SHORTLINK_DOMAIN="$DOMAIN"
@@ -15,20 +15,8 @@ cd "$(dirname "$0")"
 # export THUMBNAIL_SERVER="$DOMAIN"
 # export ASSET_BUNDLE_SERVER="https://$DOMAIN"
 
-# 이거 설정하면 POSTGREST_SERVER로 바로 붙는다.
+# 이거 설정하면 POSTGREST_SERVER로 바로 붙는다. 하지마라
 # export POSTGREST_SERVER="https://$DOMAIN:3000"
-
-# export HOST="$DOMAIN"
-# export RETICULUM_SOCKET_SERVER="$DOMAIN"
-# export CORS_PROXY_SERVER="$PROXY:4080"
-# export NON_CORS_PROXY_DOMAINS="$PROXY,$DOMAIN"
-# export BASE_ASSETS_PATH="https://$DOMAIN:8080/"
-# export RETICULUM_SERVER="$DOMAIN:4000"
-# export POSTGREST_SERVER=""
-# export ITA_SERVER=""
-# export UPLOADS_HOST="https://$DOMAIN:4000"
-# export INTERNAL_HOSTNAME="$DOMAIN"
-# export HOST_IP="0.0.0.0"
 
 docker rm -f hubs-front
 
