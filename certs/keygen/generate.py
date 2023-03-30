@@ -19,8 +19,8 @@ private_jwk = jwk.JWK.from_pyca(private_key)
 private_jwk_json = private_jwk.export_private()
 
 # Save the JSON string to a file named jwt.json
-with open("reticulum-jwk.json", "w") as f:
+with open("perms-jwk.json", "w") as f:
     f.write(private_jwk_json)
 
 # Print a message indicating success
-print("JWK has been saved to reticulum-jwk.json")
+print("JWK has been saved to perms-jwk.json")
