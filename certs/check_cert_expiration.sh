@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 cd "$(dirname "$0")"
-. ./.env
+. ../.env
 
 # check SSL FILES
 expiration=$(openssl x509 -enddate -noout -in "$SSL_CERT_FILE" | cut -d= -f 2)
