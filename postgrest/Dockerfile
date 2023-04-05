@@ -7,4 +7,4 @@ tar -xf postgrest-v9.0.0-linux-static-x64.tar.xz;\
 rm postgrest-v9.0.0-linux-static-x64.tar.xz
 
 # 이거 실행 안 하는데?
-CMD ["./postgrest", "/app/reticulum.conf"]
+CMD ["./postgrest", "/app/postgrest.conf"]

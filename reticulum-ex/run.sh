@@ -22,4 +22,4 @@ docker run -d --name reticulum \
 -e HUBS_ADMIN_INTERNAL_HOSTNAME="$DOMAIN" \
 -e HUBS_CLIENT_INTERNAL_HOSTNAME="$DOMAIN" \
 -e SPOKE_INTERNAL_HOSTNAME="$DOMAIN" \
-reticulum sh -c "mix ecto.create && iex -S mix phx.server"
+reticulum sh -c "mix ecto.create && mix phx.server"

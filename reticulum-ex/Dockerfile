@@ -157,6 +157,7 @@ RUN apt-get update -y;apt-get install -y inotify-tools
 
 WORKDIR /app
 COPY ./reticulum ./reticulum
+# COPY ./indocker.sh /app/reticulum/indocker.sh
 
 WORKDIR /app/reticulum
 

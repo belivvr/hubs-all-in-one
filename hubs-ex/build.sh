@@ -9,8 +9,5 @@ cd $THISDIR
 
 rm -rf hubs
 git clone https://github.com/mozilla/hubs.git
-rm -rf hubs/.git
 
-docker rm -f hubs ||true
-docker rmi hubs|| true
 docker build -t hubs .
