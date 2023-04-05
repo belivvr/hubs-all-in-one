@@ -10,10 +10,10 @@ cd $THISDIR
 docker rm -f dialog
 
 docker run -d --name dialog \
+-p $DIALOG_PORT:4443 \
 -v $SSL_CERT_FILE:/app/certs/fullchain.pem \
 -v $SSL_KEY_FILE:/app/certs/privkey.pem \
 -v $PERMS_PUB_FILE:/app/certs/perms.pub.pem \
--p $DIALOG_PORT:4443 \
 dialog
 
 docker logs dialog

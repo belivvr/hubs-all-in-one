@@ -9,8 +9,5 @@ cd $THISDIR
 
 rm -rf reticulum
 git clone https://github.com/mozilla/reticulum.git
-rm -rf reticulum/.git
 
-docker rm -f reticulum ||true
-docker rmi reticulum|| true
 docker build -t reticulum .
