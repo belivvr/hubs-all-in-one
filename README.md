@@ -46,6 +46,10 @@ mozilla hubs를 단일 호스트에서 실행하는 예제
     host = "hubs.vevv.io"
     cors_proxy_host = "hubs-proxy.vevv.io"
     ```
+1. nginx.conf 20번째 라인
+    ```
+    server_name hubs-proxy.vevv.io;
+    ```
 
 ## 실행
 1. sh db/run.sh
@@ -56,6 +60,8 @@ mozilla hubs를 단일 호스트에서 실행하는 예제
 1. sh reticulum-ex/run.sh
 1. sh proxy/run.sh
 
+## 실행 후
+1. db에서 isAdmin = true
 
 
 ## 참고
