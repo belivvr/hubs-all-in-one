@@ -12,5 +12,5 @@ docker rm -f postgrest
 docker run -d --name postgrest \
 -p 3000:3000 \
 -v $(pwd)/postgrest.conf:/app/postgrest.conf \
--v $PERMS_JWK_FILE:/app/reticulum-jwk.json \
+-v $PERMS_JWK_FILE:/app/perms-jwk.json \
 postgrest sh -c "./postgrest /app/postgrest.conf"
