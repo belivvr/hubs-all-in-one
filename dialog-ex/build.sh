@@ -9,6 +9,5 @@ cd $THISDIR
 
 rm -rf dialog
 git clone https://github.com/mozilla/dialog.git
-cd dialog
 
 docker build -t dialog .

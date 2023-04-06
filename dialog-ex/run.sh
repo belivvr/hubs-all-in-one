@@ -9,11 +9,15 @@ cd $THISDIR
 
 docker rm -f dialog
 
-docker run -d --name dialog \
+# -t옵션 반드시 있어야 한다. 없으면 아래 에러 난다.
+# TypeError: process.stdin.setRawMode is not a function
+docker run -dt --name dialog \
 -p $DIALOG_PORT:4443 \
 -v $SSL_CERT_FILE:/app/certs/fullchain.pem \
 -v $SSL_KEY_FILE:/app/certs/privkey.pem \
 -v $PERMS_PUB_FILE:/app/certs/perms.pub.pem \
+-e MEDIASOUP_LISTEN_IP="0.0.0.0" \
+-e MEDIASOUP_ANNOUNCED_IP="0.0.0.0" \
 dialog
 
 docker logs dialog

@@ -128,11 +128,7 @@ RUN set -eux; \
 
 RUN apt-get update;apt-get install net-tools
 
-# 아래 두 개는 안 해도 될거 같다
-ENV MEDIASOUP_LISTEN_IP "0.0.0.0"
-ENV MEDIASOUP_ANNOUNCED_IP "0.0.0.0"
-
-WORKDIR /workspace/dialog
+WORKDIR /app
 
 COPY ./dialog .
 
