@@ -15,4 +15,4 @@ docker run -d --name proxy \
     -v $SSL_KEY_FILE:/etc/nginx/certs/key.pem \
     nginx:stable-alpine
 
-docker logs -f proxy
+docker logs proxy

@@ -16,6 +16,20 @@ mozilla hubs를 단일 호스트에서 실행하는 예제
     ```sh
     sh certs/check_cert_expiration.sh
     ```
+
+## 설정
+1. .env 변경
+1. postgrest/postgrest.conf db설정 변경해야 한다.
+1. reticulum-ex/dev.exs에서 5,6번째 라인 수정
+    ```
+    host = "hubs.vevv.io"
+    cors_proxy_host = "hubs-proxy.vevv.io"
+    ```
+1. nginx.conf 20번째 라인
+    ```
+    server_name hubs-proxy.vevv.io;
+    ```
+
 ## 빌드
 
 요구사항을 모두 갖추면 다음의 순서로 스크립트를 실행한다.
@@ -38,18 +52,6 @@ mozilla hubs를 단일 호스트에서 실행하는 예제
     sh reticulum-ex/build.sh
     ```
 
-## 설정
-1. .env 변경
-1. postgrest/postgrest.conf db설정 변경해야 한다.
-1. reticulum-ex/dev.exs에서 5,6번째 라인 수정
-    ```
-    host = "hubs.vevv.io"
-    cors_proxy_host = "hubs-proxy.vevv.io"
-    ```
-1. nginx.conf 20번째 라인
-    ```
-    server_name hubs-proxy.vevv.io;
-    ```
 
 ## 실행
 1. sh db/run.sh
