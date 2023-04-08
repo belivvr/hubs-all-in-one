@@ -8,8 +8,9 @@ cd ..
 cd $THISDIR
 
 
-# 이거 설정하면 POSTGREST_SERVER로 바로 붙는다.
+# 이거 설정하면 POSTGREST_SERVER로 바로 붙는다. 하지마라
 # export POSTGREST_SERVER="https://$DOMAIN:3000"
+# 그렇다고 이거 삭제하면 기본값(hubs.local)으로 접속한다. 삭제도 하지마라
 
 # 이건 안 하는거다.
 # export UPLOADS_HOST="$DOMAIN:4000"
@@ -25,7 +26,7 @@ docker run -d --name hubs-admin \
 -e HOST="$DOMAIN" \
 -e RETICULUM_SOCKET_SERVER="$DOMAIN" \
 -e CORS_PROXY_SERVER="$PROXY:4080" \
--e NON_CORS_PROXY_DOMAINS="$PROXY,$DOMAIN" \
+-e NON_CORS_PROXY_DOMAINS="$PROXY,$DOMAIN,$POSTGREST" \
 -e BASE_ASSETS_PATH="https://$DOMAIN:8989/" \
 -e RETICULUM_SERVER="$DOMAIN:4000" \
 -e POSTGREST_SERVER="" \

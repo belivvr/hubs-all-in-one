@@ -17,6 +17,7 @@ cd $THISDIR
 
 # 이거 설정하면 POSTGREST_SERVER로 바로 붙는다. 하지마라
 # export POSTGREST_SERVER="https://$DOMAIN:3000"
+# 그렇다고 이거 삭제하면 기본값(hubs.local)으로 접속한다. 삭제도 하지마라
 
 docker rm -f hubs-front
 

@@ -1,0 +1,6 @@
+2023/04/08 21:18:04 [info] 21#21: *73 client 210.178.6.230 closed keepalive connection
+2023/04/08 21:18:04 [info] 21#21: *75 client closed connection while waiting for request, client: 210.178.6.230, server: 0.0.0.0:4080
+2023/04/08 21:19:19 [info] 21#21: *76 client 210.178.6.230 closed keepalive connection
+2023/04/08 21:19:19 [info] 21#21: *77 client closed connection while waiting for request, client: 210.178.6.230, server: 0.0.0.0:4080
+2023/04/08 21:32:04 [info] 21#21: *79 client 210.178.6.230 closed keepalive connection
+2023/04/08 21:32:04 [info] 21#21: *80 client closed connection while waiting for request, client: 210.178.6.230, server: 0.0.0.0:4080
