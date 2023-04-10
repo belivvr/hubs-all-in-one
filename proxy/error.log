@@ -1,6 +1,28 @@
-2023/04/08 21:18:04 [info] 21#21: *73 client 210.178.6.230 closed keepalive connection
-2023/04/08 21:18:04 [info] 21#21: *75 client closed connection while waiting for request, client: 210.178.6.230, server: 0.0.0.0:4080
-2023/04/08 21:19:19 [info] 21#21: *76 client 210.178.6.230 closed keepalive connection
-2023/04/08 21:19:19 [info] 21#21: *77 client closed connection while waiting for request, client: 210.178.6.230, server: 0.0.0.0:4080
-2023/04/08 21:32:04 [info] 21#21: *79 client 210.178.6.230 closed keepalive connection
-2023/04/08 21:32:04 [info] 21#21: *80 client closed connection while waiting for request, client: 210.178.6.230, server: 0.0.0.0:4080
+2023/04/10 06:58:34 [error] 20#20: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 101.101.209.214, server: hubs-proxy.vevv.io, request: "GET /http://hubs.vevv.io:9000 HTTP/1.1", upstream: "http://101.101.209.214:80/http://hubs.vevv.io:9000", host: "hubs.vevv.io:4080"
+2023/04/10 06:58:34 [info] 20#20: *1 client 101.101.209.214 closed keepalive connection
+2023/04/10 06:59:29 [info] 20#20: *1 client 101.101.209.214 closed keepalive connection
+2023/04/10 06:59:33 [info] 19#19: *1 client 101.101.209.214 closed keepalive connection
+2023/04/10 07:01:10 [info] 19#19: *1 client 101.101.209.214 closed keepalive connection
+2023/04/10 07:01:14 [info] 20#20: *1 client 101.101.209.214 closed keepalive connection
+2023/04/10 07:04:59 [info] 20#20: *1 client 101.101.209.214 closed keepalive connection
+2023/04/10 07:05:44 [info] 20#20: *1 client 101.101.209.214 closed keepalive connection
+2023/04/10 07:08:16 [info] 20#20: *1 client 101.101.209.214 closed keepalive connection
+2023/04/10 07:11:02 [emerg] 1#1: pcre2_compile() failed: quantifier does not follow a repeatable item in "^/?<target>(*)?$" at "*)?$" in /etc/nginx/nginx.conf:17
+2023/04/10 07:11:07 [emerg] 1#1: pcre2_compile() failed: quantifier does not follow a repeatable item in "^/?<target>(*)?$" at "*)?$" in /etc/nginx/nginx.conf:17
+2023/04/10 07:11:51 [emerg] 1#1: pcre2_compile() failed: quantifier does not follow a repeatable item in "^/(?<target>(*))?$" at "*))?$" in /etc/nginx/nginx.conf:17
+2023/04/10 07:13:12 [emerg] 1#1: unknown "suffix" variable
+2023/04/10 07:13:24 [info] 20#20: *1 client 101.101.209.214 closed keepalive connection
+2023/04/10 07:13:41 [info] 20#20: *1 client 101.101.209.214 closed keepalive connection
+2023/04/10 07:14:23 [info] 20#20: *1 client 101.101.209.214 closed keepalive connection
+2023/04/10 07:14:50 [error] 20#20: *4 upstream prematurely closed connection while reading response header from upstream, client: 121.130.212.17, server: hubs-proxy.vevv.io, request: "GET /http://hubs.vevv.io:9090 HTTP/1.1", upstream: "http://101.101.209.214:9090/http://hubs.vevv.io:9090", host: "hubs.vevv.io:4080"
+2023/04/10 07:15:10 [info] 20#20: *4 client 121.130.212.17 closed keepalive connection (104: Connection reset by peer)
+2023/04/10 07:15:11 [info] 20#20: *6 client closed connection while waiting for request, client: 121.130.212.17, server: 0.0.0.0:4080
+2023/04/10 07:16:46 [info] 19#19: *1 client 101.101.209.214 closed keepalive connection
+2023/04/10 07:22:01 [info] 19#19: *7 client 101.101.209.214 closed keepalive connection
+2023/04/10 07:28:51 [info] 20#20: *1 client 101.101.209.214 closed keepalive connection
+2023/04/10 07:29:13 [info] 20#20: *4 client 101.101.209.214 closed keepalive connection
+2023/04/10 07:31:01 [info] 20#20: *1 client 101.101.209.214 closed keepalive connection
+2023/04/10 07:31:16 [info] 20#20: *4 client 101.101.209.214 closed keepalive connection
+2023/04/10 07:31:24 [info] 20#20: *6 client 101.101.209.214 closed keepalive connection
+2023/04/10 07:32:46 [info] 20#20: *8 client 101.101.209.214 closed keepalive connection
+2023/04/10 07:32:52 [info] 20#20: *1 client 101.101.209.214 closed keepalive connection

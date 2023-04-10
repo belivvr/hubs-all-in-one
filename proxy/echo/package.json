@@ -1,0 +1,12 @@
+{
+    "name": "simple-node-server",
+    "version": "1.0.0",
+    "description": "A simple Node.js server that logs requests and returns a 200 status code",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {}
+}
