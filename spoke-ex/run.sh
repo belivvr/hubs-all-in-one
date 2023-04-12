@@ -21,4 +21,5 @@ docker run -d --name spoke \
 -e CORS_PROXY_SERVER="$PROXY_HOST:4080" \
 -e NON_CORS_PROXY_DOMAINS="$PROXY_HOST,$HUBS_HOST" \
 -e INTERNAL_HOSTNAME="$SPOKE_HOST" \
+-e THUMBNAIL_SERVER="$THUMBNAIL_HOST" \
 spoke sh -c "yarn start"
