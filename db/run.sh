@@ -12,5 +12,5 @@ cd $THISDIR
 # 2023-04-05 07:28:34.603 UTC [152] DETAIL:  Password does not match for user "postgres".
 #         Connection matched pg_hba.conf line 95: "host all all all md5"
 
-docker rm -f db
-docker run -p 5432:5432 --rm --name db -d -e POSTGRES_PASSWORD="$DB_PASSWORD" postgres:11-bullseye || true
+docker rm -f $DB_HOST
+docker run -p 5432:5432 --rm --name $DB_HOST -d -e POSTGRES_PASSWORD="$DB_PASSWORD" postgres:11-bullseye || true
