@@ -2,8 +2,20 @@ import Config
 
 # NOTE: this file contains some security keys/certs that are *not* secrets, and are only used for local development purposes.
 
-host = "hubs.dev1.xr.vevv.io"
-cors_proxy_host = "proxy.dev1.xr.vevv.io"
+host = "hubs-dev1-xr.vevv.io"
+cors_proxy_host = "proxy-dev1-xr.vevv.io"
+# client_host="client-dev1-xr.vevv.io"
+# postgrest_host="postgrest-dev1-xr.vevv.io"
+# thumbnail_host="thumbnail-dev1-xr.vevv.io"
+# admin_host="admin-dev1-xr.vevv.io"
+# spoke_host="spoke-dev1-xr.vevv.io"
+
+client_host = "hubs-dev1-xr.vevv.io"
+postgrest_host = "hubs-dev1-xr.vevv.io"
+thumbnail_host = "hubs-dev1-xr.vevv.io"
+admin_host = "hubs-dev1-xr.vevv.io"
+spoke_host = "hubs-dev1-xr.vevv.io"
+
 # host = "hubs.local"
 # cors_proxy_host = "hubs-proxy.local"
 assets_host = "hubs-assets.local"
@@ -31,7 +43,7 @@ config :ret, RetWeb.Endpoint,
   cors_proxy_url: [scheme: "https", host: cors_proxy_host, port: 4080],
   assets_url: [scheme: "https", host: assets_host, port: 4000],
   link_url: [scheme: "https", host: link_host, port: 4000],
-  imgproxy_url: [scheme: "http", host: host, port: 5000],
+  imgproxy_url: [scheme: "http", host: thumbnail_host, port: 5000],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -143,9 +155,19 @@ config :ret, Ret.Storage,
   storage_path: "storage/dev",
   ttl: 60 * 60 * 24
 
+# asset_hosts =
+#   "https://localhost:4000 https://localhost:8080 " <>
+#     "https://#{host}:4000 https://#{client_host}:8080 https://#{postgrest_host}:3000 https://#{admin_host}:8989 https://#{spoke_host}:9090 https://#{host}:4000 https://#{cors_proxy_host}:4080 " <>
+#     "https://assets-prod.reticulum.io https://asset-bundles-dev.reticulum.io https://asset-bundles-prod.reticulum.io"
+#
+# websocket_hosts =
+#   "https://localhost:4000 https://localhost:8080 wss://localhost:4000 " <>
+#     "https://#{host}:4000 https://#{host}:8080 wss://#{host}:4000 wss://#{host}:8080 wss://#{host}:8989 wss://#{host}:9090 " <>
+#     "https://#{host}:4000 https://#{client_host}:8080 wss://#{host}:4000 wss://#{client_host}:8080 wss://#{admin_host}:8989 wss://#{spoke_host}:9090 " <>
+#     "wss://#{host}:4000 wss://#{host}:8080 https://#{host}:8080 https://hubs.local:8080 wss://hubs.local:8080"
 asset_hosts =
   "https://localhost:4000 https://localhost:8080 " <>
-    "https://#{host}:4000 https://#{host}:8080 https://#{host}:3000 https://#{host}:8989 https://#{host}:9090 https://#{cors_proxy_host}:4000 https://#{cors_proxy_host}:4080 " <>
+    "https://#{host}:4000 https://#{host}:8080 https://#{host}:3000 https://#{host}:8989 https://#{host}:9090 https://#{cors_proxy_host}:4000 " <>
     "https://assets-prod.reticulum.io https://asset-bundles-dev.reticulum.io https://asset-bundles-prod.reticulum.io"
 
 websocket_hosts =
@@ -158,7 +180,7 @@ config :ret, RetWeb.Plugs.AddCSP,
   font_src: asset_hosts,
   style_src: asset_hosts,
   connect_src:
-    "https://#{host}:8080 https://sentry.prod.mozaws.net #{asset_hosts} #{websocket_hosts} https://www.mozilla.org",
+    "https://#{client_host}:8080 https://sentry.prod.mozaws.net #{asset_hosts} #{websocket_hosts} https://www.mozilla.org",
   img_src: asset_hosts,
   media_src: asset_hosts,
   manifest_src: asset_hosts
