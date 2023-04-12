@@ -16,6 +16,18 @@ mozilla hubs를 단일 호스트에서 실행하는 예제
     ```sh
     sh certs/check_cert_expiration.sh
     ```
+1. 아래의 도메인이 등록되어야 한다.
+    ```
+    spoke
+    dialog
+    postgrest
+    db
+    proxy
+    hubs
+    thumbnail
+    admin
+    client
+    ```
 
 ## 설정
 1. .env 변경
