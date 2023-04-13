@@ -4,7 +4,7 @@ docker rm -f proxy
 docker rm -f reticulum
 docker rm -f hubs-front
 docker rm -f hubs-admin
-docker rm -f db.vevv.io
+docker rm -f db
 
 docker volume ls -q | xargs docker volume rm
 
@@ -22,7 +22,7 @@ sh hubs-ex/build.sh
 sh reticulum-ex/build.sh
 
 docker images -a | grep "<none>" | awk '{print $3}' | xargs docker rmi
-docker system prune -f
+# docker system prune -f
 
 sh db/run.sh
 sh dialog-ex/run.sh
