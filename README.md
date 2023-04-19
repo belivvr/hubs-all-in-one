@@ -5,6 +5,7 @@ mozilla hubs를 단일 호스트에서 실행하는 예제
 ## 요구사항
 
 1. ssl 인증서나 도메인 등 설정이 변경되면 .env를 변경해야 한다.
+1. ssl 인증서는 체인 인증서(중간 인증서)를 포함하는 unified.crt 인증서를 사용해야 한다.
 1. 도메인과 ssl 인증서\
     hosts에 도메인을 등록해서 설정하는 것은 까다롭고 프록시 서버 설정에서 문제가 있기 때문에 여기서는 사용하지 않는다.
 1. perms 키 생성\
@@ -22,12 +23,12 @@ mozilla hubs를 단일 호스트에서 실행하는 예제
 1. postgrest/postgrest.conf db설정 변경해야 한다.
 1. reticulum-ex/dev.exs에서 5,6번째 라인 수정
     ```
-    host = "hubs.vevv.io"
-    cors_proxy_host = "hubs-proxy.vevv.io"
+    host = "hubs1.vevv.io"
+    cors_proxy_host = "proxy1.vevv.io"
     ```
 1. nginx.conf 20번째 라인
     ```
-    server_name hubs-proxy.vevv.io;
+    server_name proxy1.vevv.io;
     ```
 
 ## 빌드
@@ -54,6 +55,12 @@ mozilla hubs를 단일 호스트에서 실행하는 예제
 
 
 ## 실행
+여러 프로젝트를 동시에 실행하면 `ENOSPC: System limit for number of file watchers reached`에러가 발생할 수 있다.
+리눅스라면 아래와 같이 설정한다.
+```sh
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+```
+
 1. sh db/run.sh
 1. sh dialog-ex/run.sh
 1. sh hubs-ex/run-admin.sh
