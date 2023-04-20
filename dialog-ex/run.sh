@@ -21,3 +21,7 @@ docker run -dt --name dialog \
 dialog
 
 docker logs dialog
+
+# MEDIASOUP_MIN_PORT
+# MEDIASOUP_MAX_PORT
+# DOMAIN

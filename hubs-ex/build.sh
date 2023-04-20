@@ -10,4 +10,8 @@ cd $THISDIR
 rm -rf hubs
 git clone https://github.com/mozilla/hubs.git
 
-docker build -t hubs .
+cp .env hubs/.env
+cp .env hubs/admin/.env
+
+docker build -t client -f Dockerfile.client .
+docker build -t admin -f Dockerfile.admin .
