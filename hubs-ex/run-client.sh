@@ -7,6 +7,34 @@ cd ..
 . ./.env
 cd $THISDIR
 
+docker rm -f client
+
+docker run -d --name client \
+-v $SSL_CERT_FILE:/etc/nginx/certs/cert.pem \
+-v $SSL_KEY_FILE:/etc/nginx/certs/key.pem \
+-v $(pwd)/nginx.conf.client:/etc/nginx/nginx.conf \
+-p 8080:8080 \
+client
+
+# 순수하게 프론트소스만 있다. 런타임에 환경설정 안 된다.
+# 빌드 타임에 설정해야 한다.
+# -e HOST="$HUBS_HOST" \
+# -e RETICULUM_SOCKET_SERVER="$HUBS_HOST" \
+# -e CORS_PROXY_SERVER="$PROXY_HOST:4080" \
+# -e NON_CORS_PROXY_DOMAINS="$PROXY_HOST,$HUBS_HOST" \
+# -e BASE_ASSETS_PATH="https://$HUBS_HOST:8080/" \
+# -e RETICULUM_SERVER="$HUBS_HOST:4000" \
+# -e POSTGREST_SERVER="" \
+# -e ITA_SERVER="" \
+# -e UPLOADS_HOST="https://$HUBS_HOST:4000" \
+# -e INTERNAL_HOSTNAME="$HUBS_HOST" \
+# -e HOST_IP="0.0.0.0" \
+# -e THUMBNAIL_SERVER="$THUMBNAIL_HOST" \
+# -e NODE_ENV="production" \
+
+docker logs client
+
+# -w /app/hubs \
 
 # Domain for short links
 # export SHORTLINK_DOMAIN="$HUBS_HOST"
@@ -14,26 +42,3 @@ cd $THISDIR
 # 이거 설정하면 POSTGREST_SERVER로 바로 붙는다. 하지마라
 # export POSTGREST_SERVER="https://$HUBS_HOST:3000"
 # 그렇다고 이거 삭제하면 기본값(hubs.local)으로 접속한다. 삭제도 하지마라
-
-docker rm -f client
-
-docker run -d --name client \
--v $SSL_CERT_FILE:/app/hubs/certs/cert.pem \
--v $SSL_KEY_FILE:/app/hubs/certs/key.pem \
--w /app/hubs \
--p 8080:8080 \
--e HOST="$HUBS_HOST" \
--e RETICULUM_SOCKET_SERVER="$HUBS_HOST" \
--e CORS_PROXY_SERVER="$PROXY_HOST:4080" \
--e NON_CORS_PROXY_DOMAINS="$PROXY_HOST,$HUBS_HOST" \
--e BASE_ASSETS_PATH="https://$HUBS_HOST:8080/" \
--e RETICULUM_SERVER="$HUBS_HOST:4000" \
--e POSTGREST_SERVER="" \
--e ITA_SERVER="" \
--e UPLOADS_HOST="https://$HUBS_HOST:4000" \
--e INTERNAL_HOSTNAME="$HUBS_HOST" \
--e HOST_IP="0.0.0.0" \
--e THUMBNAIL_SERVER="$THUMBNAIL_HOST" \
-hubs sh -c "npm run dev"
-
-docker logs client
