@@ -23,5 +23,5 @@ docker run -d --name proxy \
 docker logs proxy
 
 # curl "https://hubs1.vevv.io:4080/http://hubs1.vevv.io:9000/abc123?query=123&test=abc#1234"
-curl "https://proxy1.vevv.io:4080/https://uploads-prod.reticulum.io:443/files/728260ab-4e8f-4052-8e1a-c7fae3492989.glb"
+# curl "https://proxy1.vevv.io:4080/https://uploads-prod.reticulum.io:443/files/728260ab-4e8f-4052-8e1a-c7fae3492989.glb"
 # curl "https://proxy1.vevv.io:4080"
