@@ -79,6 +79,7 @@ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo s
 
 ## 실행 후
 1. db에서 isAdmin = true
+    docker exec db psql -U postgres -d ret_dev -c "UPDATE accounts SET is_admin = true;"
 
 
 ## 참고
