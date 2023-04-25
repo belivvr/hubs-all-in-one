@@ -84,3 +84,7 @@ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo s
 
 ## 참고
 - https://github.com/albirrkarim/mozilla-hubs-installation-detailed
+
+## TODO
+Spoke nginx로 실행
+reticulum release실행
