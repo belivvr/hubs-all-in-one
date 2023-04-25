@@ -17,11 +17,12 @@ docker run -dt --name dialog \
 -v $SSL_KEY_FILE:/app/certs/privkey.pem \
 -v $PERMS_PUB_FILE:/app/certs/perms.pub.pem \
 -e MEDIASOUP_LISTEN_IP="0.0.0.0" \
--e MEDIASOUP_ANNOUNCED_IP="0.0.0.0" \
 dialog
 
 docker logs dialog
 
+# MEDIASOUP_ANNOUNCED_IP는 LISTEN_IP와 다르다 공개IP가 설정되어야 한다.
+# -e MEDIASOUP_ANNOUNCED_IP="0.0.0.0" \ 아마도 오류
 # MEDIASOUP_MIN_PORT
 # MEDIASOUP_MAX_PORT
 # DOMAIN
