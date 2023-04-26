@@ -9,7 +9,7 @@ cd $THISDIR
 
 rm -rf Spoke
 git clone https://github.com/mozilla/Spoke.git
-# cd Spoke
-# yarn install
 
+# cp spoke.env Spoke/.env
+cp spoke.env Spoke/.env.prod
 docker build -t spoke .
