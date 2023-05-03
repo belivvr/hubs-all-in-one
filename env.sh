@@ -1,6 +1,6 @@
 #!/bin/bash
 CERTS="$(pwd)/certs"
-SUFFIX="2.vevv.io"
+SUFFIX="1.vevv.io"
 
 SOURCE=(
     "SSL_CERT_FILE"
