@@ -1,20 +1,22 @@
-FROM node:16
+FROM node:16 AS build
 
-# docker 설치, docker cli만 사용하기 때문에 아래처럼 간단하게 했다.
-RUN DOCKER_PKG="docker-20.10.9.tgz";\
-    curl -fsSLO --compressed "https://download.docker.com/linux/static/stable/$(arch)/$DOCKER_PKG"; \
-    tar -xf $DOCKER_PKG --strip-components 1 --directory /usr/local/bin/ docker/docker; \
-    rm -f $DOCKER_PKG
+WORKDIR /app
 
-RUN apt-get update;apt-get install net-tools
+COPY Spoke/package.json ./Spoke/
+COPY Spoke/yarn.lock ./Spoke/
 
-workdir /app
-
-copy Spoke/package.json ./spoke/
-copy Spoke/yarn.lock ./spoke/
-
-workdir /app/spoke
+WORKDIR /app/Spoke
 run yarn install
 
-workdir /app
-copy ./Spoke ./spoke
+WORKDIR /app
+COPY ./Spoke ./Spoke
+
+WORKDIR /app/Spoke
+RUN npm run build
+
+FROM nginx:stable-alpine
+WORKDIR /app
+COPY --from=build /app/Spoke/dist /usr/share/nginx/html
+
+EXPOSE 9090
+CMD ["nginx", "-g", "daemon off;", "-c", "/etc/nginx/nginx.conf"]
