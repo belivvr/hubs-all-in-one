@@ -10,7 +10,7 @@ http {
 
     server {
         listen 8080 ssl;
-        server_name hubs1.vevv.io;
+        server_name hubs2.vevv.io;
         ssl_certificate /etc/nginx/certs/cert.pem;
         ssl_certificate_key /etc/nginx/certs/key.pem;
 

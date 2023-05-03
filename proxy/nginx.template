@@ -22,7 +22,7 @@ http {
 
     server {
         listen 4080 ssl;
-        server_name proxy2.vevv.io;
+        server_name ${PROXY_HOST};
         ssl_certificate /etc/nginx/certs/cert.pem;
         ssl_certificate_key /etc/nginx/certs/key.pem;
 

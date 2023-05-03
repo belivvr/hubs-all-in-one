@@ -10,21 +10,24 @@ docker rm -f thumbnail
 
 docker volume ls -q | xargs docker volume rm
 
-sh dialog-ex/build.sh
-sh postgrest/build.sh
-sh hubs-ex/build.sh
-sh spoke-ex/build.sh
-sh thumbnail/build.sh
-sh reticulum-ex/build.sh
+# 이거 안 하면 temp 파일이 많이 쌓인다.
+docker system prune -f
+
+bash dialog-ex/build.sh
+bash postgrest/build.sh
+bash hubs-ex/build.sh
+bash spoke-ex/build.sh
+bash thumbnail/build.sh
+bash reticulum-ex/build.sh
 
 docker images -a | grep "<none>" | awk '{print $3}' | xargs docker rmi
 
-sh db/run.sh
-sh dialog-ex/run.sh
-sh hubs-ex/run-admin.sh
-sh hubs-ex/run-client.sh
-sh spoke-ex/run.sh
-sh postgrest/run.sh
-sh reticulum-ex/run.sh
-sh proxy/run.sh
-sh thumbnail/run.sh
+bash db/run.sh
+bash dialog-ex/run.sh
+bash hubs-ex/run-admin.sh
+bash hubs-ex/run-client.sh
+bash spoke-ex/run.sh
+bash postgrest/run.sh
+bash reticulum-ex/run.sh
+bash proxy/run.sh
+bash thumbnail/run.sh
