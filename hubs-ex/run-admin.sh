@@ -1,11 +1,14 @@
 #!/bin/sh
-set -e
+set -ex
 cd "$(dirname "$0")"
 THISDIR=$(pwd)
 # .env가 현재 경로를 기준으로 파일을 가져온다.
 cd ..
-. ./.env
+. ./env.sh
 cd $THISDIR
+
+cp nginx.admin.template nginx.conf.admin
+replace_vars_in_files "nginx.conf.admin"
 
 docker rm -f admin
 
@@ -15,17 +18,6 @@ docker run -d --name admin \
 -v $(pwd)/nginx.conf.admin:/etc/nginx/nginx.conf \
 -p 8989:8989 \
 admin
-# -e HOST="$HUBS_HOST" \
-# -e RETICULUM_SOCKET_SERVER="$HUBS_HOST" \
-# -e CORS_PROXY_SERVER="$PROXY_HOST:4080" \
-# -e NON_CORS_PROXY_DOMAINS="$PROXY_HOST,$HUBS_HOST,$POSTGREST_HOST" \
-# -e BASE_ASSETS_PATH="https://$HUBS_HOST:8989/" \
-# -e RETICULUM_SERVER="$HUBS_HOST:4000" \
-# -e POSTGREST_SERVER="" \
-# -e ITA_SERVER="" \
-# -e INTERNAL_HOSTNAME="$HUBS_HOST" \
-# -e HOST_IP="0.0.0.0" \
-# -e NODE_ENV="production" \
 
 docker logs admin
 # COPY ./nginx.conf.admin /etc/nginx/nginx.conf

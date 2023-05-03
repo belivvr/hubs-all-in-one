@@ -1,11 +1,14 @@
 #!/bin/sh
-set -e
+set -ex
 cd "$(dirname "$0")"
 THISDIR=$(pwd)
 # .env가 현재 경로를 기준으로 파일을 가져온다.
 cd ..
-. ./.env
+. ./env.sh
 cd $THISDIR
+
+cp nginx.client.template nginx.conf.client
+replace_vars_in_files "nginx.conf.client"
 
 docker rm -f client
 
@@ -18,19 +21,6 @@ client
 
 # 순수하게 프론트소스만 있다. 런타임에 환경설정 안 된다.
 # 빌드 타임에 설정해야 한다.
-# -e HOST="$HUBS_HOST" \
-# -e RETICULUM_SOCKET_SERVER="$HUBS_HOST" \
-# -e CORS_PROXY_SERVER="$PROXY_HOST:4080" \
-# -e NON_CORS_PROXY_DOMAINS="$PROXY_HOST,$HUBS_HOST" \
-# -e BASE_ASSETS_PATH="https://$HUBS_HOST:8080/" \
-# -e RETICULUM_SERVER="$HUBS_HOST:4000" \
-# -e POSTGREST_SERVER="" \
-# -e ITA_SERVER="" \
-# -e UPLOADS_HOST="https://$HUBS_HOST:4000" \
-# -e INTERNAL_HOSTNAME="$HUBS_HOST" \
-# -e HOST_IP="0.0.0.0" \
-# -e THUMBNAIL_SERVER="$THUMBNAIL_HOST" \
-# -e NODE_ENV="production" \
 
 docker logs client
 

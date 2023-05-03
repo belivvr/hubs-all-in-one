@@ -1,11 +1,15 @@
 #!/bin/sh
-set -e
+set -ex
 cd "$(dirname "$0")"
 THISDIR=$(pwd)
 # .env가 현재 경로를 기준으로 파일을 가져온다.
 cd ..
-. ./.env
+. ./env.sh
 cd $THISDIR
+
+cp nginx.spoke.template nginx.conf.spoke
+replace_vars_in_files "nginx.conf.spoke"
+
 
 docker rm -f spoke
 
