@@ -10,4 +10,8 @@ cd $THISDIR
 rm -rf reticulum
 git clone https://github.com/mozilla/reticulum.git
 
+# 여기 임시
+cp ./auth_channel.ex    reticulum/lib/ret_web/channels/auth_channel.ex
+cp ./app_config.ex      reticulum/lib/ret/app_config.ex
+
 docker build -t reticulum .
