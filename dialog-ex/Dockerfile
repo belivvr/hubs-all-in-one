@@ -131,7 +131,7 @@ RUN apt-get update;apt-get install net-tools
 WORKDIR /app
 
 COPY ./dialog .
-
+COPY config.js ./dialog/config.js
 RUN npm ci
 
 CMD ["npm","start"]
