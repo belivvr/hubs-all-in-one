@@ -71,7 +71,7 @@ const config =
                     {
                         kind: 'audio',
                         mimeType: 'audio/opus',
-                        clockRate: 22100,
+                        clockRate: 48000,
                         channels: 1
                     },
                     {
