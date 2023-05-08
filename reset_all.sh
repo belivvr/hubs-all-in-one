@@ -10,9 +10,6 @@ docker rm -f thumbnail
 
 docker volume ls -q | xargs docker volume rm
 
-# 이거 안 하면 temp 파일이 많이 쌓인다.
-docker system prune -f
-
 bash dialog-ex/build.sh
 bash postgrest/build.sh
 bash hubs-ex/build.sh
