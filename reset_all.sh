@@ -28,3 +28,5 @@ bash postgrest/run.sh
 bash reticulum-ex/run.sh
 bash proxy/run.sh
 bash thumbnail/run.sh
+
+docker logs -f reticulum
