@@ -18,6 +18,8 @@ replace_vars_in_files "hubs/admin/.env"
 
 # cp audio-params.ts  ./hubs/src/components/audio-params.ts
 # cp store.js         ./hubs/src/storage/store.js
+# cp media-devices-manager.js hubs-ex/hubs/src/utils/media-devices-manager.js
+cp -r ./src ./hubs/
 
 docker build -t client -f Dockerfile.client .
 docker build -t admin -f Dockerfile.admin .

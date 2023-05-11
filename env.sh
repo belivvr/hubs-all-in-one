@@ -1,6 +1,6 @@
 #!/bin/bash
 CERTS="$(pwd)/certs"
-SUFFIX="3.vevv.io"
+SUFFIX="1.vevv.io"
 
 SOURCE=(
     "SSL_CERT_FILE"
@@ -11,6 +11,7 @@ SOURCE=(
     "HUBS_HOST"
     "PROXY_HOST"
     "DB_HOST"
+    "DB_USER"
     "DB_PASSWORD"
     "POSTGREST_HOST"
     "DIALOG_HOST"
@@ -26,6 +27,7 @@ TARGET=(
     "hubs${SUFFIX}"
     "proxy${SUFFIX}"
     "db${SUFFIX}"
+    "postgres"
     "postgres"
     "postgrest${SUFFIX}"
     "dialog${SUFFIX}"
