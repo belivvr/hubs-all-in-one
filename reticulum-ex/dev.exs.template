@@ -78,14 +78,14 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :ret, Ret.Repo,
   username: "${DB_USER}",
-  password: "{DB_PASSWORD}",
+  password: "${DB_PASSWORD}",
   database: "ret_dev",
   template: "template0",
   pool_size: 10
 
 config :ret, Ret.SessionLockRepo,
   username: "${DB_USER}",
-  password: "{DB_PASSWORD}",
+  password: "${DB_PASSWORD}",
   database: "ret_dev",
   template: "template0",
   pool_size: 10
