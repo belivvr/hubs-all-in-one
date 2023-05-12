@@ -14,3 +14,13 @@ cd $THISDIR
 
 docker rm -f db
 docker run -p 5432:5432 --rm --name db -d -e POSTGRES_PASSWORD="$DB_PASSWORD" postgres:11-bullseye || true
+
+container_name="db"
+log_message="listening on IPv4 address \"0.0.0.0\", port 5432"
+
+while ! docker logs "$container_name" 2>&1 | grep -q "$log_message"; do
+    sleep 1
+done
+
+docker exec db psql -U postgres -c "CREATE DATABASE ret_dev;"
+docker exec db psql -U postgres -d ret_dev -c "CREATE USER $DB_USER WITH PASSWORD '$DB_PASSWORD';"
