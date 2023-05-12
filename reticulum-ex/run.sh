@@ -10,6 +10,9 @@ cd $THISDIR
 cp dev.exs.template dev.exs
 replace_vars_in_files "dev.exs"
 
+cp runtime.exs.template runtime.exs
+replace_vars_in_files "runtime.exs"
+
 docker rm -f reticulum
 
 docker run -d --name reticulum \
@@ -18,6 +21,7 @@ docker run -d --name reticulum \
 -w /app/reticulum \
 -v $(pwd)/dev:/app/reticulum/storage/dev \
 -v $(pwd)/dev.exs:/app/reticulum/config/dev.exs \
+-v $(pwd)/runtime.exs:/app/reticulum/config/runtime.exs \
 -p 4000:4000 \
 -e DB_HOST="$DB_HOST" \
 -e DIALOG_HOSTNAME="$DIALOG_HOST" \
