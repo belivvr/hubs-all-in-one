@@ -24,3 +24,6 @@ done
 
 docker exec db psql -U postgres -c "CREATE DATABASE ret_dev;"
 docker exec db psql -U postgres -d ret_dev -c "CREATE USER $DB_USER WITH PASSWORD '$DB_PASSWORD';"
+docker exec db psql -U postgres -d ret_dev -c "ALTER USER $DB_USER WITH SUPERUSER;"
+docker exec db psql -U postgres -d ret_dev -c "GRANT ALL PRIVILEGES ON DATABASE ret_dev TO $DB_USER;"
+docker exec db psql -U postgres -d ret_dev -c "GRANT CREATE ON DATABASE ret_dev TO $DB_USER;"
