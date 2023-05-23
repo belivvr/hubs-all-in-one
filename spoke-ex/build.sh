@@ -10,6 +10,8 @@ cd $THISDIR
 rm -rf Spoke
 git clone https://github.com/mozilla/Spoke.git
 
+cp -r ./Spoke-custom/* ./Spoke/
+
 # cp spoke.env Spoke/.env
 cp spoke.env Spoke/.env.prod
 replace_vars_in_files "Spoke/.env.prod"

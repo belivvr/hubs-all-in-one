@@ -1,6 +1,6 @@
 #!/bin/bash
 CERTS="$(pwd)/certs"
-SUFFIX="1.vevv.io"
+SUFFIX="xrcloud.vevv.io"
 
 SOURCE=(
     "SSL_CERT_FILE"
@@ -24,15 +24,15 @@ TARGET=(
     "$CERTS/perms.prv.pem"
     "$CERTS/perms.pub.pem"
     "$CERTS/perms-jwk.json"
-    "hubs${SUFFIX}"
-    "proxy${SUFFIX}"
-    "db${SUFFIX}"
-    "testuser"
-    "testpassword"
-    "postgrest${SUFFIX}"
-    "dialog${SUFFIX}"
+    "hubs-${SUFFIX}"
+    "proxy-${SUFFIX}"
+    "db-${SUFFIX}"
+    "xrcloud"
+    "xrcloud123!"
+    "postgrest-${SUFFIX}"
+    "dialog-${SUFFIX}"
     "4443"
-    "thumbnail${SUFFIX}"
+    "thumbnail-${SUFFIX}"
 )
 
 array_length=${#SOURCE[@]}
