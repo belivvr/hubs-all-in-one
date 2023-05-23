@@ -19,7 +19,7 @@ docker run -d --name reticulum \
 -v $SSL_CERT_FILE:/app/reticulum/priv/dev-ssl.cert \
 -v $SSL_KEY_FILE:/app/reticulum/priv/dev-ssl.key \
 -w /app/reticulum \
--v $(pwd)/dev:/app/reticulum/storage/dev \
+-v /storage/dev:/app/reticulum/storage/dev \
 -v $(pwd)/dev.exs:/app/reticulum/config/dev.exs \
 -v $(pwd)/runtime.exs:/app/reticulum/config/runtime.exs \
 -p 4000:4000 \

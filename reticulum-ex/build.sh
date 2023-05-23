@@ -10,6 +10,8 @@ cd $THISDIR
 rm -rf reticulum
 git clone https://github.com/mozilla/reticulum.git
 
+cp -r ./reticulum-custom/* ./reticulum/
+
 # 이메일 인증 프로세스 무시
 cp ./auth_channel.ex    reticulum/lib/ret_web/channels/auth_channel.ex
 # 오디오 설정 관련 때문에 넣었었다.
