@@ -341,7 +341,7 @@ export default class Store extends EventTarget {
             this.update({
               profile: {
                 avatarId:
-                  "https://belitest-assets-740efd60.s3.ap-northeast-1.amazonaws.com/cnu/avatar/aaaaa@test.com.glb",
+                  "https://kr.object.ncloudstorage.com/xrcloud/aaaaa%40test.com.glb",
                 displayName: "Unknown"
               }
             });
@@ -353,7 +353,7 @@ export default class Store extends EventTarget {
     } else {
       this.update({
         profile: {
-          avatarId: "https://belitest-assets-740efd60.s3.ap-northeast-1.amazonaws.com/cnu/avatar/GOOGLE:jeus0630@gmail.com.glb",
+          avatarId: "https://kr.object.ncloudstorage.com/xrcloud/aaaaa%40test.com.glb",
           displayName: "Unknown"
         }
       });

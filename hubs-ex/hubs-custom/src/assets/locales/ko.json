@@ -303,6 +303,7 @@
   "object-menu.hide-avatar-button": "숨기기",
   "object-menu.unpin-object-button": "고정해제",
   "object-menu.pin-object-button": "고정",
+  "object-menu.object-download-button": "다운로드",
   "object-menu.object-link-button": "링크로 이동",
   "object-menu.view-object-button": "보러가기",
   "object-menu.delete-object-button": "제거",

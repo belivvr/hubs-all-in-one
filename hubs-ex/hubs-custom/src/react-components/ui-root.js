@@ -1602,14 +1602,14 @@ class UIRoot extends Component {
                   ) : undefined
                 }
                 modal={this.state.dialog}
-                toolbarLeft={
-                  <InvitePopoverContainer
-                    hub={this.props.hub}
-                    hubChannel={this.props.hubChannel}
-                    scene={this.props.scene}
-                    store={this.props.store}
-                  />
-                }
+                // toolbarLeft={
+                //   <InvitePopoverContainer
+                //     hub={this.props.hub}
+                //     hubChannel={this.props.hubChannel}
+                //     scene={this.props.scene}
+                //     store={this.props.store}
+                //   />
+                // }
                 toolbarCenter={
                   <>
                     {watching && (
