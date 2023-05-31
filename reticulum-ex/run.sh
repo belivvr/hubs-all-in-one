@@ -31,4 +31,4 @@ docker run -d --name reticulum \
 -e HUBS_CLIENT_INTERNAL_HOSTNAME="$HUBS_HOST" \
 -e SPOKE_INTERNAL_HOSTNAME="$HUBS_HOST" \
 -e POSTGREST_INTERNAL_HOSTNAME="$POSTGREST_HOST" \
-reticulum sh -c "mix ecto.create && mix phx.server"
+reticulum sh -c "mix phx.server"

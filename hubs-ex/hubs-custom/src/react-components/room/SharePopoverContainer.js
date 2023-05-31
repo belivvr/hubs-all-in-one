@@ -126,8 +126,6 @@ export function SharePopoverContainer({ scene, hubChannel }) {
     canShareCameraToAvatar,
     toggleShareCameraToAvatar
   } = useShare(scene, hubChannel);
-  
-  console.log(`useShare: ${JSON.stringify(useShare(scene, hubChannel))}`);
 
   const items = [
     canShareCamera && {
