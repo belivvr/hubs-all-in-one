@@ -50,7 +50,8 @@ IconButton.propTypes = {
   compactSm: PropTypes.bool,
   lg: PropTypes.bool,
   className: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
+  download: PropTypes.bool
 };
 
 IconButton.defaultProps = {

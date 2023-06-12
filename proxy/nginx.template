@@ -26,6 +26,8 @@ http {
         ssl_certificate /etc/nginx/certs/cert.pem;
         ssl_certificate_key /etc/nginx/certs/key.pem;
 
+        proxy_ssl_server_name on;
+
         location / {
             proxy_pass $backend;
             # proxy_set_header Host $target;
@@ -38,7 +40,7 @@ http {
             proxy_buffers              4 10m;
             proxy_busy_buffers_size    10m;
 
-            # 헤더가 2번 들어가는 것을 방지한다.
+            # Access-Control-Allow-Origin이 두번 들어가는 경우가 있어서 아래의 코드로 중복을 방지한다.
             proxy_hide_header Access-Control-Allow-Origin;
 
             # CORS 헤더 추가
