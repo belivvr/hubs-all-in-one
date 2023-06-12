@@ -48,6 +48,9 @@ export default class HubChannel extends EventTarget {
     this._signedIn = !!this.store.state.credentials.token;
     this._permissions = {};
     this._blockedSessionIds = new Set();
+    this._shareScreenSessionIds = new Set();
+    this._muteSessionIds = new Set();
+    this._freezeSessionIds = new Set();
 
     store.addEventListener("profilechanged", this.sendProfileUpdate.bind(this));
   }
@@ -439,14 +442,35 @@ export default class HubChannel extends EventTarget {
     });
   };
 
-  grantShareScreen = sessionId => this.channel.push("message", { type: "grant_share_screen", body: sessionId });
-  revokeShareScreen = sessionId => this.channel.push("message", { type: "revoke_share_screen", body: sessionId });
+  grantShareScreen = sessionId => {
+    this.channel.push("message", { type: "grant_share_screen", body: sessionId });
+    this._shareScreenSessionIds.add(sessionId);
+  };
+  revokeShareScreen = sessionId => {
+    this.channel.push("message", { type: "revoke_share_screen", body: sessionId });
+    this._shareScreenSessionIds.delete(sessionId);
+  };
+  isShareScreen = sessionId => this._shareScreenSessionIds.has(sessionId);
 
-  applyMute = sessionId => this.channel.push("message", { type: "apply_mute", body: sessionId });
-  cancelMute = sessionId => this.channel.push("message", { type: "cancel_mute", body: sessionId });
+  applyMute = sessionId => {
+    this.channel.push("message", { type: "apply_mute", body: sessionId });
+    this._muteSessionIds.add(sessionId);
+  };
+  cancelMute = sessionId => {
+    this.channel.push("message", { type: "cancel_mute", body: sessionId });
+    this._muteSessionIds.delete(sessionId);
+  };
+  isMute = sessionId => this._muteSessionIds.has(sessionId);
 
-  freeze = sessionId => this.channel.push("message", { type: "freeze", body: sessionId });
-  unfreeze = sessionId => this.channel.push("message", { type: "unfreeze", body: sessionId });
+  freeze = sessionId => {
+    this.channel.push("message", { type: "freeze", body: sessionId });
+    this._freezeSessionIds.add(sessionId);
+  };
+  unfreeze = sessionId => {
+    this.channel.push("message", { type: "unfreeze", body: sessionId });
+    this._freezeSessionIds.delete(sessionId);
+  };
+  isFreeze = sessionId => this._freezeSessionIds.has(sessionId);
 
   mute = sessionId => this.channel.push("mute", { session_id: sessionId });
   addOwner = sessionId => this.channel.push("add_owner", { session_id: sessionId });

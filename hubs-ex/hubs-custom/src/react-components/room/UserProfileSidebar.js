@@ -40,14 +40,11 @@ export function UserProfileSidebar({
   onBack,
   onClose,
   canShare,
-  onGrantShare,
-  onRevokeShare,
+  onToggleShareScreen,
   canApplyMute,
-  onApplyMute,
-  onCancelMute,
+  onToggleMute,
   canFreeze,
-  onFreeze,
-  onUnfreeze,
+  onToggleFreeze,
   isShare,
   isMute,
   isFreeze,
@@ -154,14 +151,14 @@ export function UserProfileSidebar({
         {canShare && (
           <>
             {isShare ? (
-              <Button preset="belivvr-cancel" onClick={onRevokeShare}>
+              <Button preset="belivvr-cancel" onClick={onToggleShareScreen}>
                 <FormattedMessage
                   id="user-profile-sidebar.revoke-share-screen-button"
                   defaultMessage="Revoke Screen Sharing"
                 />
               </Button>
             ) : (
-              <Button preset="belivvr-accept" onClick={onGrantShare}>
+              <Button preset="belivvr-accept" onClick={onToggleShareScreen}>
                 <FormattedMessage
                   id="user-profile-sidebar.grant-share-screen-button"
                   defaultMessage="Grant Screen Sharing"
@@ -173,11 +170,11 @@ export function UserProfileSidebar({
         {canApplyMute && (
           <>
             {isMute ? (
-              <Button preset="belivvr-cancel" onClick={onCancelMute}>
+              <Button preset="belivvr-cancel" onClick={onToggleMute}>
                 <FormattedMessage id="user-profile-sidebar.cancel-mute-button" defaultMessage="Cancel muted user" />
               </Button>
             ) : (
-              <Button preset="belivvr-accept" onClick={onApplyMute}>
+              <Button preset="belivvr-accept" onClick={onToggleMute}>
                 <FormattedMessage id="user-profile-sidebar.apply-mute-button" defaultMessage="Mute user" />
               </Button>
             )}
@@ -186,11 +183,11 @@ export function UserProfileSidebar({
         {canFreeze && (
           <>
             {isFreeze ? (
-              <Button preset="belivvr-cancel" onClick={onUnfreeze}>
+              <Button preset="belivvr-cancel" onClick={onToggleFreeze}>
                 <FormattedMessage id="user-profile-sidebar.unfreeze-button" defaultMessage="Unfreeze user" />
               </Button>
             ) : (
-              <Button preset="belivvr-accept" onClick={onFreeze}>
+              <Button preset="belivvr-accept" onClick={onToggleFreeze}>
                 <FormattedMessage id="user-profile-sidebar.freeze-button" defaultMessage="Freeze user" />
               </Button>
             )}
@@ -225,13 +222,11 @@ UserProfileSidebar.propTypes = {
   onCancelMute: PropTypes.func,
   onClose: PropTypes.func,
   canShare: PropTypes.bool,
-  onGrantShare: PropTypes.func,
-  onRevokeShare: PropTypes.func,
+  onToggleShareScreen: PropTypes.func,
   canApplyMute: PropTypes.bool,
-  onApplyMute: PropTypes.func,
+  onToggleMute: PropTypes.func,
   canFreeze: PropTypes.bool,
-  onFreeze: PropTypes.func,
-  onUnfreeze: PropTypes.func,
+  onToggleFreeze: PropTypes.func,
   isShare: PropTypes.bool,
   isMute: PropTypes.bool,
   isFreeze: PropTypes.bool

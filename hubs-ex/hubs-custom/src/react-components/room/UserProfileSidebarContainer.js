@@ -13,9 +13,7 @@ export function UserProfileSidebarContainer({
   onBack,
   onClose,
   onCloseDialog,
-  showNonHistoriedDialog,
-  people,
-  setPeople
+  showNonHistoriedDialog
 }) {
   const [avatarThumbnailUrl, setAvatarThumbnailUrl] = useState();
 
@@ -37,8 +35,9 @@ export function UserProfileSidebarContainer({
   const mayApplyMute = hubChannel.canOrWillIfCreator("apply_mute");
   const mayFreeze = hubChannel.canOrWillIfCreator("freeze");
   const [isHidden, setIsHidden] = useState(hubChannel.isHidden(user.id));
-
-  const { isShare, isMute, isFreeze } = user || false;
+  const [isShareScreen, setIsShareScreen] = useState(hubChannel.isShareScreen(user.id));
+  const [isMute, setIsMute] = useState(hubChannel.isMute(user.id));
+  const [isFreeze, setIsFreeze] = useState(hubChannel.isFreeze(user.id));
 
   useEffect(() => {
     if (avatarId) {
@@ -106,89 +105,35 @@ export function UserProfileSidebarContainer({
     }
   }, [performConditionalSignIn, hubChannel, userId, onClose, onBack]);
 
-  const freeze = useCallback(() => {
-    setPeople(
-      people.map(person => {
-        if (person.id === userId) person.isFreeze = true;
-        return person;
-      })
-    );
-    performConditionalSignIn(
-      () => hubChannel.can("freeze"),
-      async () => await hubChannel.freeze(userId),
-      SignInMessages.freeze
-    );
-  }, [performConditionalSignIn, hubChannel, userId, people, setPeople]);
+  const toggleFreeze = useCallback(() => {
+    if (isFreeze) {
+      hubChannel.unfreeze(userId);
+    } else {
+      hubChannel.freeze(userId);
+    }
 
-  const unfreeze = useCallback(() => {
-    setPeople(
-      people.map(person => {
-        if (person.id === userId) person.isFreeze = false;
-        return person;
-      })
-    );
-    performConditionalSignIn(
-      () => hubChannel.can("freeze"),
-      async () => await hubChannel.unfreeze(userId),
-      SignInMessages.freeze
-    );
-  }, [performConditionalSignIn, hubChannel, userId, people, setPeople]);
+    setIsFreeze(!isFreeze);
+  }, [isFreeze, userId, hubChannel]);
 
-  const grantShareScreen = useCallback(() => {
-    setPeople(
-      people.map(person => {
-        if (person.id === userId) person.isShare = true;
-        return person;
-      })
-    );
-    performConditionalSignIn(
-      () => hubChannel.can("grant_share_screen"),
-      async () => await hubChannel.grantShareScreen(userId),
-      SignInMessages.shareScreen
-    );
-  }, [performConditionalSignIn, hubChannel, userId, people, setPeople]);
+  const toggleShareScreen = useCallback(() => {
+    if (isShareScreen) {
+      hubChannel.revokeShareScreen(userId);
+    } else {
+      hubChannel.grantShareScreen(userId);
+    }
 
-  const revokeShareScreen = useCallback(() => {
-    setPeople(
-      people.map(person => {
-        if (person.id === userId) person.isShare = false;
-        return person;
-      })
-    );
-    performConditionalSignIn(
-      () => hubChannel.can("grant_share_screen"),
-      async () => await hubChannel.revokeShareScreen(userId),
-      SignInMessages.shareScreen
-    );
-  }, [performConditionalSignIn, hubChannel, userId, people, setPeople]);
+    setIsShareScreen(!isShareScreen);
+  }, [isShareScreen, userId, hubChannel]);
 
-  const applyMute = useCallback(() => {
-    setPeople(
-      people.map(person => {
-        if (person.id === userId) person.isMute = true;
-        return person;
-      })
-    );
-    performConditionalSignIn(
-      () => hubChannel.can("apply_mute"),
-      async () => await hubChannel.applyMute(userId),
-      SignInMessages.applyMute
-    );
-  }, [performConditionalSignIn, hubChannel, userId, people, setPeople]);
+  const toggleMute = useCallback(() => {
+    if (isMute) {
+      hubChannel.cancelMute(userId);
+    } else {
+      hubChannel.applyMute(userId);
+    }
 
-  const cancelMute = useCallback(() => {
-    setPeople(
-      people.map(person => {
-        if (person.id === userId) person.isMute = false;
-        return person;
-      })
-    );
-    performConditionalSignIn(
-      () => hubChannel.can("apply_mute"),
-      async () => await hubChannel.cancelMute(userId),
-      SignInMessages.applyMute
-    );
-  }, [performConditionalSignIn, hubChannel, userId, people, setPeople]);
+    setIsMute(!isMute);
+  }, [isMute, userId, hubChannel]);
 
   return (
     <UserProfileSidebar
@@ -204,6 +149,7 @@ export function UserProfileSidebarContainer({
       isHidden={isHidden}
       onToggleHidden={toggleHidden}
       canMute={mayMute}
+      onToggleMute={toggleMute}
       isNetworkMuted={isNetworkMuted}
       onMute={mute}
       canKick={mayKick}
@@ -213,15 +159,11 @@ export function UserProfileSidebarContainer({
       onBack={onBack}
       hasMicPresence={hasMicPresence}
       canShare={mayShare}
-      onGrantShare={grantShareScreen}
-      onRevokeShare={revokeShareScreen}
+      onToggleShareScreen={toggleShareScreen}
       canApplyMute={mayApplyMute}
-      onApplyMute={applyMute}
-      onCancelMute={cancelMute}
       canFreeze={mayFreeze}
-      onFreeze={freeze}
-      onUnfreeze={unfreeze}
-      isShare={isShare}
+      onToggleFreeze={toggleFreeze}
+      isShare={isShareScreen}
       isMute={isMute}
       isFreeze={isFreeze}
     />
