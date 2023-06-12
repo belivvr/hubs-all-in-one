@@ -59,7 +59,7 @@ echo -e '\nResponse:\n' "$SCENE_PAGE"
 # }
 #
 # modify_url의 경우 project_id를 조합하고 쿼리스트링으로 토큰을 붙여 접속한다.
-# ex) https://stage.xrcloud.app:4000/spoke/projects?token=
+# ex) https://stage.xrcloud.app:4000/spoke/projects/${project_id}?token=
 # 만약 권한이 없을경우(자신의 프로젝트가 아닐경우) 찾을수 없어서 404 에러가 반환된다.
 #
 # 새로운 씬을 만들경우 특정 url에 쿼리스트링으로 토큰을 붙여 접속한다.
