@@ -59,11 +59,11 @@ echo -e '\nResponse:\n' "$ROOM_PAGE"
 # }
 
 #2.scene_id와 이름을 지정하여 룸을 생성한다.
-CREATE_ROOM=$(curl -X POST "$HOST/api/v1/hubs" \
+CREATE_ROOM=$(curl -X POST "https://stage.xrcloud.app:4000/api/v1/hubs" \
      -H "Content-Type: application/json" \
      -d "{
             \"hub\": {
-            \"sceneId\": \"Pf4TD9H\",
+            \"scene_id\": \"Pf4TD9H\",
             \"name\": \"테스트룸 1\"
             }
         }")
