@@ -21,6 +21,7 @@ export function UserProfileSidebar({
   className,
   userId,
   displayName,
+  pronouns,
   identityName,
   avatarPreview,
   hasMicPresence,
@@ -61,12 +62,13 @@ export function UserProfileSidebar({
   const newLevel = calcLevel(multiplier);
   return (
     <Sidebar
-      title={identityName ? `${displayName} (${identityName})` : displayName}
       beforeTitle={showBackButton ? <BackButton onClick={onBack} /> : <CloseButton onClick={onClose} />}
       className={className}
       {...rest}
     >
       <Column center padding>
+        <h2 className={styles.displayName}>{identityName ? `${displayName} (${identityName})` : displayName}</h2>
+        {pronouns && <span className={styles.pronouns}>{pronouns}</span>}
         <div className={styles.avatarPreviewContainer}>{avatarPreview || <div />}</div>
         {hasMicPresence && (
           <div className={styles.sliderContainer}>
@@ -91,108 +93,152 @@ export function UserProfileSidebar({
             />
           </div>
         )}
-        {/* {canPromote && (
-          <Button
-            preset="accept"
-            disabled={!isSignedIn}
-            title={
-              isSignedIn
-                ? intl.formatMessage({ id: "user-profile-sidebar.promote-button", defaultMessage: "Promote" })
-                : intl.formatMessage(
-                    {
-                      id: "user-profile-sidebar.promote-button-disabled-label",
-                      defaultMessage: "{displayName} is signed out."
-                    },
-                    { displayName }
-                  )
-            }
-            onClick={onPromote}
-          >
-            <FormattedMessage id="user-profile-sidebar.promote-button" defaultMessage="Promote" />
-          </Button>
-        )}
-        {canDemote && (
-          <Button
-            preset="cancel"
-            disabled={!isSignedIn}
-            title={
-              isSignedIn
-                ? intl.formatMessage({ id: "user-profile-sidebar.demote-button", defaultMessage: "Demote" })
-                : intl.formatMessage(
-                    {
-                      id: "user-profile-sidebar.demote-button-disabled-label",
-                      defaultMessage: "{displayName} is signed out."
-                    },
-                    { displayName }
-                  )
-            }
-            onClick={onDemote}
-          >
-            <FormattedMessage id="user-profile-sidebar.demote-button" defaultMessage="Demote" />
-          </Button>
-        )} */}
-        {/* <Button onClick={onToggleHidden}>
-          {isHidden ? (
-            <FormattedMessage id="user-profile-sidebar.unhide-button" defaultMessage="Unhide" />
-          ) : (
-            <FormattedMessage id="user-profile-sidebar.hide-button" defaultMessage="Hide" />
+        {
+          /**
+           * belivvr custom
+           * 관리자 권한 부여 및 회수 버튼 삭제
+           */
+          /* {canPromote && (
+            <Button
+              preset="accept"
+              disabled={!isSignedIn}
+              title={
+                isSignedIn
+                  ? intl.formatMessage({ id: "user-profile-sidebar.promote-button", defaultMessage: "Promote" })
+                  : intl.formatMessage(
+                      {
+                        id: "user-profile-sidebar.promote-button-disabled-label",
+                        defaultMessage: "{displayName} is signed out."
+                      },
+                      { displayName }
+                    )
+              }
+              onClick={onPromote}
+            >
+              <FormattedMessage id="user-profile-sidebar.promote-button" defaultMessage="Promote" />
+            </Button>
           )}
-        </Button> */}
-        {/* {canMute && (
-          <Button preset="cancel" onClick={onMute}>
-            <FormattedMessage id="user-profile-sidebar.mute-button" defaultMessage="Mute" />
-          </Button>
-        )} */}
-        {canKick && (
-          <Button preset="belivvr-accept" onClick={onKick}>
-            <FormattedMessage id="user-profile-sidebar.kick-button" defaultMessage="Kick" />
-          </Button>
-        )}
-        {canShare && (
-          <>
-            {isShare ? (
-              <Button preset="belivvr-cancel" onClick={onToggleShareScreen}>
-                <FormattedMessage
-                  id="user-profile-sidebar.revoke-share-screen-button"
-                  defaultMessage="Revoke Screen Sharing"
-                />
-              </Button>
+          {canDemote && (
+            <Button
+              preset="cancel"
+              disabled={!isSignedIn}
+              title={
+                isSignedIn
+                  ? intl.formatMessage({ id: "user-profile-sidebar.demote-button", defaultMessage: "Demote" })
+                  : intl.formatMessage(
+                      {
+                        id: "user-profile-sidebar.demote-button-disabled-label",
+                        defaultMessage: "{displayName} is signed out."
+                      },
+                      { displayName }
+                    )
+              }
+              onClick={onDemote}
+            >
+              <FormattedMessage id="user-profile-sidebar.demote-button" defaultMessage="Demote" />
+            </Button>
+          )} */
+        }
+        {
+          /**
+           * belivvr custom
+           * 유저 숨기기 버튼 삭제
+           */
+          /* <Button onClick={onToggleHidden}>
+            {isHidden ? (
+              <FormattedMessage id="user-profile-sidebar.unhide-button" defaultMessage="Unhide" />
             ) : (
-              <Button preset="belivvr-accept" onClick={onToggleShareScreen}>
-                <FormattedMessage
-                  id="user-profile-sidebar.grant-share-screen-button"
-                  defaultMessage="Grant Screen Sharing"
-                />
-              </Button>
+              <FormattedMessage id="user-profile-sidebar.hide-button" defaultMessage="Hide" />
             )}
-          </>
-        )}
-        {canApplyMute && (
-          <>
-            {isMute ? (
-              <Button preset="belivvr-cancel" onClick={onToggleMute}>
-                <FormattedMessage id="user-profile-sidebar.cancel-mute-button" defaultMessage="Cancel muted user" />
-              </Button>
-            ) : (
-              <Button preset="belivvr-accept" onClick={onToggleMute}>
-                <FormattedMessage id="user-profile-sidebar.apply-mute-button" defaultMessage="Mute user" />
-              </Button>
-            )}
-          </>
-        )}
-        {canFreeze && (
-          <>
-            {isFreeze ? (
-              <Button preset="belivvr-cancel" onClick={onToggleFreeze}>
-                <FormattedMessage id="user-profile-sidebar.unfreeze-button" defaultMessage="Unfreeze user" />
-              </Button>
-            ) : (
-              <Button preset="belivvr-accept" onClick={onToggleFreeze}>
-                <FormattedMessage id="user-profile-sidebar.freeze-button" defaultMessage="Freeze user" />
-              </Button>
-            )}
-          </>
-        )}
+          </Button> */
+        }
+        {
+          /**
+           * belivvr custom
+           * 유저 음소거 버튼 삭제
+           * 해당 음소거 버튼은 나에게만 안들리고 다른 사람에게는 여전히 들린다.
+           * 따라서 아래에 새로 음소거 기능을 만들어 추가함.
+           */
+          /* {canMute && (
+            <Button preset="cancel" onClick={onMute}>
+              <FormattedMessage id="user-profile-sidebar.mute-button" defaultMessage="Mute" />
+            </Button>
+          )} */
+        }
+        {
+          /**
+           * belivvr custom
+           * 방장인 경우 강퇴 버튼 추가
+           */
+          canKick && (
+            <Button preset="belivvr-accept" onClick={onKick}>
+              <FormattedMessage id="user-profile-sidebar.kick-button" defaultMessage="Kick" />
+            </Button>
+          )
+        }
+        {
+          /**
+           * belivvr custom
+           * 방장인 경우에는 화면공유 권한 부여 및 회수 버튼 추가
+           */
+          canShare && (
+            <>
+              {isShare ? (
+                <Button preset="belivvr-cancel" onClick={onToggleShareScreen}>
+                  <FormattedMessage
+                    id="user-profile-sidebar.revoke-share-screen-button"
+                    defaultMessage="Revoke Screen Sharing"
+                  />
+                </Button>
+              ) : (
+                <Button preset="belivvr-accept" onClick={onToggleShareScreen}>
+                  <FormattedMessage
+                    id="user-profile-sidebar.grant-share-screen-button"
+                    defaultMessage="Grant Screen Sharing"
+                  />
+                </Button>
+              )}
+            </>
+          )
+        }
+        {
+          /**
+           * belivvr custom
+           * 방장인 경우 유저 음소거 기능 추가
+           */
+          canApplyMute && (
+            <>
+              {isMute ? (
+                <Button preset="belivvr-cancel" onClick={onToggleMute}>
+                  <FormattedMessage id="user-profile-sidebar.cancel-mute-button" defaultMessage="Cancel muted user" />
+                </Button>
+              ) : (
+                <Button preset="belivvr-accept" onClick={onToggleMute}>
+                  <FormattedMessage id="user-profile-sidebar.apply-mute-button" defaultMessage="Mute user" />
+                </Button>
+              )}
+            </>
+          )
+        }
+        {
+          /**
+           * belivvr custom
+           * 방장인 경우에 유저 움직임 제어 기능 추가
+           */
+          canFreeze && (
+            <>
+              {isFreeze ? (
+                <Button preset="belivvr-cancel" onClick={onToggleFreeze}>
+                  <FormattedMessage id="user-profile-sidebar.unfreeze-button" defaultMessage="Unfreeze user" />
+                </Button>
+              ) : (
+                <Button preset="belivvr-accept" onClick={onToggleFreeze}>
+                  <FormattedMessage id="user-profile-sidebar.freeze-button" defaultMessage="Freeze user" />
+                </Button>
+              )}
+            </>
+          )
+        }
       </Column>
     </Sidebar>
   );
@@ -202,6 +248,7 @@ UserProfileSidebar.propTypes = {
   className: PropTypes.string,
   userId: PropTypes.string,
   displayName: PropTypes.string,
+  pronouns: PropTypes.string,
   identityName: PropTypes.string,
   avatarPreview: PropTypes.node,
   hasMicPresence: PropTypes.bool,

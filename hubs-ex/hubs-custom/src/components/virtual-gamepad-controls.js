@@ -21,11 +21,19 @@ AFRAME.registerComponent("virtual-gamepad-controls", {
   },
 
   init() {
+    /**
+     * belivvr custom
+     * 모바일 경우 관리자에 의해 움직임 제어시 gamepad를 숨김
+     */
     window.addEventListener("mobile-freeze", () => {
       this.leftStick[0].ui.el.style.visibility = "hidden";
       this.rightStick[0].ui.el.style.visibility = "hidden";
     });
 
+    /**
+     * belivvr custom
+     * 모바일 경우 관리자에 의해 움직임 제어 해제시 gamepad를 보임
+     */
     window.addEventListener("mobile-unfreeze", () => {
       this.leftStick[0].ui.el.style.visibility = "visible";
       this.rightStick[0].ui.el.style.visibility = "visible";
@@ -188,6 +196,10 @@ AFRAME.registerComponent("virtual-gamepad-controls", {
     this.displacement.set(Math.cos(angle), 0, -Math.sin(angle)).multiplyScalar(force * 1.85);
     this.moving = true;
 
+    /**
+     * belivvr custom
+     * 모바일에서 풀 아바타시 gamepad 각도에 따른 움직임 제어 코드 추가.
+     */
     const degree = angle * 180 / Math.PI;
     if(degree <= 90) {
       this.data.position.front = 1;
@@ -238,6 +250,10 @@ AFRAME.registerComponent("virtual-gamepad-controls", {
       return;
     }
     if (this.moving) {
+      /**
+       * belivvr custom
+       * nipple-move 이벤트를 호출해 실제로 아바타가 움직이게 함
+       */
       const event = new CustomEvent("nipple-move", {detail: this.data.position});
       document.dispatchEvent(event);
       this.characterController.enqueueRelativeMotion(this.displacement);

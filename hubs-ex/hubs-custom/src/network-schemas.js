@@ -42,6 +42,10 @@ function registerNetworkSchemas() {
       "player-info",
       "networked-avatar",
       {
+        /**
+         * belivvr custom
+         * 같은 네트워크에 연결된 사람들 모두 애니메이션을 보기 위해 아래 코드 추가.
+         */
         selector: "[avatar-animation]",
         component: "avatar-animation"
       },

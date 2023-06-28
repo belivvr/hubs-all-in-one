@@ -1,3 +1,7 @@
+/**
+ * belivvr custom
+ * full-body 아바타 애니메이션 작업을 위한 파일
+ */
 import { paths } from "../systems/userinput/paths";
 
 export const ANIMATIONS = {

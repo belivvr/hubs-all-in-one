@@ -66,6 +66,7 @@ export const SCHEMA = {
         //displayName: { type: "string", pattern: "^[A-Za-z0-9_~ -]{3,32}$" },
         displayName: { type: "string", pattern: "^[가-힣A-Za-z0-9_~ -]{1,32}$" },
         avatarId: { type: "string" },
+        pronouns: { type: "string", pattern: "^[a-zA-Z///a-zA-Z]{2,32}$" },
         // personalAvatarId is obsolete, but we need it here for backwards compatibility.
         personalAvatarId: { type: "string" }
       }
@@ -85,7 +86,7 @@ export const SCHEMA = {
       additionalProperties: false,
       properties: {
         hasFoundFreeze: { type: "boolean" },
-        hasChangedName: { type: "boolean" },
+        hasChangedNameOrPronouns: { type: "boolean" },
         hasAcceptedProfile: { type: "boolean" },
         lastEnteredAt: { type: "string" },
         hasPinned: { type: "boolean" },
@@ -310,6 +311,11 @@ export default class Store extends EventTarget {
   };
 
   initProfile = async () => {
+    /**
+     * belivvr custom
+     * ?token= 과 같이 "token" 쿼리스트링이 있을경우 해당 닉네임과 아바타를 가져와서 보여줌
+     * 없을 경우에 기본 전남대 아바타를 보여줌
+     */
     const qs = new URLSearchParams(location.search);
     if (qs.has("token")) {
       const token = qs.get("token");
@@ -368,7 +374,7 @@ export default class Store extends EventTarget {
     // }
 
     // // Regenerate name to encourage users to change it.
-    // if (!this.state.activity.hasChangedName) {
+    // if (!this.state.activity.hasChangedNameOrPronouns) {
     //   this.update({ profile: { displayName: generateRandomName() } });
     // }
   };

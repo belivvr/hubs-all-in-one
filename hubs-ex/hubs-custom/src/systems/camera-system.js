@@ -443,6 +443,11 @@ export class CameraSystem {
 
       if (this.mode === CAMERA_MODE_FIRST_PERSON) {
         this.viewingCameraRotator.on = false;
+        /**
+         * belivvr custom
+         * 1인칭 시에 내 머리 속이 보이는 걸 해결하기 위해 위치 조정
+         * 3인칭에서 1인칭 돌아올때 카메라 위치 재조정
+         */
         translation.makeTranslation(0, 0, -0.1);
         this.avatarRig.object3D.updateMatrices();
         setMatrixWorld(this.viewingRig.object3D, this.avatarRig.object3D.matrixWorld);
@@ -521,6 +526,10 @@ export class CameraSystem {
           );
         }
       } else if (this.mode === CAMERA_MODE_THIRD_PERSON_VIEW) {
+        /**
+         * belivvr custom
+         * 3인칭 구현 코드
+         */
         // window.myAvatarHead?.scale.set(1,1,1);
         this.viewingCameraRotator.on = false;
         translation.makeTranslation(0, 0, 2);

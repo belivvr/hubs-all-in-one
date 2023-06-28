@@ -15,6 +15,10 @@ export function getCurrentHubId() {
   );
 }
 
+/**
+ * belivvr custom
+ * 공지사항 보낼때 사용하기 위해 SceneID를 수집.
+ */
 export async function getCurrentHubScene() {
   try {
     const params = new URLSearchParams({
