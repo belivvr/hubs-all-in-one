@@ -1,3 +1,7 @@
+/**
+ * belivvr custom
+ * 화면공유(칠판) 컴포넌트 추가.
+ */
 import * as THREE from "three";
 import { Object3D, Color } from "three";
 
