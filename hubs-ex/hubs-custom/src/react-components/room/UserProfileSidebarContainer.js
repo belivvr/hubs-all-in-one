@@ -19,7 +19,7 @@ export function UserProfileSidebarContainer({
 
   const {
     id: userId,
-    profile: { displayName, identityName, avatarId },
+    profile: { displayName, identityName, avatarId, pronouns },
     roles
   } = user;
   const mayKick = hubChannel.canOrWillIfCreator("kick_users");
@@ -105,6 +105,10 @@ export function UserProfileSidebarContainer({
     }
   }, [performConditionalSignIn, hubChannel, userId, onClose, onBack]);
 
+  /**
+   * belivvr custom
+   * 움직임 제어 토글 함수 추가
+   */
   const toggleFreeze = useCallback(() => {
     if (isFreeze) {
       hubChannel.unfreeze(userId);
@@ -115,6 +119,10 @@ export function UserProfileSidebarContainer({
     setIsFreeze(!isFreeze);
   }, [isFreeze, userId, hubChannel]);
 
+  /**
+   * belivvr custom
+   * 화면공유 권한 부여 토글 함수 추가
+   */
   const toggleShareScreen = useCallback(() => {
     if (isShareScreen) {
       hubChannel.revokeShareScreen(userId);
@@ -125,6 +133,10 @@ export function UserProfileSidebarContainer({
     setIsShareScreen(!isShareScreen);
   }, [isShareScreen, userId, hubChannel]);
 
+  /**
+   * belivvr custom
+   * 음소거 토글 함수 추가
+   */
   const toggleMute = useCallback(() => {
     if (isMute) {
       hubChannel.cancelMute(userId);
@@ -139,6 +151,7 @@ export function UserProfileSidebarContainer({
     <UserProfileSidebar
       userId={user.id}
       displayName={displayName}
+      pronouns={pronouns}
       identityName={identityName}
       avatarPreview={<img src={avatarThumbnailUrl} />}
       isSignedIn={isSignedIn}

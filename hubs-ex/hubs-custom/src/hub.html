@@ -108,6 +108,9 @@
                             <a-entity class="nametag-text"
                                 text="side: double; textAlign: center; color: #ddd; fontSize: 0.1;" text-raycast-hack
                                 position="0 0.025 0.001"></a-entity>
+                            <a-entity class="pronouns-text"
+                                text="side: double; textAlign: center; color: #ddd; fontSize: 0.06;" text-raycast-hack
+                                position="0 -0.06 0.001"></a-entity>
                         </a-entity>
                         <a-entity is-not-remote-hover-target class="recordingBadge" sprite="name: recording-badge.png"
                             scale="0.10 0.10 0.10" position="0 0.25 0.001" visible="false"></a-entity>
@@ -174,6 +177,10 @@
                                             <a-entity text="value:Kick; textAlign:center;" text-raycast-hack
                                                 visible-if-permitted="kick_users" position="0 0 0.001"></a-entity>
                                         </a-entity>
+                                        <!--
+                                            belivvr custom
+                                            화면공유(칠판)를 위한 엔티티 추가
+                                        -->
                                         <a-entity is-remote-hover-target tags="singleActionButton:true;"
                                             mixin="rounded-text-button" visible-if-permitted="grant_share_screen"
                                             share-screen-button position="0 -0.5 .35" scale="0.8 0.8 0.8">

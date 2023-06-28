@@ -48,6 +48,11 @@ export default class HubChannel extends EventTarget {
     this._signedIn = !!this.store.state.credentials.token;
     this._permissions = {};
     this._blockedSessionIds = new Set();
+    /**
+     * belivvr custom
+     * 화면공유 한 세션 id, 음소거된 세션 id, 움직임 제어된 세션 id 들을
+     * 일반 유저들과 구분하기 위해 모두 각 Set에 담음
+     */
     this._shareScreenSessionIds = new Set();
     this._muteSessionIds = new Set();
     this._freezeSessionIds = new Set();
@@ -161,6 +166,11 @@ export default class HubChannel extends EventTarget {
     this.token = token;
     this._permissions = jwtDecode(token);
 
+    /**
+     * belivvr custom
+     * 강퇴 권한을 가진 유저라면 방장이기 때문에
+     * 움직임 제어, 화면공유, 음소거 권한을 모두 부여함
+     */
     if (this._permissions.kick_users) {
       this._permissions.freeze = true;
       this._permissions.grant_share_screen = true;
@@ -441,6 +451,11 @@ export default class HubChannel extends EventTarget {
         .receive("error", reject);
     });
   };
+
+  /**
+   * belivvr custom
+   * 각 기능 부여 및 회수시에 Set에 넣고 뺌
+   */
 
   grantShareScreen = sessionId => {
     this.channel.push("message", { type: "grant_share_screen", body: sessionId });

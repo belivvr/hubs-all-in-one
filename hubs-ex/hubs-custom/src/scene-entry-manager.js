@@ -269,8 +269,12 @@ export default class SceneEntryManager {
         spawnMediaInfrontOfPlayerAndReturn(src, contentOrigin).eid;
       }
     };
-
+    
     this.scene.addEventListener("action_share_screen_client", ({ detail: { clientId } }) => {
+      /**
+       * belivvr custom
+       * action_share_screen_client 가 트리거되면 화면공유가 됨.
+       */
       this.performConditionalSignIn(
         () => this.hubChannel.can("share_screen"),
         async () => await window.APP.hubChannel.shareScreen(clientId),

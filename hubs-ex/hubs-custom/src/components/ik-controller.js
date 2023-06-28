@@ -81,6 +81,11 @@ AFRAME.registerComponent("ik-controller", {
     neck: { type: "string", default: "Neck" },
     leftHand: { type: "string", default: "LeftHand" },
     rightHand: { type: "string", default: "RightHand" },
+    /**
+     * belivvr custom
+     * 풀 바디 아바타 인식을 위한
+     * 왼쪽팔, 오른쪽팔, 왼쪽다리, 오른쪽다리 추가
+     */
     leftArm: { type: "string", default: "LeftArm" },
     rightArm: { type: "string", default: "RightArm" },
     leftFoot: { type: "string", default: "LeftFoot" },
@@ -152,11 +157,19 @@ AFRAME.registerComponent("ik-controller", {
       this.neck = this.el.object3D.getObjectByName(this.data.neck);
     }
 
+    /**
+     * belivvr custom
+     * 왼쪽 손 포지션 세팅 추가
+     */
     if (this.data.leftHand !== oldData.leftHand) {
       this.leftHand = this.el.object3D.getObjectByName(this.data.leftHand);
       this._setHandPosition("leftHand");
     }
 
+    /**
+     * belivvr custom
+     * 오른쪽 손 포지션 세팅 추가
+     */
     if (this.data.rightHand !== oldData.rightHand) {
       this.rightHand = this.el.object3D.getObjectByName(this.data.rightHand);
       this._setHandPosition("rightHand");
@@ -166,6 +179,10 @@ AFRAME.registerComponent("ik-controller", {
       this.chest = this.el.object3D.getObjectByName(this.data.chest);
     }
 
+    /**
+     * belivvr custom
+     * 기존에 바닥에서 둥둥 떠다니는 걸 풀 아바타로 변경하면서 바닥에 딱 붙게 내림
+     */
     if (this.data.leftArm !== oldData.leftArm) this.leftArm = this.el.object3D.getObjectByName(this.data.leftArm);
 
     if (this.data.rightArm !== oldData.rightArm) this.rightArm = this.el.object3D.getObjectByName(this.data.rightArm);
@@ -388,6 +405,11 @@ AFRAME.registerComponent("ik-controller", {
     };
     //})()
   })(),
+
+  /**
+   * belivvr custom
+   * 풀 아바타를 위해 추가된 함수들
+   */
 
   /**
    * @private

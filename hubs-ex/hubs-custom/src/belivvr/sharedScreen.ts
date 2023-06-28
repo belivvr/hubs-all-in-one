@@ -1,3 +1,8 @@
+/**
+ * belivvr custom
+ * 화면 공유시에 칠판 컴포넌트에 딱 붙는 작업을 위한 함수들 모음 파일.
+ */
+
 export function getSharedScreen(src: MediaStream | string) {
   const isMediaStream = src instanceof MediaStream;
   const defaultOffset = { x: 0, y: 0, z: -1.5 };

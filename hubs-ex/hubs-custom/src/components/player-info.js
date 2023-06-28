@@ -85,6 +85,10 @@ AFRAME.registerComponent("player-info", {
       let isSkinnedAvatar = false;
       modelEl.object3D.traverse(function (o) {
         if (o.isSkinnedMesh) {
+          /**
+           * belivvr custom
+           * 3인칭을 위해 머리가 있는 아바타를 만듬
+           */
           // const headlessMesh = createHeadlessModelForSkinnedMesh(o);
           // if (headlessMesh) {
           //   isSkinnedAvatar = true;

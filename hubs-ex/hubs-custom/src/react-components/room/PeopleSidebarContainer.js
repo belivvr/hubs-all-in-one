@@ -36,6 +36,11 @@ function usePeopleList(presences, mySessionId, micUpdateFrequency = 500) {
     function updateMicrophoneState() {
       const micPresences = getMicrophonePresences();
 
+      /**
+       * belivvr custom
+       * 화면 공유 중인지, 음소거 중인지, 움직임 제어 중인지 확인을 위해
+       * "isShare", "isMute", "isFreeze" 추가
+       */
       if (people.length === 0) {
         setPeople(
           Object.entries(presences).map(([id, presence]) => {

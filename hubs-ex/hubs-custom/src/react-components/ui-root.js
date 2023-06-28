@@ -296,10 +296,18 @@ class UIRoot extends Component {
     }
   }
 
+  /**
+   * belivvr custom
+   * apply_mute 이벤트 트리거시에 isMute state가 변경
+   */
   onApplyMute = e => {
     this.setState({ isMute: e.detail.isOn });
   };
 
+  /**
+   * belivvr custom
+   * share_screen 이벤트 트리거시에 shareScreenPermitted state가 변경
+   */
   onShareScreen = e => {
     this.setState({ shareScreenPermitted: e.detail.isOn });
   };
@@ -326,6 +334,10 @@ class UIRoot extends Component {
   };
 
   componentDidMount() {
+    /**
+     * belivvr custom
+     * apply_mute, share_screen 이벤트 추가
+     */
     window.addEventListener("apply_mute", this.onApplyMute);
     window.addEventListener("share_screen", this.onShareScreen);
     window.addEventListener("concurrentload", this.onConcurrentLoad);
@@ -794,7 +806,7 @@ class UIRoot extends Component {
   pushHistoryState = (k, v) => pushHistoryState(this.props.history, k, v);
 
   setSidebar(sidebarId, otherState) {
-    this.setState({ sidebarId, chatPrefix: "", chatAutofoucs: false, selectedUserId: null, ...otherState });
+    this.setState({ sidebarId, chatPrefix: "", chatAutofocus: false, selectedUserId: null, ...otherState });
   }
 
   toggleSidebar(sidebarId, otherState) {
@@ -842,9 +854,9 @@ class UIRoot extends Component {
   };
 
   renderEntryStartPanel = () => {
-    const { hasAcceptedProfile, hasChangedName } = this.props.store.state.activity;
+    const { hasAcceptedProfile, hasChangedNameOrPronouns } = this.props.store.state.activity;
     const isLockedDownDemo = isLockedDownDemoRoom();
-    const promptForNameAndAvatarBeforeEntry = this.props.hubIsBound ? !hasAcceptedProfile : !hasChangedName;
+    const promptForNameAndAvatarBeforeEntry = this.props.hubIsBound ? !hasAcceptedProfile : !hasChangedNameOrPronouns;
 
     // TODO: What does onEnteringCanceled do?
     return (
@@ -1345,6 +1357,10 @@ class UIRoot extends Component {
       }
     ];
 
+    /**
+     * belivvr custom
+     * qsFuncs가 있는지 확인후 "," 를 기준으로 배열에 담는다.
+     */
     const qsFuncs = new URLSearchParams(location.search).get("funcs")?.split(",");
     
     return (
@@ -1423,12 +1439,18 @@ class UIRoot extends Component {
                     {(!this.props.selectedObject ||
                       (this.props.breakpoint !== "sm" && this.props.breakpoint !== "md")) && (
                       <ContentMenu>
-                        {/* {showObjectList && (
-                          <ObjectsMenuButton
-                            active={this.state.sidebarId === "objects"}
-                            onClick={() => this.toggleSidebar("objects")}
-                          />
-                        )} */}
+                        {
+                          /**
+                           * belivvr custom
+                           * 오브젝트 리스트를 보여주는 버튼 삭제
+                           */
+                          /* {showObjectList && (
+                            <ObjectsMenuButton
+                              active={this.state.sidebarId === "objects"}
+                              onClick={() => this.toggleSidebar("objects")}
+                            />
+                          )} */
+                        }
                         <PeopleMenuButton
                           active={this.state.sidebarId === "people"}
                           disabled={isLockedDownDemo}
@@ -1602,6 +1624,10 @@ class UIRoot extends Component {
                   ) : undefined
                 }
                 modal={this.state.dialog}
+                /**
+                 * belivvr custom
+                 * 친구 초대 버튼 삭제
+                 */
                 // toolbarLeft={
                 //   <InvitePopoverContainer
                 //     hub={this.props.hub}
@@ -1634,35 +1660,53 @@ class UIRoot extends Component {
                     )}
                     {entered && (
                       <>
-                        {!isLockedDownDemo && qsFuncs?.some(str => str === "mainpage") && (
-                          <ToolbarButton
-                            icon={<HomeIcon />}
-                            label={<FormattedMessage id="toolbar.mainpage" defaultMessage="Go to mainpage" />}
-                            onClick={() => {
-                              window.location = "https://cnumeta.jnu.ac.kr/";
-                            }}
-                          />
-                        )}
+                        {
+                          /**
+                           * belivvr custom
+                           * qsFuncs=mainpage& "mainpage"가 있으면 전남대 메인페이지로 보내는 홈 버튼 추가
+                           */
+                          !isLockedDownDemo && qsFuncs?.some(str => str === "mainpage") && (
+                            <ToolbarButton
+                              icon={<HomeIcon />}
+                              label={<FormattedMessage id="toolbar.mainpage" defaultMessage="Go to mainpage" />}
+                              onClick={() => {
+                                window.location = "https://cnumeta.jnu.ac.kr/";
+                              }}
+                            />
+                          )
+                        }
                         {!isLockedDownDemo && !isMute && <AudioPopoverButtonContainer scene={this.props.scene} />}
                         {!isLockedDownDemo && (shareScreenPermitted || this.props.hubChannel.canOrWillIfCreator("grant_share_screen")) && (
                           <SharePopoverContainer scene={this.props.scene} hubChannel={this.props.hubChannel} />
                         )}
-                        {/* <PlacePopoverContainer
-                          scene={this.props.scene}
-                          hubChannel={this.props.hubChannel}
-                          mediaSearchStore={this.props.mediaSearchStore}
-                          showNonHistoriedDialog={this.showNonHistoriedDialog}
-                        /> */}
-                        {this.props.hubChannel.can("spawn_camera") && (
-                          <ToolbarButton
-                            key="cameara"
-                            icon={<CameraIcon />}
-                            preset="accent5"
-                            onClick={() => this.props.scene.emit("action_toggle_camera")}
-                            label={<FormattedMessage id="place-popover.item-type.camera" defaultMessage="Camera" />}
-                            selected={!!anyEntityWith(APP.world, MyCameraTool)}
-                          />
-                        )}
+                        {
+                          /**
+                           * belivvr custom
+                           * 방꾸미기 버튼(오브젝트, 그리기 등등) 삭제
+                           */
+                          /* <PlacePopoverContainer
+                            scene={this.props.scene}
+                            hubChannel={this.props.hubChannel}
+                            mediaSearchStore={this.props.mediaSearchStore}
+                            showNonHistoriedDialog={this.showNonHistoriedDialog}
+                          /> */
+                        }
+                        {
+                          /**
+                           * belivvr custom
+                           * 사진 찍기 버튼 추가
+                           */
+                          this.props.hubChannel.can("spawn_camera") && (
+                            <ToolbarButton
+                              key="cameara"
+                              icon={<CameraIcon />}
+                              preset="accent5"
+                              onClick={() => this.props.scene.emit("action_toggle_camera")}
+                              label={<FormattedMessage id="place-popover.item-type.camera" defaultMessage="Camera" />}
+                              selected={!!anyEntityWith(APP.world, MyCameraTool)}
+                            />
+                          )
+                        }
                         {this.props.hubChannel.can("spawn_emoji") && (
                           <ReactionPopoverContainer
                             scene={this.props.scene}
@@ -1676,23 +1720,29 @@ class UIRoot extends Component {
                       onClick={() => this.toggleSidebar("chat", { chatPrefix: "", chatAutofocus: false })}
                     />
                     } 
-                    {entered && (
-                      <ToolbarButton
-                        icon={<VRIcon />}
-                        label={<FormattedMessage id="toolbar.camera-view" defaultMessage="3rd person view" />}
-                        onClick={() => {
-                          const cameraMode = AFRAME.scenes[0].systems["hubs-systems"].cameraSystem.mode;
+                    {
+                      /**
+                       * belivvr custom
+                       * 3인칭 on/off 버튼 추가
+                       */
+                      entered && (
+                        <ToolbarButton
+                          icon={<VRIcon />}
+                          label={<FormattedMessage id="toolbar.camera-view" defaultMessage="3rd person view" />}
+                          onClick={() => {
+                            const cameraMode = AFRAME.scenes[0].systems["hubs-systems"].cameraSystem.mode;
 
-                          if (cameraMode === CAMERA_MODE_FIRST_PERSON) {
-                            AFRAME.scenes[0].systems["hubs-systems"].cameraSystem.mode = CAMERA_MODE_THIRD_PERSON_VIEW;
-                          }
+                            if (cameraMode === CAMERA_MODE_FIRST_PERSON) {
+                              AFRAME.scenes[0].systems["hubs-systems"].cameraSystem.mode = CAMERA_MODE_THIRD_PERSON_VIEW;
+                            }
 
-                          if (cameraMode === CAMERA_MODE_THIRD_PERSON_VIEW) {
-                            AFRAME.scenes[0].systems["hubs-systems"].cameraSystem.mode = CAMERA_MODE_FIRST_PERSON;
-                          }
-                        }}
-                      />
-                    )}
+                            if (cameraMode === CAMERA_MODE_THIRD_PERSON_VIEW) {
+                              AFRAME.scenes[0].systems["hubs-systems"].cameraSystem.mode = CAMERA_MODE_FIRST_PERSON;
+                            }
+                          }}
+                        />
+                      )
+                    }
                     {entered && isMobileVR && (
                       <ToolbarButton
                         className={styleUtils.hideLg}
@@ -1714,20 +1764,26 @@ class UIRoot extends Component {
                         onClick={() => exit2DInterstitialAndEnterVR(true)}
                       />
                     )}
-                    {/* {entered && (
-                      <ToolbarButton
-                        icon={<LeaveIcon />}
-                        label={<FormattedMessage id="toolbar.leave-room-button" defaultMessage="Leave" />}
-                        preset="cancel"
-                        onClick={() => {
-                          this.showNonHistoriedDialog(LeaveRoomModal, {
-                            destinationUrl: "/",
-                            reason: LeaveReason.leaveRoom
-                          });
-                        }}
-                      />
-                    )}
-                    <MoreMenuPopoverButton menu={moreMenu} /> */}
+                    {
+                      /**
+                       * belivvr custom
+                       * 방나가기 버튼 삭제
+                       */
+                      /* {entered && (
+                        <ToolbarButton
+                          icon={<LeaveIcon />}
+                          label={<FormattedMessage id="toolbar.leave-room-button" defaultMessage="Leave" />}
+                          preset="cancel"
+                          onClick={() => {
+                            this.showNonHistoriedDialog(LeaveRoomModal, {
+                              destinationUrl: "/",
+                              reason: LeaveReason.leaveRoom
+                            });
+                          }}
+                        />
+                      )}
+                      <MoreMenuPopoverButton menu={moreMenu} /> */
+                    }
                   </>
                 }
               />

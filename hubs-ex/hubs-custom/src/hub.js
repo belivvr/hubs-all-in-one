@@ -707,6 +707,11 @@ async function runBotMode(scene, entryManager) {
   entryManager.enterSceneWhenLoaded(false, false);
 }
 
+/**
+ * belivvr custom
+ * token 값이 있는지 확인
+ * 유저 인증을 하기 위함
+ */
 document.addEventListener("DOMContentLoaded", async () => {
   const qs = new URLSearchParams(location.search);
   if (qs.has("token")) {
@@ -1258,6 +1263,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
 
+  /**
+   * belivvr custom
+   * 전체 공지 내리는 코드.
+   */
   const { credentials } = store.state;
   // const channelOptions = credentials && credentials.token ? { token: credentials.token } : {};
   const belivvrChannel = socket.channel(`belivvr`);
@@ -1360,6 +1369,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       console.error(res);
     });
 
+    /**
+     * belivvr custom
+     * 화면공유, 음소거, 움직임 제어 등등 제어 코드.
+     */
   hubPhxChannel.on("message", ({ session_id, type, body, from }) => {
     if (type === "apply_mute" && body === NAF.clientId) {
       window.dispatchEvent(new CustomEvent("apply_mute", { detail: { isOn: true } }));

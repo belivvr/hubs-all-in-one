@@ -73,6 +73,10 @@ AFRAME.GLTFModelPlus.registerComponent("loop-animation", "loop-animation");
 AFRAME.GLTFModelPlus.registerComponent("uv-scroll", "uv-scroll");
 AFRAME.GLTFModelPlus.registerComponent("frustrum", "frustrum");
 AFRAME.GLTFModelPlus.registerComponent("mirror", "mirror");
+/**
+ * belivvr custom
+ * 화면공유 칠판 컴포넌트 등록
+ */
 AFRAME.GLTFModelPlus.registerComponent("shared-screen", "shared-screen");
 
 AFRAME.GLTFModelPlus.registerComponent(

@@ -156,6 +156,10 @@ const inflateEntities = function (indexToEntityMap, node, templates, isRoot, mod
   // TODO: Remove this once we update the legacy avatars to the new node names
   if (node.name === "Chest") {
     node.name = "Spine";
+  /**
+   * belivvr custom
+   * Root Scene 외에 Armature가 허브 외에서는 공용으로 쓰여서 Armature도 추가.
+   */
   //} else if (node.name === "Root Scene") {
   } else if (["Root Scene", "Armature"].includes(node.name)) {
     node.name = "AvatarRoot";

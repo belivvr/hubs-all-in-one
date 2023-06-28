@@ -8,6 +8,10 @@ export const IconButton = memo(
   forwardRef(({ className, as: ButtonComponent, compactSm, lg, children, download, ...rest }, ref) => {
     const buttonProps = ButtonComponent === "button" ? { type: "button" } : {};
 
+    /**
+     * belivvr custom
+     * "download"가 true인 경우에는 이동이 아닌 파일 다운로드가 되게 함
+     */
     return (
       download? (
         <ButtonComponent
