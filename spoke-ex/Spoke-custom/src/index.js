@@ -17,7 +17,7 @@ if (token) {
 const isCreatingProject = location.href.split("?")[0].includes("new");
 window.isCreatingProject = !!isCreatingProject;
 
-const eventCallback = new URLSearchParams(location.search)?.get("event-callback");
+const eventCallback = new URLSearchParams(location.search).get("event-callback");
 if (eventCallback) {
   window.eventCallback = decodeURI(eventCallback);
 }
