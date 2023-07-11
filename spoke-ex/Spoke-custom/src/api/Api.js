@@ -962,6 +962,11 @@ export default class Project extends EventEmitter {
        * 각 API를 호출함
        */
       if(window.isCreatingProject){
+        console.log("isCreatingProject = true!");
+        console.log(`api url: ${window.eventCallback}`);
+        console.log(`projectId: ${window.projectId}`);
+        console.log(`sceneId: ${window.project.scene.scene_id}`);
+        console.log(`token: ${window.token}`);
         await fetch(window.eventCallback, {
           method: "POST",
           body: JSON.stringify({
@@ -972,6 +977,10 @@ export default class Project extends EventEmitter {
           })
         });
       }else {
+        console.log("isCreatingProject = false!");
+        console.log(`api url: ${window.eventCallback}`);
+        console.log(`sceneId: ${window.project.scene.scene_id}`);
+        console.log(`token: ${window.token}`);
         await fetch(window.eventCallback, {
           method: "POST",
           body: JSON.stringify({
