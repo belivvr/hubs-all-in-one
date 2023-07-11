@@ -969,13 +969,17 @@ export default class Project extends EventEmitter {
         console.log(`token: ${window.token}`);
         await fetch(window.eventCallback, {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({
             projectId: window.projectId,
             sceneId: project.scene.scene_id,
             token: window.token,
             eventName: "scene_created"
           })
-        }).then(response => console.log(response));
+        }).then(response => response.json())
+        .then(data => console.log(data));
       }else {
         console.log("isCreatingProject = false!");
         console.log(`api url: ${window.eventCallback}`);
@@ -983,12 +987,16 @@ export default class Project extends EventEmitter {
         console.log(`token: ${window.token}`);
         await fetch(window.eventCallback, {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({
             sceneId: project.scene.scene_id,
             token: window.token,
             eventName: "scene_updated"
           })
-        }).then(response => console.log(response));
+        }).then(response => response.json())
+        .then(data => console.log(data));
       }
 
       showDialog(PublishedSceneDialog, {
