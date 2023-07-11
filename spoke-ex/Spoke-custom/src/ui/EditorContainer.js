@@ -612,6 +612,7 @@ class EditorContainer extends Component {
 
     this.updateModifiedState(() => {
       this.setState({ creatingProject: true, project }, () => {
+        window.projectId = project.project_id;
         this.props.history.replace(`/projects/${project.project_id}`);
         this.setState({ creatingProject: false });
       });

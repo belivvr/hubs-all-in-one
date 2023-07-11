@@ -8,9 +8,18 @@ import Api from "./api/Api";
 import { initTelemetry } from "./telemetry";
 
 const token = new URLSearchParams(location.search).get("token");
+window.token = token;
 if (token) {
   localStorage.clear();
   localStorage.setItem("___hubs_store", JSON.stringify({ credentials: { email: "default", token } }));
+}
+
+const isCreatingProject = location.href.split("?")[0].includes("new");
+window.isCreatingProject = !!isCreatingProject;
+
+const eventCallback = new URLSearchParams(location.search)?.get("event-callback");
+if (eventCallback) {
+  window.eventCallback = decodeURI(eventCallback);
 }
 
 if (configs.SENTRY_DSN) {
