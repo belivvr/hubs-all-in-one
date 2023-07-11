@@ -978,8 +978,7 @@ export default class Project extends EventEmitter {
             token: window.token,
             eventName: "scene_created"
           })
-        }).then(response => response.json())
-        .then(data => console.log(data));
+        })
       }else {
         console.log("isCreatingProject = false!");
         console.log(`api url: ${window.eventCallback}`);
@@ -995,8 +994,7 @@ export default class Project extends EventEmitter {
             token: window.token,
             eventName: "scene_updated"
           })
-        }).then(response => response.json())
-        .then(data => console.log(data));
+        })
       }
 
       showDialog(PublishedSceneDialog, {
