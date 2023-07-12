@@ -1,5 +1,40 @@
 # hubs-ex
-
+- *hubs/habitat* *hubs/scripts*
+    - 위의 두 폴더는 모두 허브 클라우드 (AWS) 배포에 사용되는 스크립트 이다.
+- *hubs/src/assets*
+    - asset들의 모음집 이다.(jpg, png, svg...)
+- *hubs/src/belivvr*
+    - 커스텀한 항목 적용을 위한 폴더로 현재는 화면공유 관련 함수파일만 존재한다.
+- *hubs/src/bit-systems*
+    - threeJS 관련된 파일들로 방 안에서의 pdf 업로드, 오디오 제어, 비디오, 미디어 업로드 재생 애니메이션 등등의 파일들을 모아놓았다.
+- *hubs/src/components*
+    - Aframe 컴포넌트들을 모아놓은 폴더이다. 
+    - Aframe 사용법은 [공식문서](https://aframe.io/) 를 참고하면 된다. (간단한 원리는 Component 들을 등록하고 `hub.html` Entity에 속성을 부여하면 해당 컴포넌트의 함수 사용이 가능한 원리이다.)
+- */hubs/src/inflators*
+    - 빛, 가속력, 충돌감지, 오디오 등등 threeJS 관련 함수 모음 폴더이다.
+- */hubs/src/loaders*
+    - 허브 공간 내에서 WebGL 텍스쳐 생성시 최적화 관련 파일이다.
+- */hubs/src/react-components*
+    - 허브 내에 사용되는 리액트 컴포넌트들의 모음집이다.
+    - 이모지, 채팅 등등의 각 버튼,사이드바, 아이콘 등등 ThreeJS가 아닌 2d로 인터렉션 하는 것들은 리액트 컴포넌트로 이루어져 있다.
+    - 또한 해당 컴포넌트를 클릭시에 호출되는 hook(함수) 도 해당 폴더에 속해 있다.
+    - 자주 수정하는 파일로는 하단부의 각 버튼이 모여있는 `ui-root` 와 사이드바인 `UserProfileSidebarContainer` 가 있다.
+- */hubs/src/storage*
+    - 각종 캐싱 및 로컬스토리지 등을 담당하는 폴더이다.
+    - `media-search-store` 에서는 허브 내에서 사용 가능한 오브젝트인 sketchfab 을 담당하고 있다.
+    - `store.js` 에서는 레티큘럼에서 내려주는 토큰을 분석해 유저 닉네임과 기존에 선택한 아바타 등을 디폴트 값으로 가져온다. 전남대 닉네임 및 아바타 가져오는 로직도 여기에 들어있다.
+- */hubs/src/systems*
+    - 모바일인지 PC인지 XR 환경인지 2D 환경인지 등을 파악하고 각 환경 및 기기에 맞게 동작하도록 하는 파일들의 모음집이다.
+- */hubs/src/textures*
+    - 비디오 재생 텍스쳐를 다루는 폴더이다.
+- */hubs/src/utils*
+    - 유틸 함수들을 모아놓은 폴더이다.
+    - 모바일인지 사파리인지 미디어 업로드하는게 pdf 인지 오디오인지 등등 다른 파일에서 사용될 수 있는 유틸 함수들을 모아놓은 폴더이다.
+- */hubs/src/hub.html*
+    - Aframe 컴포넌트로 등록한 애들을 모아놓은 html 파일.
+    - 컴포넌트로 등록한 후 hub.html에 엔티티 등을 추가해야 해당 컴포넌트가 트리거 되는 것 같다.
+- */hubs/src/hub.js*
+    - 등록한 Aframe 컴포넌트들을 모두 import해서 실제로 읽는 파일. 즉 해당 hub.js 파일과 hub.html 이 세트로 묶여있다고 생각하면 된다.
 ## 해상도&화질
 - utils/media-devices-manager.js
 - naf-dialog-adapter.js
