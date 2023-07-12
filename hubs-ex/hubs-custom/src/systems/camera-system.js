@@ -446,12 +446,17 @@ export class CameraSystem {
         /**
          * belivvr custom
          * 1인칭 시에 내 머리 속이 보이는 걸 해결하기 위해 위치 조정
-         * 3인칭에서 1인칭 돌아올때 카메라 위치 재조정
+         * -0.1 만큼 미세하게 내가 앞으로 가있게 함.
          */
         translation.makeTranslation(0, 0, -0.1);
         this.avatarRig.object3D.updateMatrices();
         setMatrixWorld(this.viewingRig.object3D, this.avatarRig.object3D.matrixWorld);
         if (scene.is("vr-mode")) {
+          /**
+           * belivvr custom
+           * VR 환경에서는 3인칭이 필요 없고 머리가 존재하면 안되므로
+           * 머리크기를 줄여서 없는것과 동일시 만들음.
+           */
           window.myAvatarHead?.scale.set(0, 0, 0);
           this.viewingCamera.updateMatrices();
           setMatrixWorld(this.avatarPOV.object3D, this.viewingCamera.matrixWorld);
@@ -532,6 +537,11 @@ export class CameraSystem {
          */
         // window.myAvatarHead?.scale.set(1,1,1);
         this.viewingCameraRotator.on = false;
+        /**
+         * belivvr custom
+         * 추후 3인칭 간격 조정을 할 때에 아래의
+         * makeTranslation 의 z 값을 조정하면 된다.
+         */
         translation.makeTranslation(0, 0, 2);
         this.avatarRig.object3D.updateMatrices();
         setMatrixWorld(this.viewingRig.object3D, this.avatarRig.object3D.matrixWorld);
@@ -543,6 +553,11 @@ export class CameraSystem {
           setMatrixWorld(this.viewingCamera, this.avatarPOV.object3D.matrixWorld.multiply(translation));
         }
 
+        /**
+         * belivvr custom
+         * 아바타의 위치와 룸 안에서 카메라 위치를 카피해서 동일시 하고
+         * 포지션, 로테이션, 스케일 등등을 포함해서 업데이트 한다.
+         */
         this.avatarRig.object3D.updateMatrices();
         this.viewingRig.object3D.matrixWorld.copy(this.avatarRig.object3D.matrixWorld);
         setMatrixWorld(this.viewingRig.object3D, this.viewingRig.object3D.matrixWorld);

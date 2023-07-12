@@ -1,6 +1,7 @@
 /**
  * belivvr custom
  * 화면공유(칠판) 컴포넌트 추가.
+ * 해당 부분에 정의된 대로 실제 scene 에 생성이 된다.
  */
 import * as THREE from "three";
 import { Object3D, Color } from "three";
