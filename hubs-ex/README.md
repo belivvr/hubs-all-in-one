@@ -1,4 +1,5 @@
 # hubs-ex
+## 폴더 구조
 - *hubs/habitat* *hubs/scripts*
     - 위의 두 폴더는 모두 허브 클라우드 (AWS) 배포에 사용되는 스크립트 이다.
 - *hubs/src/assets*
@@ -35,6 +36,18 @@
     - 컴포넌트로 등록한 후 hub.html에 엔티티 등을 추가해야 해당 컴포넌트가 트리거 되는 것 같다.
 - */hubs/src/hub.js*
     - 등록한 Aframe 컴포넌트들을 모두 import해서 실제로 읽는 파일. 즉 해당 hub.js 파일과 hub.html 이 세트로 묶여있다고 생각하면 된다.
+## funcs
+`?funcs=full-body,mainpage,3rd-view,share-screen,mute,freeze`
+```
+전신아바타(아바타 변경X): full-body
+전남대 메인페이지: mainpage
+3인칭: 3rd-view
+<관리자> 참가인원 화면공유 버튼 on/off: share-screen
+<관리자> 참가인원 음소거 버튼 on/off: mute
+<관리자> 참가인원 움직임 제어 버튼 on/off: freeze
+```
+## belivvr custom
+`belivvr custom` 키워드로 검색시 기존 모질라 허브, 스포크에서 변경한 부분의 주석들을 확인할 수 있다.
 ## 해상도&화질
 - utils/media-devices-manager.js
 - naf-dialog-adapter.js
