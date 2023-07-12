@@ -20,6 +20,7 @@ export function AvatarSettingsContent({
   onChangeAvatar,
   ...rest
 }) {
+  const isFullBody = new URLSearchParams(location.search).get("funcs")?.split(",").some(str => str === "full-body");
   return (
     <Column as="form" className={styles.content} {...rest}>
       <TextInputField
@@ -51,11 +52,14 @@ export function AvatarSettingsContent({
         {
           /**
            * belivvr custom
+           * funcs=full-body 일 경우에는
            * 아바타가 선택되어져서 방에 들어오므로 아바타 변경 버튼을 없앰
            */
-          /* <Button type="button" preset="basic" onClick={onChangeAvatar}>
-            <FormattedMessage id="avatar-settings-content.change-avatar-button" defaultMessage="Change Avatar" />
-          </Button> */
+          !isFullBody && (
+            <Button type="button" preset="basic" onClick={onChangeAvatar}>
+              <FormattedMessage id="avatar-settings-content.change-avatar-button" defaultMessage="Change Avatar" />
+            </Button>
+          )
         }
       </div>
       <AcceptButton preset="accept" type="submit" />

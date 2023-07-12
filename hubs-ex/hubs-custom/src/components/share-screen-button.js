@@ -1,3 +1,7 @@
+/**
+  * belivvr custom
+  * 화면공유를 위한 버튼 컴포넌트 모음집
+*/
 AFRAME.registerComponent("share-screen-button", {
   init() {
     this.onClick = () => {

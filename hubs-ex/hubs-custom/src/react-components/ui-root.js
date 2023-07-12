@@ -218,7 +218,16 @@ class UIRoot extends Component {
     isMute: false,
 
     chatPrefix: "",
-    chatAutofocus: false
+    chatAutofocus: false,
+
+    /**
+     * belivvr custom
+     * 3인칭 온/오프 버튼 활성화 여부 체크
+     */
+    is3rd: new URLSearchParams(location.search)
+      .get("funcs")
+      ?.split(",")
+      .some(str => str === "3rd-view")
   };
 
   constructor(props) {
@@ -337,6 +346,7 @@ class UIRoot extends Component {
     /**
      * belivvr custom
      * apply_mute, share_screen 이벤트 추가
+     * 다른 곳에서 해당 이벤트를 트리거하면 함수가 실행됨
      */
     window.addEventListener("apply_mute", this.onApplyMute);
     window.addEventListener("share_screen", this.onShareScreen);
@@ -1723,9 +1733,10 @@ class UIRoot extends Component {
                     {
                       /**
                        * belivvr custom
+                       * qsFuncs 에 "3rd-view" 가 있을 경우에
                        * 3인칭 on/off 버튼 추가
                        */
-                      entered && (
+                      entered && this.state.is3rd && (
                         <ToolbarButton
                           icon={<VRIcon />}
                           label={<FormattedMessage id="toolbar.camera-view" defaultMessage="3rd person view" />}

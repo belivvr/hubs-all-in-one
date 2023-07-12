@@ -1,6 +1,6 @@
 /**
  * belivvr custom
- * 화면 공유시에 칠판 컴포넌트에 딱 붙는 작업을 위한 함수들 모음 파일.
+ * 화면 공유시에 칠판 컴포넌트가 있으면 칠판에 딱 붙는 작업을 위한 함수들 모음 파일.
  */
 
 export function getSharedScreen(src: MediaStream | string) {
@@ -16,6 +16,11 @@ export function getSharedScreen(src: MediaStream | string) {
     }
   }
 
+  /**
+  * belivvr custom
+  * 칠판 컴포넌트가 있으면 칠판에 0.001만큼 띄우고
+  * 없으면 아바타 앞에 기본 offset 값으로 띄운다.
+  */
   const sharedScreen = document.querySelector("[shared-screen]");
   const z = sharedScreen !== null ? 0.001 : defaultOffset.z;
 

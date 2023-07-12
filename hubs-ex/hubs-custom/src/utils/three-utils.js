@@ -470,7 +470,7 @@ export function createHeadlessModelForSkinnedMesh(mesh) {
 export function createModelForSkinnedMesh(mesh) {
   /**
    * belivvr custom
-   * 1인칭, 3인칭 및 vr 시에 아바타 머리 조절을 위해 아바타 머리를 전역변수에 담음
+   * 1인칭, 3인칭 및 vr 시에 아바타 머리 조절을 위해 아바타 머리를 전역변수에 담음 (인칭에 따라 크기를 줄였다 늘였다 함)
    */
   mesh.skeleton.bones.forEach(bone => {
     bone.name === "Head" ? (window.myAvatarHead = bone) : null;
