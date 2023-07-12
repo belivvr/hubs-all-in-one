@@ -455,6 +455,7 @@ export default class HubChannel extends EventTarget {
   /**
    * belivvr custom
    * 각 기능 부여 및 회수시에 Set에 넣고 뺌
+   * Set에는 각 유저 세션 ID 값이 들어가서 구분을 함
    */
 
   grantShareScreen = sessionId => {

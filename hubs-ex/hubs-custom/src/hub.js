@@ -1374,6 +1374,10 @@ document.addEventListener("DOMContentLoaded", async () => {
      * 화면공유, 음소거, 움직임 제어 등등 제어 코드.
      */
   hubPhxChannel.on("message", ({ session_id, type, body, from }) => {
+    /**
+     * belivvr custom
+     * 음소거 트리거 코드
+     */
     if (type === "apply_mute" && body === NAF.clientId) {
       window.dispatchEvent(new CustomEvent("apply_mute", { detail: { isOn: true } }));
       APP.mediaDevicesManager.toggleMic();
@@ -1381,22 +1385,38 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
+    /**
+     * belivvr custom
+     * 음소거 해제 트리거 코드
+     */
     if (type === "cancel_mute" && body === NAF.clientId) {
       window.dispatchEvent(new CustomEvent("apply_mute", { detail: { isOn: false } }));
       APP.mediaDevicesManager.micEnabled = true;
       return;
     }
 
+    /**
+     * belivvr custom
+     * 화면공유 권한 부여 트리거 코드
+     */
     if (type === "grant_share_screen") {
       body === NAF.clientId && window.dispatchEvent(new CustomEvent("share_screen", { detail: { isOn: true } }));
       return;
     }
 
+    /**
+     * belivvr custom
+     * 화면공유 권한 해제 트리거 코드
+     */
     if (type === "revoke_share_screen") {
       body === NAF.clientId && window.dispatchEvent(new CustomEvent("share_screen", { detail: { isOn: false } }));
       return;
     }
 
+    /**
+     * belivvr custom
+     * 움직임 제어 트리거 코드
+     */
     if (type === "freeze" && body === NAF.clientId) {
       if (detectMobile()) {
         window.dispatchEvent(new CustomEvent("mobile-freeze"));
@@ -1405,6 +1425,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
+    /**
+     * belivvr custom
+     * 움직임 제어 해제 코드
+     */
     if (type === "unfreeze" && body === NAF.clientId) {
       if (detectMobile()) {
         window.dispatchEvent(new CustomEvent("mobile-unfreeze"));

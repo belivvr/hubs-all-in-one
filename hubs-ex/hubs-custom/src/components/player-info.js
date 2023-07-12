@@ -88,6 +88,8 @@ AFRAME.registerComponent("player-info", {
           /**
            * belivvr custom
            * 3인칭을 위해 머리가 있는 아바타를 만듬
+           * 기존에는 1인칭만 존재하여 나의 머리를 볼 필요가 없었다.
+           * 허나 3인칭시에는 머리가 존재해야하므로 추가함.
            */
           // const headlessMesh = createHeadlessModelForSkinnedMesh(o);
           // if (headlessMesh) {

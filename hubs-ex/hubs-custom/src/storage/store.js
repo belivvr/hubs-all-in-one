@@ -317,52 +317,67 @@ export default class Store extends EventTarget {
      * 없을 경우에 기본 전남대 아바타를 보여줌
      */
     const qs = new URLSearchParams(location.search);
-    if (qs.has("token")) {
-      const token = qs.get("token");
+    const qsFuncs = qs.get("funcs")?.split(",");
+    if (qsFuncs?.some(el => el === "full-body")) {
+      if (qs.has("token")) {
+        const token = qs.get("token");
 
-      const resp = await fetch(`https://cnumeta.jnu.ac.kr/api/v1/avatars`, {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          "Hubs-Authorization": token
-        }
-      });
+        const resp = await fetch(`https://cnumeta.jnu.ac.kr/api/v1/avatars`, {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            "Hubs-Authorization": token
+          }
+        });
 
-      if (resp.ok) {
-        if (qs.has("displayName")) {
-          const displayName = qs.get("displayName");
-          await resp.json().then(data => {
-            this.update({ profile: { avatarId: data.data[0].avatarUrl, displayName: displayName } });
-          });
+        if (resp.ok) {
+          if (qs.has("displayName")) {
+            const displayName = qs.get("displayName");
+            await resp.json().then(data => {
+              this.update({ profile: { avatarId: data.data[0].avatarUrl, displayName: displayName } });
+            });
+          } else {
+            await resp.json().then(data => {
+              this.update({ profile: { avatarId: data.data[0].avatarUrl, displayName: data.data[0].displayName } });
+            });
+          }
         } else {
-          await resp.json().then(data => {
-            this.update({ profile: { avatarId: data.data[0].avatarUrl, displayName: data.data[0].displayName } });
-          });
+          resp
+            .json()
+            .then(data => {
+              //TODO 아바타 생성 페이지로 리다이렉트하기
+              this.update({
+                profile: {
+                  avatarId: "https://kr.object.ncloudstorage.com/xrcloud/aaaaa%40test.com.glb",
+                  displayName: "Unknown"
+                }
+              });
+            })
+            .catch(err => {
+              console.error(err);
+            });
         }
       } else {
-        resp
-          .json()
-          .then(data => {
-            //TODO 아바타 생성 페이지로 리다이렉트하기
-            this.update({
-              profile: {
-                avatarId:
-                  "https://kr.object.ncloudstorage.com/xrcloud/aaaaa%40test.com.glb",
-                displayName: "Unknown"
-              }
-            });
-          })
-          .catch(err => {
-            console.error(err);
-          });
+        this.update({
+          profile: {
+            avatarId: "https://kr.object.ncloudstorage.com/xrcloud/aaaaa%40test.com.glb",
+            displayName: "Unknown"
+          }
+        });
       }
     } else {
-      this.update({
-        profile: {
-          avatarId: "https://kr.object.ncloudstorage.com/xrcloud/aaaaa%40test.com.glb",
-          displayName: "Unknown"
-        }
-      });
+      if (this._shouldResetAvatarOnInit) {
+        await this.resetToRandomDefaultAvatar();
+      } else {
+        this.update({
+          profile: { avatarId: await fetchRandomDefaultAvatarId(), ...(this.state.profile || {}) }
+        });
+      }
+
+      // Regenerate name to encourage users to change it.
+      if (!this.state.activity.hasChangedNameOrPronouns) {
+        this.update({ profile: { displayName: generateRandomName() } });
+      }
     }
 
     // if (this._shouldResetAvatarOnInit) {
