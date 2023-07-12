@@ -226,8 +226,8 @@ AFRAME.registerComponent("ik-controller", {
 
     const root = this.ikRoot.el.object3D;
     root.updateMatrices();
-    //const { camera, leftController, rightController } = this.ikRoot;
-    const { camera } = this.ikRoot;
+    const { camera, leftController, rightController } = this.ikRoot;
+    // const { camera } = this.ikRoot;
 
     camera.object3D.updateMatrix();
 
@@ -325,8 +325,6 @@ AFRAME.registerComponent("ik-controller", {
      * belivvr custom
      * 손이 쭉 늘어나는 버그를 방지하기 위해 아래의 코드 추가.
      */
-    
-    //const { leftHand, rightHand } = this;
     this._hands.forEach(hand => {
       if (this._existsControllerAndHand(hand))
         this.updateHand(
@@ -338,8 +336,15 @@ AFRAME.registerComponent("ik-controller", {
         );
     });
     
-    //if (leftHand) this.updateHand(HAND_ROTATIONS.left, leftHand, leftController.object3D, true, this.isInView);
-    //if (rightHand) this.updateHand(HAND_ROTATIONS.right, rightHand, rightController.object3D, false, this.isInView);
+    /**
+     * belivvr custom
+     * full-body 가 아닌 경우에는 손이 생기면 안되므로 아래 코드 추가.
+     */
+    if(!this._isFullBody){
+      const { leftHand, rightHand } = this;
+      if (leftHand) this.updateHand(HAND_ROTATIONS.left, leftHand, leftController.object3D, true, this.isInView);
+      if (rightHand) this.updateHand(HAND_ROTATIONS.right, rightHand, rightController.object3D, false, this.isInView);
+    }
     this.forceIkUpdate = false;
 
     if (!this._hadFirstTick) {
