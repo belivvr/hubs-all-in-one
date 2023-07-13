@@ -535,7 +535,6 @@ export class CameraSystem {
          * belivvr custom
          * 3인칭 구현 코드
          */
-        // window.myAvatarHead?.scale.set(1,1,1);
         this.viewingCameraRotator.on = false;
         /**
          * belivvr custom
