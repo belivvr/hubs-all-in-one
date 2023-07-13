@@ -44,6 +44,10 @@ configs.IS_LOCAL_OR_CUSTOM_CLIENT = !hasThumbnailServerMetaTag;
 
 configs.AVAILABLE_INTEGRATIONS = window.AVAILABLE_INTEGRATIONS || {};
 
+/**
+ * belivvr custom
+ * CNU 및 NCLOUD API 콜 주소 configs로 빼는 코드.
+ */
 configs.CNUMETA_JNU = "https://cnumeta.jnu.ac.kr/api/v1/avatars"
 configs.NCLOUD = "https://kr.object.ncloudstorage.com/xrcloud/aaaaa%40test.com.glb"
 
