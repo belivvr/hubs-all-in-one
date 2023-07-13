@@ -219,15 +219,6 @@ class UIRoot extends Component {
 
     chatPrefix: "",
     chatAutofocus: false,
-
-    /**
-     * belivvr custom
-     * 3인칭 온/오프 버튼 활성화 여부 체크
-     */
-    is3rd: new URLSearchParams(location.search)
-      .get("funcs")
-      ?.split(",")
-      .some(str => str === "3rd-view")
   };
 
   constructor(props) {
@@ -1369,10 +1360,18 @@ class UIRoot extends Component {
 
     /**
      * belivvr custom
-     * qsFuncs가 있는지 확인후 "," 를 기준으로 배열에 담는다.
+     * 하단 버튼 추가를 위해 ?funcs=를 확인하는 코드
      */
     const qsFuncs = new URLSearchParams(location.search).get("funcs")?.split(",");
-    
+    const is3rd = qsFuncs?.some(str => str === "3rd-view");
+    const leftButton = qsFuncs?.some(str => str === "left-button");
+    const moreButton = qsFuncs?.some(str => str === "more-button");
+    const objectButton = qsFuncs?.some(str => str === "object-button");
+    const invitation = qsFuncs?.some(str => str === "invitation-button");
+    const placeButton = qsFuncs?.some(str => str === "place-button");
+    const camera = qsFuncs?.some(str => str === "camera-button");
+
+    const mainpage = new URLSearchParams(location.search).get("mainpage");
     return (
       <MoreMenuContextProvider>
         <ReactAudioContext.Provider value={this.state.audioContext}>
@@ -1452,14 +1451,17 @@ class UIRoot extends Component {
                         {
                           /**
                            * belivvr custom
-                           * 오브젝트 리스트를 보여주는 버튼 삭제
+                           * ?funcs=object-button
+                           * funcs 에 object-button 이 있으면 오브젝트 리스트를 보여줌
                            */
-                          /* {showObjectList && (
+                          
+                          // showObjectList 
+                          objectButton && (
                             <ObjectsMenuButton
                               active={this.state.sidebarId === "objects"}
                               onClick={() => this.toggleSidebar("objects")}
                             />
-                          )} */
+                          )
                         }
                         <PeopleMenuButton
                           active={this.state.sidebarId === "people"}
@@ -1636,16 +1638,19 @@ class UIRoot extends Component {
                 modal={this.state.dialog}
                 /**
                  * belivvr custom
-                 * 친구 초대 버튼 삭제
+                 * funcs=invitation-button
+                 * funcs 에 invitation-button 이 있으면 초대하기 버튼을 보여줌
                  */
-                // toolbarLeft={
-                //   <InvitePopoverContainer
-                //     hub={this.props.hub}
-                //     hubChannel={this.props.hubChannel}
-                //     scene={this.props.scene}
-                //     store={this.props.store}
-                //   />
-                // }
+                toolbarLeft={
+                  invitation && (
+                    <InvitePopoverContainer
+                      hub={this.props.hub}
+                      hubChannel={this.props.hubChannel}
+                      scene={this.props.scene}
+                      store={this.props.store}
+                    />
+                  )
+                }
                 toolbarCenter={
                   <>
                     {watching && (
@@ -1673,14 +1678,15 @@ class UIRoot extends Component {
                         {
                           /**
                            * belivvr custom
-                           * qsFuncs=mainpage& "mainpage"가 있으면 전남대 메인페이지로 보내는 홈 버튼 추가
+                           * ?mainpage=https://cnumeta.jnu.ac.kr
+                           * mainpage 쿼리스트링이 있으면 해당 URL로 이동하는 버튼 추가.
                            */
-                          !isLockedDownDemo && qsFuncs?.some(str => str === "mainpage") && (
+                          !isLockedDownDemo && mainpage && (
                             <ToolbarButton
                               icon={<HomeIcon />}
                               label={<FormattedMessage id="toolbar.mainpage" defaultMessage="Go to mainpage" />}
                               onClick={() => {
-                                window.location = "https://cnumeta.jnu.ac.kr/";
+                                window.location = mainpage;
                               }}
                             />
                           )
@@ -1692,29 +1698,35 @@ class UIRoot extends Component {
                         {
                           /**
                            * belivvr custom
-                           * 방꾸미기 버튼(오브젝트, 그리기 등등) 삭제
+                           * funcs=place-button
+                           * funcs 에 place-button 이 있으면 방꾸미기 버튼(오브젝트, 그리기 등등) 을 보여줌
                            */
-                          /* <PlacePopoverContainer
-                            scene={this.props.scene}
-                            hubChannel={this.props.hubChannel}
-                            mediaSearchStore={this.props.mediaSearchStore}
-                            showNonHistoriedDialog={this.showNonHistoriedDialog}
-                          /> */
+                          placeButton && (
+                            <PlacePopoverContainer
+                              scene={this.props.scene}
+                              hubChannel={this.props.hubChannel}
+                              mediaSearchStore={this.props.mediaSearchStore}
+                              showNonHistoriedDialog={this.showNonHistoriedDialog}
+                            />
+                          )
                         }
                         {
                           /**
                            * belivvr custom
-                           * 사진 찍기 버튼 추가
+                           * funcs=camera-button
+                           * funcs 에 camera-button 이 있으면 사진찍기 버튼 추가
                            */
-                          this.props.hubChannel.can("spawn_camera") && (
-                            <ToolbarButton
-                              key="cameara"
-                              icon={<CameraIcon />}
-                              preset="accent5"
-                              onClick={() => this.props.scene.emit("action_toggle_camera")}
-                              label={<FormattedMessage id="place-popover.item-type.camera" defaultMessage="Camera" />}
-                              selected={!!anyEntityWith(APP.world, MyCameraTool)}
-                            />
+                          camera && (
+                            this.props.hubChannel.can("spawn_camera") && (
+                              <ToolbarButton
+                                key="cameara"
+                                icon={<CameraIcon />}
+                                preset="accent5"
+                                onClick={() => this.props.scene.emit("action_toggle_camera")}
+                                label={<FormattedMessage id="place-popover.item-type.camera" defaultMessage="Camera" />}
+                                selected={!!anyEntityWith(APP.world, MyCameraTool)}
+                              />
+                            )
                           )
                         }
                         {this.props.hubChannel.can("spawn_emoji") && (
@@ -1736,7 +1748,7 @@ class UIRoot extends Component {
                        * qsFuncs 에 "3rd-view" 가 있을 경우에
                        * 3인칭 on/off 버튼 추가
                        */
-                      entered && this.state.is3rd && (
+                      entered && is3rd && (
                         <ToolbarButton
                           icon={<VRIcon />}
                           label={<FormattedMessage id="toolbar.camera-view" defaultMessage="3rd person view" />}
@@ -1778,9 +1790,10 @@ class UIRoot extends Component {
                     {
                       /**
                        * belivvr custom
-                       * 방나가기 버튼 삭제
+                       * funcs=left-button
+                       * funcs 에 left-button 이 있으면 방나가기 버튼을 보여줌
                        */
-                      /* {entered && (
+                      entered && leftButton && (
                         <ToolbarButton
                           icon={<LeaveIcon />}
                           label={<FormattedMessage id="toolbar.leave-room-button" defaultMessage="Leave" />}
@@ -1792,8 +1805,17 @@ class UIRoot extends Component {
                             });
                           }}
                         />
-                      )}
-                      <MoreMenuPopoverButton menu={moreMenu} /> */
+                      )
+                    }
+                    {
+                      /**
+                       * belivvr custom
+                       * funcs=more-button
+                       * funcs 에 more-button 이 있으면 방나가기 버튼을 보여줌
+                       */
+                      moreButton && (
+                        <MoreMenuPopoverButton menu={moreMenu} />
+                      )
                     }
                   </>
                 }
