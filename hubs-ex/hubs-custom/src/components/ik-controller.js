@@ -84,7 +84,7 @@ AFRAME.registerComponent("ik-controller", {
     /**
      * belivvr custom
      * 풀 바디 아바타 인식을 위한
-     * 왼쪽팔, 오른쪽팔, 왼쪽다리, 오른쪽다리 추가
+     * leftArm, rightArm, leftFoot, rightFoot 추가
      */
     leftArm: { type: "string", default: "LeftArm" },
     rightArm: { type: "string", default: "RightArm" },
@@ -188,6 +188,10 @@ AFRAME.registerComponent("ik-controller", {
       this.chest = this.el.object3D.getObjectByName(this.data.chest);
     }
 
+    /**
+     * belivvr custom
+     * 왼쪽 팔, 오른쪽 팔, 왼쪽 다리, 오른쪽 다리 세팅 추가.
+     */
     if (this._isFullBody) {
       if (this.data.leftArm !== oldData.leftArm) this.leftArm = this.el.object3D.getObjectByName(this.data.leftArm);
 

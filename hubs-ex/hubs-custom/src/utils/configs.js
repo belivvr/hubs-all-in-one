@@ -17,7 +17,13 @@ let isAdmin = false;
   "GA_TRACKING_ID",
   "SHORTLINK_DOMAIN",
   "BASE_ASSETS_PATH",
-  "UPLOADS_HOST"
+  "UPLOADS_HOST",
+  /**
+  * belivvr custom
+  * .env 추가
+  */
+  "CNUMETA_JNU",
+  "NCLOUD"
 ].forEach(x => {
   const el = document.querySelector(`meta[name='env:${x.toLowerCase()}']`);
   configs[x] = el ? el.getAttribute("content") : process.env[x];
@@ -43,13 +49,6 @@ configs.IS_LOCAL_OR_CUSTOM_CLIENT = !hasThumbnailServerMetaTag;
 // Also include configs that reticulum injects as a script in the page head.
 
 configs.AVAILABLE_INTEGRATIONS = window.AVAILABLE_INTEGRATIONS || {};
-
-/**
- * belivvr custom
- * CNU 및 NCLOUD API 콜 주소 configs로 빼는 코드.
- */
-configs.CNUMETA_JNU = "https://cnumeta.jnu.ac.kr/api/v1/avatars"
-configs.NCLOUD = "https://kr.object.ncloudstorage.com/xrcloud/aaaaa%40test.com.glb"
 
 if (process.env.APP_CONFIG) {
   window.APP_CONFIG = process.env.APP_CONFIG;

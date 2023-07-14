@@ -1,3 +1,8 @@
+/**
+ * belivvr custom
+ * 화면공유(칠판)을 스포크 에디터에 추가함
+ */
+
 import React from "react";
 import NodeEditor from "./NodeEditor";
 import { Chalkboard } from "styled-icons/fa-solid/Chalkboard";

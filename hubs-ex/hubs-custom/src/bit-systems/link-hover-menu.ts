@@ -40,6 +40,10 @@ export function linkHoverMenuSystem(world: HubsWorld) {
     // then make the menu invisible and forget the Link object.
     if(menuObject)
     menuObject.visible = false;
+    /**
+     * belivvr custom
+     * 콘솔에서 에러가떠서 '?'로 옵셔널 체이닝을 걸음.
+     */
     if (menuObject?.parent !== null) {
       menuObject?.parent.remove(menuObject);
     }
