@@ -39,6 +39,10 @@ export const SignInMessages = defineMessages({
     id: "sign-in-modal.signin-message.mute-user",
     defaultMessage: "You'll need to sign in to mute other users."
   },
+  /**
+   * belivvr custom
+   * 로그인 안한 사람이 권한을 사용할때 로그인 하라고 안내 메세지를 추가함
+   */
   shareScreen: {
     id: "sign-in-modal.signin-message.share-screen",
     defaultMessage: "You'll need to sign in to block the share screen for other users."

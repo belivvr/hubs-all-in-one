@@ -28,7 +28,11 @@ import "./video-pause-state";
 import "./particle-emitter";
 import "./audio-zone";
 import "./audio-zone-source";
-import "./troika-text";
+import "./troika-text.js";
 import "./frustrum";
 import "./inject-main-camera-here";
+/**
+ * belivvr custom
+ * shared-screen 추가
+ */
 import "./shared-screen";

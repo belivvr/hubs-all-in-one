@@ -66,16 +66,6 @@ function ObjectMenuItems({ hubChannel, scene, activeObject, deselectObject, onGo
 
   return (
     <>
-      {/* <ObjectMenuButton disabled={!canPin} onClick={togglePinned}>
-        <PinIcon />
-        <span>
-          {isPinned ? (
-            <FormattedMessage id="object-menu.unpin-object-button" defaultMessage="Unpin" />
-          ) : (
-            <FormattedMessage id="object-menu.pin-object-button" defaultMessage="Pin" />
-          )}
-        </span>
-      </ObjectMenuButton> */}
       {
         /**
          * belivvr custom

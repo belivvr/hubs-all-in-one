@@ -446,9 +446,9 @@ export class CameraSystem {
         /**
          * belivvr custom
          * 1인칭 시에 내 머리 속이 보이는 걸 해결하기 위해 위치 조정
-         * -0.1 만큼 미세하게 내가 앞으로 가있게 함.
+         * -0.15 만큼 미세하게 내가 앞으로 가있게 함.
          */
-        translation.makeTranslation(0, 0, -0.1);
+        translation.makeTranslation(0, 0, -0.15);
         this.avatarRig.object3D.updateMatrices();
         setMatrixWorld(this.viewingRig.object3D, this.avatarRig.object3D.matrixWorld);
         if (scene.is("vr-mode")) {
@@ -456,6 +456,7 @@ export class CameraSystem {
            * belivvr custom
            * VR 환경에서는 3인칭이 필요 없고 머리가 존재하면 안되므로
            * 머리크기를 줄여서 없는것과 동일시 만들음.
+           * 머리크기를 줄여서 머리가 없으므로 VR환경에서 셀카를 찍으면 목 잘린 사람이 나옴.
            */
           window.myAvatarHead?.scale.set(0, 0, 0);
           this.viewingCamera.updateMatrices();

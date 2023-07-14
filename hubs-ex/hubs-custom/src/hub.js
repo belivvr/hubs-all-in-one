@@ -256,7 +256,7 @@ import qsTruthy from "./utils/qs_truthy";
 import { WrappedIntlProvider } from "./react-components/wrapped-intl-provider";
 import { ExitReason } from "./react-components/room/ExitedRoomScreen";
 import { OAuthScreenContainer } from "./react-components/auth/OAuthScreenContainer";
-import { SignInMessages } from "./react-components/auth/SignInModal";
+import { SignInMessages } from "./react-components/auth/SignInModal.js";
 import { ThemeProvider } from "./react-components/styles/theme";
 import { LogMessageType } from "./react-components/room/ChatSidebar";
 import "./load-media-on-paste-or-drop";
@@ -747,6 +747,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
+  /**
+   * belivvr custom
+   * 공지사항 보내기 위해 작성된 코드(에단)
+   */
   const hubId = getCurrentHubId();
   const sceneId = await getCurrentHubScene();
   console.log(`Hub ID: ${hubId}`);

@@ -55,8 +55,7 @@ import { MicSetupModalContainer } from "./room/MicSetupModalContainer";
 import { InvitePopoverContainer } from "./room/InvitePopoverContainer";
 // eslint-disable-next-line no-unused-vars
 import { MoreMenuPopoverButton, CompactMoreMenuButton, MoreMenuContextProvider } from "./room/MoreMenuPopover";
-import { ChatSidebarContainer, ChatToolbarButtonContainer } from "./room/ChatSidebarContainer";
-// eslint-disable-next-line no-unused-vars
+import { ChatSidebarContainer } from "./room/ChatSidebarContainer";
 import { ContentMenu, PeopleMenuButton, ObjectsMenuButton, ECSDebugMenuButton } from "./room/ContentMenu";
 import { ReactComponent as CameraIcon } from "./icons/Camera.svg";
 import { ReactComponent as AvatarIcon } from "./icons/Avatar.svg";
@@ -89,7 +88,7 @@ import { AudioPopoverButtonContainer } from "./room/AudioPopoverButtonContainer"
 import { ReactionPopoverContainer } from "./room/ReactionPopoverContainer";
 import { SafariMicModal } from "./room/SafariMicModal";
 import { RoomSignInModalContainer } from "./auth/RoomSignInModalContainer";
-import { SignInStep } from "./auth/SignInModal";
+import { SignInStep } from "./auth/SignInModal.js";
 import { LeaveReason, LeaveRoomModal } from "./room/LeaveRoomModal";
 import { RoomSidebar } from "./room/RoomSidebar";
 import { RoomSettingsSidebarContainer } from "./room/RoomSettingsSidebarContainer";
@@ -101,13 +100,14 @@ import { WebVRUnsupportedModal } from "./room/WebVRUnsupportedModal";
 import { TweetModalContainer } from "./room/TweetModalContainer";
 import { TipContainer, FullscreenTip, RecordModeTip } from "./room/TipContainer";
 import { SpectatingLabel } from "./room/SpectatingLabel";
-import { SignInMessages } from "./auth/SignInModal";
+import { SignInMessages } from "./auth/SignInModal.js";
 import { MediaDevicesEvents } from "../utils/media-devices-utils";
 import { TERMS, PRIVACY } from "../constants";
 import { ECSDebugSidebarContainer } from "./debug-panel/ECSSidebar";
 import { NotificationsContainer } from "./room/NotificationsContainer";
 import { usePermissions } from "./room/hooks/usePermissions";
 import { ChatContextProvider } from "./room/contexts/ChatContext";
+import ChatToolbarButton from "./room/components/ChatToolbarButton/ChatToolbarButton";
 
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
 
@@ -1737,11 +1737,11 @@ class UIRoot extends Component {
                         )}
                       </>
                     )}
-                    {
-                    !isLockedDownDemo && <ChatToolbarButtonContainer
-                      onClick={() => this.toggleSidebar("chat", { chatPrefix: "", chatAutofocus: false })}
-                    />
-                    } 
+                    {!isLockedDownDemo && (
+                      <ChatToolbarButton
+                        onClick={() => this.toggleSidebar("chat", { chatPrefix: "", chatAutofocus: false })}
+                      />
+                    )}
                     {
                       /**
                        * belivvr custom
@@ -1811,7 +1811,7 @@ class UIRoot extends Component {
                       /**
                        * belivvr custom
                        * funcs=more-button
-                       * funcs 에 more-button 이 있으면 방나가기 버튼을 보여줌
+                       * funcs 에 more-button 이 있으면 더보기 버튼을 보여줌
                        */
                       moreButton && (
                         <MoreMenuPopoverButton menu={moreMenu} />
@@ -1864,7 +1864,7 @@ function UIRootHooksWrapper(props) {
 UIRootHooksWrapper.propTypes = {
   scene: PropTypes.object.isRequired,
   messageDispatch: PropTypes.object,
-  store: PropTypes.object.isRequired
+  store: PropTypes.object.isRequired 
 };
 
 export default UIRootHooksWrapper;

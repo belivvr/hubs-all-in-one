@@ -199,28 +199,23 @@ AFRAME.registerComponent("virtual-gamepad-controls", {
     /**
      * belivvr custom
      * 모바일에서 풀 바디 아바타시 gamepad 각도에 따른 움직임 제어(애니메이션) 코드 추가.
+     * 0~80은 오른쪽 위 대각선 80~100은 오른쪽 이어야 한다. (hunjuly)
      */
     const degree = angle * 180 / Math.PI;
     if(degree <= 90) {
       this.data.position.front = 1;
       this.data.position.right = 1;
-      return;
-    }
-
-    if(degree <= 180) {
+    }else if(degree <= 180) {
       this.data.position.front = 1;
       this.data.position.right = -1;
-      return;
-    }
-
-    if(degree <= 270) {
+    }else if(degree <= 270) {
       this.data.position.front = -1;
       this.data.position.right = -1
-      return;
+    }else{
+      this.data.position.front = -1;
+      this.data.position.right = 1;
     }
 
-    this.data.position.front = -1;
-    this.data.position.right = 1;
   },
 
   onMoveJoystickEnd() {

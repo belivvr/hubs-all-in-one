@@ -99,15 +99,25 @@
 └── workers
 ```
 ## funcs
-`?funcs=full-body,mainpage,3rd-view,share-screen,mute,freeze`
+`?funcs=full-body,3rd-view,share-screen,mute,freeze,left-button,more-button,object-button,invitation-button,place-ubtton,camera-button`
 ```
 전신아바타(아바타 변경X): full-body
-전남대 메인페이지: mainpage
 3인칭: 3rd-view
 <관리자> 참가인원 화면공유 버튼 on/off: share-screen
 <관리자> 참가인원 음소거 버튼 on/off: mute
 <관리자> 참가인원 움직임 제어 버튼 on/off: freeze
+방나가기: left-button
+더보기: more-button
+오브젝트 리스트: object-button
+초대하기: invitation-button
+방꾸미기: place-button
+카메라: camera-button
 ```
+
+## query string
+`mainpage=https://www.naver.com`
+mainpage에 적힌 쿼리 값에 따라 메인페이지 이동 버튼이 생성된다.
+
 ## 3인칭
 기본 모질라 허브의 박스 캐릭터는 상관 없으나
 전남대 및 외부 전신 적용시 1인칭일 경우 카메라 위치가 눈 안쪽 (머리 안)에 위치해 있어서 움직일때 나의 머리가 보이는 현상이 발생하였다.   

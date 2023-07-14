@@ -38,8 +38,8 @@ function usePeopleList(presences, mySessionId, micUpdateFrequency = 500) {
 
       /**
        * belivvr custom
-       * 화면 공유 중인지, 음소거 중인지, 움직임 제어 중인지 확인을 위해
-       * "isShare", "isMute", "isFreeze" 추가
+       * 초반에는 people 값이 비어 있어서 people.find(); 로 {isShare, isMute, isFreeze} 값을 찾는게 불가능함.
+       * 따라서 초반에는 기존 모질라 허브 오리지널 소스 그대로 setPeople로 초기화를 해줌.
        */
       if (people.length === 0) {
         setPeople(
@@ -53,8 +53,10 @@ function usePeopleList(presences, mySessionId, micUpdateFrequency = 500) {
       setPeople(
         Object.entries(presences).map(([id, presence]) => {
           const person = people.find(person => person.id === id);
+          // belivvr custom "isShare", "isMute", "isFreeze" 추가
           const { isShare, isMute, isFreeze } = person || false;
 
+          // belivvr custom "isShare", "isMute", "isFreeze" 추가
           return userFromPresence(id, presence, micPresences, mySessionId, voiceChatEnabled, isShare, isMute, isFreeze);
         })
       );

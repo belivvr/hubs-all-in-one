@@ -159,10 +159,10 @@ const inflateEntities = function (indexToEntityMap, node, templates, isRoot, mod
   /**
    * belivvr custom
    * Root Scene 외에 Armature가 허브 외에서는 공용으로 쓰여서 Armature도 추가.
-   * 즉 2개다 인식하게끔 하기 위한 코드이다.
    */
-  //} else if (node.name === "Root Scene") {
-  } else if (["Root Scene", "Armature"].includes(node.name)) {
+  } else if (node.name === "Armature") {
+    node.name = "AvatarRoot";
+  } else if (node.name === "Root Scene") {
     node.name = "AvatarRoot";
   } else if (node.name === "Bot_Skinned") {
     node.name = "AvatarMesh";
