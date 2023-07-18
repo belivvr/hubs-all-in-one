@@ -17,6 +17,9 @@ SOURCE=(
     "DIALOG_HOST"
     "DIALOG_PORT"
     "THUMBNAIL_HOST"
+     #입장과 퇴장시 이벤트 로그를 남겨줄 API를 지정한다. 레티큘럼에서만 사용.
+    "EVENT_ENTER_URL"
+    "EVENT_EXIT_URL"
 )
 TARGET=(
     "$CERTS/vevv.io_202303247.unified.crt.pem"
@@ -33,6 +36,8 @@ TARGET=(
     "dialog-${SUFFIX}"
     "4443"
     "thumbnail-${SUFFIX}"
+    "xrcloud의 로그 생성 url"
+    "xrcloud의 로그 삭제 url"
 )
 
 array_length=${#SOURCE[@]}
