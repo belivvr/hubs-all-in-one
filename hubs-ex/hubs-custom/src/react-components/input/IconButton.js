@@ -10,7 +10,7 @@ export const IconButton = memo(
 
     /**
      * belivvr custom
-     * "download"가 true인 경우에는 이동이 아닌 파일 다운로드가 되게 함
+     * "download"가 true인 경우에는 a태그 클릭시 페이지 이동이 아닌 파일 다운로드가 되게 함
      */
     return (
       download? (

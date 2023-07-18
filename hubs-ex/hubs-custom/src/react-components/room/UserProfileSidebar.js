@@ -60,6 +60,11 @@ export function UserProfileSidebar({
     [updateMultiplier]
   );
   const newLevel = calcLevel(multiplier);
+  const qsFuncs = new URLSearchParams(location.search).get("funcs")?.split(",");
+  const funcsIsShareScreen = qsFuncs?.some(str => str === "share-screen");
+  const funcsIsMute = qsFuncs?.some(str => str === "mute");
+  const funcsIsFreeze = qsFuncs?.some(str => str === "freeze");
+
   return (
     <Sidebar
       beforeTitle={showBackButton ? <BackButton onClick={onBack} /> : <CloseButton onClick={onClose} />}
@@ -179,9 +184,9 @@ export function UserProfileSidebar({
         {
           /**
            * belivvr custom
-           * 방장인 경우에는 화면공유 권한 부여 및 회수 버튼 추가
+           * funcs=share-screen 이 있는 경우이자 방장인 경우에는 화면공유 권한 부여 및 회수 버튼 추가
            */
-          canShare && (
+          canShare && funcsIsShareScreen && (
             <>
               {isShare ? (
                 <Button preset="belivvr-cancel" onClick={onToggleShareScreen}>
@@ -204,9 +209,9 @@ export function UserProfileSidebar({
         {
           /**
            * belivvr custom
-           * 방장인 경우 유저 음소거 기능 추가
+           * funcs=mute 이 있는 경우이자 방장인 경우 유저 음소거 기능 추가
            */
-          canApplyMute && (
+          canApplyMute && funcsIsMute && (
             <>
               {isMute ? (
                 <Button preset="belivvr-cancel" onClick={onToggleMute}>
@@ -223,9 +228,9 @@ export function UserProfileSidebar({
         {
           /**
            * belivvr custom
-           * 방장인 경우에 유저 움직임 제어 기능 추가
+           * funcs=freeze 이 있는 경우이자 방장인 경우에 유저 움직임 제어 기능 추가
            */
-          canFreeze && (
+          canFreeze && funcsIsFreeze && (
             <>
               {isFreeze ? (
                 <Button preset="belivvr-cancel" onClick={onToggleFreeze}>

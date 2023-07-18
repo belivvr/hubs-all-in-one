@@ -206,7 +206,7 @@ AFRAME.registerSystem("userinput", {
     /**
      * belivvr custom
      * freeze 이벤트가 트리거 되면
-     * 마우스 우클릭 텔레포트는 막지만 터치 및 마우스 좌클릭은 허용함
+     * 텔레포트를 막음, 키보드 제거함
      */
     window.addEventListener("freeze", () => {
       window.APP.store.state.preferences.disableTeleporter = true;

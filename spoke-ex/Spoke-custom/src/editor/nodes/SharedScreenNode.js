@@ -1,6 +1,7 @@
 /**
  * belivvr custom
  * 화면공유(칠판) 컴포넌트 추가.
+ * 해당 컴포넌트를 추가하면 스포크 에디터에서 화면공유(칠판) 컴포넌트를 사용할 수 있다.
  */
 import SharedScreen from "../objects/SharedScreen";
 import EditorNodeMixin from "./EditorNodeMixin";
