@@ -1,7 +1,7 @@
 import qsTruthy from "./utils/qs_truthy";
 import nextTick from "./utils/next-tick";
 import { hackyMobileSafariTest } from "./utils/detect-touchscreen";
-import { SignInMessages } from "./react-components/auth/SignInModal";
+import { SignInMessages } from "./react-components/auth/SignInModal.js";
 import { createNetworkedEntity } from "./utils/create-networked-entity";
 
 const isBotMode = qsTruthy("bot");
@@ -273,6 +273,7 @@ export default class SceneEntryManager {
     this.scene.addEventListener("action_share_screen_client", ({ detail: { clientId } }) => {
       /**
        * belivvr custom
+       * share-screen-button (사용안함)
        * action_share_screen_client 가 트리거되면 화면공유가 됨.
        */
       this.performConditionalSignIn(

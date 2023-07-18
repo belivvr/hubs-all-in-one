@@ -84,7 +84,7 @@ AFRAME.registerComponent("ik-controller", {
     /**
      * belivvr custom
      * 풀 바디 아바타 인식을 위한
-     * 왼쪽팔, 오른쪽팔, 왼쪽다리, 오른쪽다리 추가
+     * leftArm, rightArm, leftFoot, rightFoot 추가
      */
     leftArm: { type: "string", default: "LeftArm" },
     rightArm: { type: "string", default: "RightArm" },
@@ -97,6 +97,15 @@ AFRAME.registerComponent("ik-controller", {
   },
 
   init() {
+    /**
+     * belivvr custom
+     * full-body 가 있는 경우에는 전신아바타 feature가 가능하게 하고
+     * 아닌 경우에는 박스 아바타 feature가 가능하게 한다.
+     */
+    this._isFullBody = new URLSearchParams(location.search)
+      .get("funcs")
+      ?.split(",")
+      .some(str => str === "full-body");
     this._runScheduledWork = this._runScheduledWork.bind(this);
     this._updateIsInView = this._updateIsInView.bind(this);
 
@@ -163,7 +172,7 @@ AFRAME.registerComponent("ik-controller", {
      */
     if (this.data.leftHand !== oldData.leftHand) {
       this.leftHand = this.el.object3D.getObjectByName(this.data.leftHand);
-      this._setHandPosition("leftHand");
+      if (this._isFullBody) this._setHandPosition("leftHand");
     }
 
     /**
@@ -172,7 +181,7 @@ AFRAME.registerComponent("ik-controller", {
      */
     if (this.data.rightHand !== oldData.rightHand) {
       this.rightHand = this.el.object3D.getObjectByName(this.data.rightHand);
-      this._setHandPosition("rightHand");
+      if (this._isFullBody) this._setHandPosition("rightHand");
     }
 
     if (this.data.chest !== oldData.chest) {
@@ -181,29 +190,32 @@ AFRAME.registerComponent("ik-controller", {
 
     /**
      * belivvr custom
+     * 왼쪽 팔, 오른쪽 팔, 왼쪽 다리, 오른쪽 다리 세팅 추가.
+     */
+    if (this._isFullBody) {
+      if (this.data.leftArm !== oldData.leftArm) this.leftArm = this.el.object3D.getObjectByName(this.data.leftArm);
+
+      if (this.data.rightArm !== oldData.rightArm) this.rightArm = this.el.object3D.getObjectByName(this.data.rightArm);
+
+      if (this.data.leftFoot !== oldData.leftFoot) this.leftFoot = this.el.object3D.getObjectByName(this.data.leftFoot);
+
+      if (this.data.rightFoot !== oldData.rightFoot)
+        this.rightFoot = this.el.object3D.getObjectByName(this.data.rightFoot);
+    }
+
+    /**
+     * belivvr custom
      * 기존에 바닥에서 둥둥 떠다니는 걸 풀 아바타로 변경하면서 바닥에 딱 붙게 내림
      */
-    if (this.data.leftArm !== oldData.leftArm) this.leftArm = this.el.object3D.getObjectByName(this.data.leftArm);
-
-    if (this.data.rightArm !== oldData.rightArm) this.rightArm = this.el.object3D.getObjectByName(this.data.rightArm);
-
-    if (this.data.leftFoot !== oldData.leftFoot) this.leftFoot = this.el.object3D.getObjectByName(this.data.leftFoot);
-
-    if (this.data.rightFoot !== oldData.rightFoot)
-      this.rightFoot = this.el.object3D.getObjectByName(this.data.rightFoot);
-
-    const avatar = this.el.closest(".model");
-    const attributeMethod = this._hasFoot() ? "setAttribute" : "removeAttribute";
-    avatar[attributeMethod]("position", new THREE.Vector3(0, -1.2, 0));
-
-    this._hands.forEach(hand => this._isNoControllerAndNoArmAvatar(hand) && this._hideHand(hand));
+    if (this._isFullBody) {
+      const avatar = this.el.closest(".model");
+      const attributeMethod = this._hasFoot() ? "setAttribute" : "removeAttribute";
+      avatar[attributeMethod]("position", new THREE.Vector3(0, -1.2, 0));
+      this._hands.forEach(hand => this._isNoControllerAndNoArmAvatar(hand) && this._hideHand(hand));
+    }
 
     // Set middleEye's position to be right in the middle of the left and right eyes.
     this.middleEyePosition.addVectors(this.leftEye.position, this.rightEye.position);
-    // this.middleEyePosition.addVectors(
-    //   this.leftEye?.position || new THREE.Vector3(0, 1.6, 0),
-    //   this.rightEye?.position || new THREE.Vector3(0, 1.6, 0)
-    // );
     this.middleEyePosition.divideScalar(2);
     this.middleEyeMatrix.makeTranslation(this.middleEyePosition.x, this.middleEyePosition.y, this.middleEyePosition.z);
     this.invMiddleEyeToHead = this.middleEyeMatrix.copy(this.middleEyeMatrix).invert();
@@ -218,8 +230,8 @@ AFRAME.registerComponent("ik-controller", {
 
     const root = this.ikRoot.el.object3D;
     root.updateMatrices();
-    //const { camera, leftController, rightController } = this.ikRoot;
-    const { camera } = this.ikRoot;
+    const { camera, leftController, rightController } = this.ikRoot;
+    // const { camera } = this.ikRoot;
 
     camera.object3D.updateMatrix();
 
@@ -313,7 +325,10 @@ AFRAME.registerComponent("ik-controller", {
       chest.matrixNeedsUpdate = true;
     }
 
-    //const { leftHand, rightHand } = this;
+    /**
+     * belivvr custom
+     * 손이 쭉 늘어나는 버그를 방지하기 위해 아래의 코드 추가.
+     */
     this._hands.forEach(hand => {
       if (this._existsControllerAndHand(hand))
         this.updateHand(
@@ -324,9 +339,16 @@ AFRAME.registerComponent("ik-controller", {
           this.isInView
         );
     });
-
-    //if (leftHand) this.updateHand(HAND_ROTATIONS.left, leftHand, leftController.object3D, true, this.isInView);
-    //if (rightHand) this.updateHand(HAND_ROTATIONS.right, rightHand, rightController.object3D, false, this.isInView);
+    
+    /**
+     * belivvr custom
+     * full-body 가 아닌 경우에는 손이 생기면 안되므로 아래 코드 추가.
+     */
+    if(!this._isFullBody){
+      const { leftHand, rightHand } = this;
+      if (leftHand) this.updateHand(HAND_ROTATIONS.left, leftHand, leftController.object3D, true, this.isInView);
+      if (rightHand) this.updateHand(HAND_ROTATIONS.right, rightHand, rightController.object3D, false, this.isInView);
+    }
     this.forceIkUpdate = false;
 
     if (!this._hadFirstTick) {
@@ -408,7 +430,8 @@ AFRAME.registerComponent("ik-controller", {
 
   /**
    * belivvr custom
-   * 풀 아바타를 위해 추가된 함수들
+   * VR 컨트롤러를 사용할때 안할때 구분하여
+   * 손 포지션을 다루기 위해 아래의 코드 추가
    */
 
   /**

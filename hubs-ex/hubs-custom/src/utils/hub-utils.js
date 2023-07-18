@@ -3,6 +3,10 @@ import {
   getReticulumFetchUrl
 } from "./phoenix-utils";
 
+/**
+ * belivvr custom
+ * 공지사항 보낼때 사용하기 위해 HubID를 수집.(에단)
+ */
 export function getCurrentHubId() {
   const qs = new URLSearchParams(location.search);
   const defaultRoomId = configs.feature("default_room_id");
@@ -17,7 +21,8 @@ export function getCurrentHubId() {
 
 /**
  * belivvr custom
- * 공지사항 보낼때 사용하기 위해 SceneID를 수집.
+ * 공지사항 보낼때 사용하기 위해 SceneID를 수집.(에단)
+ * 하드코딩
  */
 export async function getCurrentHubScene() {
   try {

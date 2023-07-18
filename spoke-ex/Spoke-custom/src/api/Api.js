@@ -956,6 +956,38 @@ export default class Project extends EventEmitter {
 
       project = await resp.json();
 
+      /**
+       * belivvr custom
+       * 유저가 프로젝트 생성일 경우와 씬 수정일 경우를 구분해
+       * 각 API를 호출함
+       */
+      if(window.isCreatingProject){
+        await fetch(window.eventCallback, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            projectId: window.projectId,
+            sceneId: project.scene.scene_id,
+            token: window.token,
+            eventName: "scene_created"
+          })
+        })
+      }else {
+        await fetch(window.eventCallback, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            sceneId: project.scene.scene_id,
+            token: window.token,
+            eventName: "scene_updated"
+          })
+        })
+      }
+
       showDialog(PublishedSceneDialog, {
         sceneName: sceneParams.name,
         screenshotUrl,
@@ -963,7 +995,6 @@ export default class Project extends EventEmitter {
         onConfirm: () => {
           this.emit("project-published");
           hideDialog();
-
           /**
            * belivvr custom
            * classV return URL 로 보냄
