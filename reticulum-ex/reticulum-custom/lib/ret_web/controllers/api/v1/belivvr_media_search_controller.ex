@@ -2,6 +2,7 @@ defmodule RetWeb.Api.V1.BelivvrMediaSearchController do
   use RetWeb, :controller
   use Retry
 
+  #방의 정보들을 페이지로 조회하기위해 함수 추가.
   def index(conn, %{"source" => "rooms"} = params) do
     {:commit, results} =
       %Ret.BelivvrMediaHubSearchQuery{
@@ -16,6 +17,7 @@ defmodule RetWeb.Api.V1.BelivvrMediaSearchController do
     conn |> render("index.json", results: results)
   end
 
+  #씬의 정보들을 페이지로 조회하기위해 함수 추가.
   def index(conn, %{"source" => "scenes", "user" => user} = params) do
     account = conn |> Guardian.Plug.current_resource()
     allow_remixing = Map.get(params, "allow_remixing", nil)

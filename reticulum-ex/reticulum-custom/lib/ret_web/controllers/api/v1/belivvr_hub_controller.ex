@@ -12,6 +12,7 @@ defmodule RetWeb.Api.V1.BelivvrHubController do
   # Only allow access to remove hubs with secret header
   plug RetWeb.Plugs.HeaderAuthorization when action in [:delete]
 
+  #토큰을 파라미터로 받아서 방을 만드는 함수 추가.
   def create(conn, %{"hub" => _hub_params} = params) do
     token = params["hub"]["token"]
 
