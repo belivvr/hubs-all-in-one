@@ -12,7 +12,7 @@ replace_vars_in_files "nginx.conf.client"
 
 docker rm -f client
 
-docker run -d --name client \
+docker run -d --restart=always --name client \
 -v $SSL_CERT_FILE:/etc/nginx/certs/cert.pem \
 -v $SSL_KEY_FILE:/etc/nginx/certs/key.pem \
 -v $(pwd)/nginx.conf.client:/etc/nginx/nginx.conf \

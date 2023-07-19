@@ -16,7 +16,7 @@ MEDIASOUP_ANNOUNCED_IP=$(curl "https://ipinfo.io/ip")
 # 그러나 포트 맵핑을 하면 시간이 오래 걸린다.
 # 그리고 사용 중인 포트가 있을 가능성이 높다.
 # 그래서 실행에 실패하다.
-docker run -d --name dialog \
+docker run -d --restart=always --name dialog \
 --network="host" \
 -v $SSL_CERT_FILE:/app/certs/fullchain.pem \
 -v $SSL_KEY_FILE:/app/certs/privkey.pem \
