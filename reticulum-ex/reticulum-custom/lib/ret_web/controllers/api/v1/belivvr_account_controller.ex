@@ -6,6 +6,7 @@ defmodule RetWeb.Api.V1.BelivvrAccountController do
   import Canada, only: [can?: 2]
   alias Ret.{Statix, LoginToken, Account, Crypto, Guardian}
 
+  #이메일 인증 우회하기위해서 함수 추가.
   def create(conn, %{"email_id" => email_id} = param) do
     email = email_id
     account = email |> Account.account_for_email()
@@ -40,6 +41,7 @@ defmodule RetWeb.Api.V1.BelivvrAccountController do
     end
   end
 
+  #토큰을 사용해서 account_id를 조회하기 위해서 추가.
   def show(conn, %{"token" => token} = param) do
 
     Logger.info(

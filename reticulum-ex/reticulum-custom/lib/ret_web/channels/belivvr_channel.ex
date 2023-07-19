@@ -1,3 +1,4 @@
+#공지사항 전파를 위한 빌리버 채널모듈_session_socket에 등록하여 사용
 defmodule RetWeb.BelivvrChannel do
 
   use RetWeb, :channel
@@ -5,6 +6,7 @@ defmodule RetWeb.BelivvrChannel do
   alias Ret.{Account, Statix}
   alias RetWeb.{Presence}
 
+  #클라이언트에서 해당 belivvr 토픽으로 구독하면 토큰을 사용해서 유저를 찾은다음 조인함.
   def join("belivvr", %{"token" => token}, socket) do
     case Ret.Guardian.resource_from_token(token) do
       {:ok, %Account{} = account, _claims} ->
@@ -17,6 +19,7 @@ defmodule RetWeb.BelivvrChannel do
     end
   end
 
+  #클라이언트에서 해당 토픽으로 구독하면 조인함.
   def join("belivvr", %{}, socket) do
     socket |> handle_join()
   end
