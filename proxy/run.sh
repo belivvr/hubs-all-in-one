@@ -15,7 +15,7 @@ cp nginx.template nginx.conf
 replace_vars_in_files "nginx.conf"
 
 docker rm -f proxy||true
-docker run -d --name proxy \
+docker run -d --restart=always --name proxy \
     -p 4080:4080 \
     -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf \
     -v $SSL_CERT_FILE:/etc/nginx/certs/cert.pem \

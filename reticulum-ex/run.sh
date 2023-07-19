@@ -15,7 +15,7 @@ replace_vars_in_files "runtime.exs"
 
 docker rm -f reticulum
 
-docker run -d --name reticulum \
+docker run -d --restart=always --name reticulum \
 -v $SSL_CERT_FILE:/app/reticulum/priv/dev-ssl.cert \
 -v $SSL_KEY_FILE:/app/reticulum/priv/dev-ssl.key \
 -w /app/reticulum \

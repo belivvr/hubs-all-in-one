@@ -12,7 +12,7 @@ replace_vars_in_files "nginx.conf.admin"
 
 docker rm -f admin
 
-docker run -d --name admin \
+docker run -d --restart=always --name admin \
 -v $SSL_CERT_FILE:/etc/nginx/certs/cert.pem \
 -v $SSL_KEY_FILE:/etc/nginx/certs/key.pem \
 -v $(pwd)/nginx.conf.admin:/etc/nginx/nginx.conf \
