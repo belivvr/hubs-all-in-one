@@ -13,7 +13,7 @@ cd $THISDIR
 #         Connection matched pg_hba.conf line 95: "host all all all md5"
 
 docker rm -f db
-docker run -d --restart=always -p 5432:5432 --rm --name db -d -e POSTGRES_PASSWORD="$DB_PASSWORD" postgres:11-bullseye || true
+docker run -d --restart=always -p 5432:5432 --name db -d -e POSTGRES_PASSWORD="$DB_PASSWORD" postgres:11-bullseye || true
 
 container_name="db"
 log_message="listening on IPv4 address \"0.0.0.0\", port 5432"
