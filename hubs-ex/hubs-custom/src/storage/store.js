@@ -319,68 +319,30 @@ export default class Store extends EventTarget {
      * full-body가 아닌 경우 박스 캐릭터를 보여줌
      */
     const qs = new URLSearchParams(location.search);
-    const qsFuncs = qs.get("funcs")?.split(",");
-    if (qsFuncs?.some(el => el === "full-body")) {
-      if (qs.has("token")) {
-        const token = qs.get("token");
+    let displayName = '';
+    let avatarUrl = '';
 
-        const resp = await fetch(configs.CNUMETA_JNU, {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            "Hubs-Authorization": token
-          }
-        });
-
-        if (resp.ok) {
-          if (qs.has("displayName")) {
-            const displayName = qs.get("displayName");
-            await resp.json().then(data => {
-              this.update({ profile: { avatarId: data.data[0].avatarUrl, displayName: displayName } });
-            });
-          } else {
-            await resp.json().then(data => {
-              this.update({ profile: { avatarId: data.data[0].avatarUrl, displayName: data.data[0].displayName } });
-            });
-          }
-        } else {
-          resp
-            .json()
-            .then(data => {
-              //TODO 아바타 생성 페이지로 리다이렉트하기
-              this.update({
-                profile: {
-                  avatarId: configs.NCLOUD,
-                  displayName: "Unknown"
-                }
-              });
-            })
-            .catch(err => {
-              console.error(err);
-            });
-        }
-      } else {
-        this.update({
-          profile: {
-            avatarId: configs.NCLOUD,
-            displayName: "Unknown"
-          }
-        });
-      }
+    if (qs.has("displayName")) {
+      displayName = qs.get("displayName");
     } else {
-      if (this._shouldResetAvatarOnInit) {
-        await this.resetToRandomDefaultAvatar();
-      } else {
-        this.update({
-          profile: { avatarId: await fetchRandomDefaultAvatarId(), ...(this.state.profile || {}) }
-        });
-      }
+      displayName = "손님";
+    }
 
-      // Regenerate name to encourage users to change it.
-      if (!this.state.activity.hasChangedNameOrPronouns) {
-        this.update({ profile: { displayName: generateRandomName() } });
+    if (qs.has("avatarUrl")) {
+      avatarUrl = `https://${configs.CORS_PROXY_SERVER}/${qs.get("avatarUrl")}`
+    } else {
+      const qsFuncs = qs.get("funcs")?.split(",");
+      if (qsFuncs?.some(el => el === "full-body") && avatarUrl === '') {
+        avatarUrl = configs.NCLOUD;
+      } else if (avatarUrl === '') {
+        avatarUrl = await fetchRandomDefaultAvatarId();
       }
     }
+
+    console.log(`displayName=${displayName}`);
+    console.log(`avatarUrl=${avatarUrl}`);
+
+    this.update({ profile: { avatarId: avatarUrl, displayName: displayName } });
   };
 
   resetToRandomDefaultAvatar = async () => {
