@@ -9,6 +9,10 @@ cd $THISDIR
 
 rm -rf hubs
 git clone https://github.com/mozilla/hubs.git
+cd hubs
+#Commits on Jul 19, 2023
+git checkout f099ec6cb9a15c8f7554ffdbec592f9abf6c7267
+cd ..
 
 cp client.env hubs/.env
 replace_vars_in_files "hubs/.env"
