@@ -13,7 +13,21 @@ cd $THISDIR
 #         Connection matched pg_hba.conf line 95: "host all all all md5"
 
 docker rm -f db
-docker run -d --restart=always -p 5432:5432 --name db -d -e POSTGRES_PASSWORD="$DB_PASSWORD" postgres:11-bullseye || true
+
+if [ "$1" = "prod" ]; then
+    mkdir -p "$DB_VOLUME_DIR"
+
+    #마운트 실행
+    mount -t nfs $DB_NAS_LOCATION $DB_VOLUME_DIR
+
+    #마운트 정보 유지 설정(fstab 설정)
+    echo "$DB_NAS_LOCATION $DB_VOLUME_DIR nfs ,defaults 0 0" | sudo tee -a /etc/fstab
+
+    docker run -d --restart=always -p 5432:5432 --name db -d -e POSTGRES_PASSWORD="$DB_PASSWORD" -v "$DB_VOLUME_DIR":/var/lib/postgresql/data postgres:11-bullseye || true
+    sleep 5
+else
+    docker run -d --restart=always -p 5432:5432 --name db -d -e POSTGRES_PASSWORD="$DB_PASSWORD" postgres:11-bullseye || true
+fi
 
 container_name="db"
 log_message="listening on IPv4 address \"0.0.0.0\", port 5432"
