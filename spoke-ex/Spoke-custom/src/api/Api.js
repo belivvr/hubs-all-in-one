@@ -970,6 +970,7 @@ export default class Project extends EventEmitter {
           body: JSON.stringify({
             projectId: window.projectId,
             sceneId: project.scene.scene_id,
+            extra: window.extra,
             token: window.token,
             eventName: "scene_created"
           })

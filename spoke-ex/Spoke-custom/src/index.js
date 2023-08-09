@@ -34,6 +34,15 @@ if (eventCallback) {
   window.eventCallback = decodeURI(eventCallback);
 }
 
+/**
+ * belivvr custom
+ * scene create 이벤트 호출할 때 추가로 전달해야 하는 값들
+ */
+const extra = new URLSearchParams(location.search).get("extra");
+if (extra) {
+    window.extra = decodeURI(extra);
+}
+
 if (configs.SENTRY_DSN) {
   Sentry.init({
     dsn: configs.SENTRY_DSN,
