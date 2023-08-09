@@ -15,6 +15,16 @@ replace_vars_in_files "runtime.exs"
 
 docker rm -f reticulum
 
+if [ "$1" = "prod" ]; then
+        mkdir -p "$RETICULUM_STORAGE_DIR"
+
+        mount -t nfs $STORAGE_NAS_LOCATION $RETICULUM_STORAGE_DIR
+
+        #마운트 정보 유지 설정(fstab 설정)
+        echo "$STORAGE_NAS_LOCATION $RETICULUM_STORAGE_DIR nfs ,defaults 0 0" | sudo tee -a /etc/fstab
+fi
+
+
 docker run -d --restart=always --name reticulum \
 -v $SSL_CERT_FILE:/app/reticulum/priv/dev-ssl.cert \
 -v $SSL_KEY_FILE:/app/reticulum/priv/dev-ssl.key \
