@@ -86,32 +86,25 @@ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo s
 - https://github.com/albirrkarim/mozilla-hubs-installation-detailed
 
 
-# NCLOUD에서 셋팅하는 방법(외부DB, NAS 사용)
-NCLOUD에서 사용하기위해서 DB 서버, NAS 서버를 미리 만들어 준다.
-1.postgres 서버
-![image](https://github.com/belivvr/hubs-all-in-one/assets/59630175/6c610080-b8dd-4010-9b13-6afccf87687a)
-- root로 ssh접속 후 sudo -su postgres 로 접속.
-- psql로 postgresql 접속.
-- CREATE USER [사용할 id] PASSWORD '[사용할 비밀번호]' SUPERUSER;
-- CREATE DATABASE "ret_dev";
+# NCLOUD에서 셋팅하는 방법(NAS 사용)
+1.NCLOUD에서 사용하기위해서 DB NAS, 레티큘럼 Storage용 NAS를 미리 만들어 준다.
+![image](https://github.com/belivvr/hubs-all-in-one/assets/59630175/78617a1e-a427-447c-9838-491ceb217da8)
 
-2.nas 서버
-![image](https://github.com/belivvr/hubs-all-in-one/assets/59630175/de1b9ceb-89d8-49d2-8925-2bf950c36a5d)
+2.네이버 클라우드에서 xrcloud haio용 server를 생성한다. 
 
-
-
-1.유저를 만들고 sudo권한을 주고 사용자를 변경한다.
+3.SSH접속 후 유저를 만들고 sudo권한을 준 후 사용자를 변경한다.
  ```sh
    sudo adduser [사용자명]
    sudo usermod -aG sudo [사용자명]
    sudo -su [사용자명]
  ```
-2.git을 설치한다.
+
+4.git을 설치한다.
 ```sh
     sudo apt-get update
     sudo apt-get install git
 ```
-3.docker를 설치한다.
+5.docker를 설치한다.
 ```sh
     sudo apt-get update
     sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
@@ -128,32 +121,51 @@ NCLOUD에서 사용하기위해서 DB 서버, NAS 서버를 미리 만들어 준
     sudo -su root
     sudo -su [사용자명]
 ```
-4.hubs-all-in-one을 다운 받는다.
+6.hubs-all-in-one을 다운 받는다.
 ```sh
     git clone https://github.com/belivvr/hubs-all-in-one.git
 ```
 
-5.env.sh에서 만든 NAS 서버와 DB 서버의 정보로 바꾸어 준다.
-
-참고
-![image](https://github.com/belivvr/hubs-all-in-one/assets/59630175/2f7388db-b433-4c49-9820-86cc8f010c8e)
-해당 설정에 맞에 레코드를 설정해 주어야한다.
-
-6.NAS를 마운트한다.
+7.env.sh에서 만든 NAS 정보를 넣어 준다.
 ```sh
-    sudo apt-get install nfs-common
-    sudo systemctl start rpcbind.service
-    sudo systemctl enable rpcbind.service
-    sudo mkdir /storage
-    mount -t nfs [마운트 정보 ex)169.254.84.53:/n3048487_xrcloudRestore] /storage
+    ...
+    DB_VOLUME_DIR="/data/postgres"
+    DB_NAS_LOCATION="169.254.84.53:/n3048487_testNasDB"
+    RETICULUM_STORAGE_DIR="/storage"
+    STORAGE_NAS_LOCATION="169.254.84.53:/n3048487_testStorage"
+    ...
 ```
-7.NAS를 재부팅시에도 연결되도록 설정한다.
-nano /etc/fstab
-아래를 추가
+8. NAS를 적용할 경우 prod 옵션을 추가해서 reset_all을 실행 시킨다.
 ```sh
-[마운트 정보 ex)169.254.84.53:/n3048487_xrcloudRestore] /storage nfs vers=3,defaults 0 0
+    sudo bash reset_all.sh prod
 ```
 
+참고.
+FTP 서버 설치하여 NAS 데이터 이전
+```sh
+sudo apt install pure-ftpd
+sudo service pure-ftpd start
+```
+
+/storage 디렉토리에서 데이터 백업
+![image](https://github.com/belivvr/hubs-all-in-one/assets/59630175/25c78929-1823-4fac-83c1-dcbdaaaea45b)
+
+
+/storage 디렉토리에 백업한 데이터 복구
+![image](https://github.com/belivvr/hubs-all-in-one/assets/59630175/375d1bd2-9440-40ed-b13b-7e9e9f5ffbfa)
+
+
+DB 데이터 덤프 및 복구(DBeaver 툴 사용) \
+\
+1.데이터 백업 \
+![image](https://github.com/belivvr/hubs-all-in-one/assets/59630175/0f1bc372-4be2-481d-8231-3cbe0744ed96)
+
+![image](https://github.com/belivvr/hubs-all-in-one/assets/59630175/a073b4c0-1a5f-4998-ade4-28b6d28a29a9)
+
+2.데이터 복구 \
+![image](https://github.com/belivvr/hubs-all-in-one/assets/59630175/b4bc8766-d364-4782-b8da-663c1f465cb7)
+
+주의. 외래키 때문에 한번에 복구가 안될 수 있어서 두번 정도 데이터를 복구해야함.
 
 ## TODO
 Spoke nginx로 실행
