@@ -1,10 +1,9 @@
-defmodule RetWeb.Api.V1.BelivvrHubController do
+defmodule RetWeb.Api.V1.HubController do
   use RetWeb, :controller
 
-  alias Ret.{Account, Hub, Scene, Repo, Guardian}
+  alias Ret.{Hub, Scene, Repo}
 
   import Canada, only: [can?: 2]
-  import Ecto.Query
 
   # Limit to 1 TPS
   #plug RetWeb.Plugs.RateLimit
@@ -12,24 +11,13 @@ defmodule RetWeb.Api.V1.BelivvrHubController do
   # Only allow access to remove hubs with secret header
   plug RetWeb.Plugs.HeaderAuthorization when action in [:delete]
 
-  #토큰을 파라미터로 받아서 방을 만드는 함수 추가.
   def create(conn, %{"hub" => _hub_params} = params) do
-    token = params["hub"]["token"]
-
-    case Guardian.decode_and_verify(token) do
-      {:ok, claims} ->
-        Hub.create_new_room(params["hub"], false)
-        |> exec_create(conn, claims)
-
-      {:error, _} ->
-        conn
-        |> put_status(401)
-        |> json(%{error: "Unauthorized"})
-    end
+    Hub.create_new_room(params["hub"], false)
+    |> exec_create(conn)
   end
 
-  defp exec_create(hub_changeset, conn, claims) do
-    account = (from a in Account, where: a.account_id == ^claims["sub"]) |> Repo.one()
+  defp exec_create(hub_changeset, conn) do
+    account = Guardian.Plug.current_resource(conn)
 
     if account |> can?(create_hub(nil)) do
       {result, hub} =
@@ -38,10 +26,7 @@ defmodule RetWeb.Api.V1.BelivvrHubController do
         |> Repo.insert()
 
       case result do
-        :ok ->
-          conn
-          |> put_status(201)
-          |> render("create.json", hub: hub)
+        :ok -> render(conn, "create.json", hub: hub)
         :error -> conn |> send_resp(422, "invalid hub")
       end
     else
