@@ -247,7 +247,7 @@ defmodule RetWeb.Router do
   end
 
   scope "/", RetWeb do
-    pipe_through [:secure_headers, :parsed_body, :browser, :rate_limit] ++
+    pipe_through [:secure_headers, :parsed_body, :browser] ++
                    if(Mix.env() == :prod, do: [:ssl_only, :canonicalize_domain], else: [])
 
     get "/link/*path", PageController, only: [:index]

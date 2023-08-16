@@ -2,7 +2,7 @@ defmodule RetWeb.Api.V1.BelivvrNoticeController do
   use RetWeb, :controller
 
   # Limit to 1 TPS
-  plug RetWeb.Plugs.RateLimit
+  #plug RetWeb.Plugs.RateLimit
 
   #공지사항을 모든 공간에 전파한다.
   def create(conn, payload) do
