@@ -2,11 +2,11 @@
 set -e
 
 CERTS="$(pwd)/certs"
-SUFFIX="dev-haio.vevv.io"
+SUFFIX="1.vevv.io"
 
 SOURCE=(
-    SSL_CERT_FILE="$CERTS/room.xrcloud.app_20230809AAD35.unified.crt.pem"
-    SSL_KEY_FILE="$CERTS/room.xrcloud.app_20230809AAD35.key.pem"
+    SSL_CERT_FILE="$CERTS/vevv.io_202303247.unified.crt.pem"
+    SSL_KEY_FILE="$CERTS/vevv.io_202303247.key.pem"
     PERMS_PRV_FILE="$CERTS/perms.prv.pem"
     PERMS_PUB_FILE="$CERTS/perms.pub.pem"
     PERMS_JWK_FILE="$CERTS/perms-jwk.json"
