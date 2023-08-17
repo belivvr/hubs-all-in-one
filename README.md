@@ -87,10 +87,10 @@ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo s
 
 
 # NCLOUD에서 셋팅하는 방법(NAS 사용)
-1.NCLOUD에서 사용하기위해서 DB NAS, 레티큘럼 Storage용 NAS를 미리 만들어 준다.
-![image](https://github.com/belivvr/hubs-all-in-one/assets/59630175/78617a1e-a427-447c-9838-491ceb217da8)
+1.네이버 클라우드에서 xrcloud haio용 server를 생성한다. 
 
-2.네이버 클라우드에서 xrcloud haio용 server를 생성한다. 
+2.NCLOUD에서 사용하기위해서 DB NAS, 레티큘럼 Storage용 NAS를 미리 만들어 준다.
+![image](/docs/259619993-78617a1e-a427-447c-9838-491ceb217da8.png)
 
 3.SSH접속 후 유저를 만들고 sudo권한을 준 후 사용자를 변경한다.
  ```sh
@@ -135,7 +135,7 @@ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo s
     STORAGE_NAS_LOCATION="169.254.84.53:/n3048487_testStorage"
     ...
 ```
-8. NAS를 적용할 경우 prod 옵션을 추가해서 reset_all을 실행 시킨다.
+8.NAS를 적용할 경우 prod 옵션을 추가해서 reset_all을 실행 시킨다.
 ```sh
     sudo bash reset_all.sh prod
 ```
@@ -148,22 +148,22 @@ sudo service pure-ftpd start
 ```
 
 /storage 디렉토리에서 데이터 백업
-![image](https://github.com/belivvr/hubs-all-in-one/assets/59630175/25c78929-1823-4fac-83c1-dcbdaaaea45b)
+![image](./docs/259628149-25c78929-1823-4fac-83c1-dcbdaaaea45b.png)
 
 
 /storage 디렉토리에 백업한 데이터 복구
-![image](https://github.com/belivvr/hubs-all-in-one/assets/59630175/375d1bd2-9440-40ed-b13b-7e9e9f5ffbfa)
+![image](./docs/259627989-375d1bd2-9440-40ed-b13b-7e9e9f5ffbfa.png)
 
 
 DB 데이터 덤프 및 복구(DBeaver 툴 사용) \
 \
 1.데이터 백업 \
-![image](https://github.com/belivvr/hubs-all-in-one/assets/59630175/0f1bc372-4be2-481d-8231-3cbe0744ed96)
+![image](./docs/259626897-0f1bc372-4be2-481d-8231-3cbe0744ed96.png)
 
-![image](https://github.com/belivvr/hubs-all-in-one/assets/59630175/a073b4c0-1a5f-4998-ade4-28b6d28a29a9)
+![image](./docs/259627028-a073b4c0-1a5f-4998-ade4-28b6d28a29a9.png)
 
 2.데이터 복구 \
-![image](https://github.com/belivvr/hubs-all-in-one/assets/59630175/b4bc8766-d364-4782-b8da-663c1f465cb7)
+![image](./docs/259627160-b4bc8766-d364-4782-b8da-663c1f465cb7.png)
 
 주의. 외래키 때문에 한번에 복구가 안될 수 있어서 두번 정도 데이터를 복구해야함.
 
