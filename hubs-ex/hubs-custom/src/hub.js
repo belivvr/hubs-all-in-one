@@ -713,7 +713,28 @@ async function runBotMode(scene, entryManager) {
  * 유저 인증을 하기 위함
  */
 document.addEventListener("DOMContentLoaded", async () => {
+
   const qs = new URLSearchParams(location.search);
+  if(!qs.has("funcs")) {
+    // 현재 URL 가져오기
+    var currentUrl = window.location.href;
+    
+    // URL 객체 생성
+    var url = new URL(currentUrl);
+
+    // 기존 쿼리 스트링 가져오기
+    var queryParams = new URLSearchParams(url.search);
+
+    // 새로운 쿼리 파라미터 추가
+    queryParams.append("funcs", "full-body,3rd-view,share-screen,mute,freeze,left-button,more-button,object-button,invitation-button,place-ubtton,camera-button");
+
+    // 변경된 쿼리 스트링으로 URL 업데이트
+    url.search = queryParams.toString();
+
+    // 변경된 URL로 리다이렉트
+    window.location.href = url.toString();
+  }
+
   if (qs.has("token")) {
     const token = qs.get("token");
     console.log(token);
