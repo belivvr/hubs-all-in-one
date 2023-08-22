@@ -10,7 +10,7 @@ cd $THISDIR
 cp nginx.admin.template nginx.conf.admin
 replace_vars_in_files "nginx.conf.admin"
 
-docker rm -f admin
+docker rm -f admin vscode-hubs-ex
 
 docker run -d --restart=always --name admin \
 -v $SSL_CERT_FILE:/etc/nginx/certs/cert.pem \
