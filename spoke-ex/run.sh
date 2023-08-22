@@ -10,7 +10,7 @@ cd $THISDIR
 cp nginx.spoke.template nginx.conf.spoke
 replace_vars_in_files "nginx.conf.spoke"
 
-docker rm -f spoke vscode-spoke-ex
+docker rm -f spoke spoke-ex-vscode
 
 docker run -d --restart=always --name spoke \
 -v $SSL_CERT_FILE:/etc/nginx/certs/cert.pem \

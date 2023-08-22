@@ -10,7 +10,7 @@ cd $THISDIR
 cp nginx.client.template nginx.conf.client
 replace_vars_in_files "nginx.conf.client"
 
-docker rm -f client vscode-hubs-ex
+docker rm -f client hubs-ex-vscode
 
 docker run -d --restart=always --name client \
 -v $SSL_CERT_FILE:/etc/nginx/certs/cert.pem \
