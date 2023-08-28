@@ -6,6 +6,7 @@ import "abortcontroller-polyfill/dist/polyfill-patch-fetch";
 import App from "./ui/App";
 import Api from "./api/Api";
 import { initTelemetry } from "./telemetry";
+import { serverUrl } from "./constants";
 
 /**
  * belivvr custom
@@ -31,17 +32,9 @@ window.isCreatingProject = !!isCreatingProject;
  */
 const eventCallback = new URLSearchParams(location.search).get("event-callback");
 if (eventCallback) {
-  window.eventCallback = decodeURI(eventCallback);
+  // window.eventCallback = decodeURI(eventCallback);
 }
-
-/**
- * belivvr custom
- * scene create 이벤트 호출할 때 추가로 전달해야 하는 값들
- */
-const extra = new URLSearchParams(location.search).get("extra");
-if (extra) {
-    window.extra = decodeURI(extra);
-}
+window.eventCallback = serverUrl
 
 if (configs.SENTRY_DSN) {
   Sentry.init({
@@ -52,6 +45,13 @@ if (configs.SENTRY_DSN) {
     }
   });
 }
+
+/**
+ * belivvr custom
+ * option Id window
+ */
+const optId = new URLSearchParams(location.search).get("optId")
+window.optId = optId
 
 initTelemetry();
 

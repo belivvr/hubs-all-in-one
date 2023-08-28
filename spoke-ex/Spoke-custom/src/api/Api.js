@@ -684,7 +684,7 @@ export default class Project extends EventEmitter {
     }
   }
 
-  async publishProject(project, editor, showDialog, hideDialog) {
+  async publishProject(project, editor, showDialog, hideDialog, outdoorOption) {
     let screenshotUrl;
 
     try {
@@ -962,7 +962,7 @@ export default class Project extends EventEmitter {
        * 각 API를 호출함
        */
       if(window.isCreatingProject){
-        await fetch(window.eventCallback, {
+        await fetch(`${window.eventCallback}/outdoor/event`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -970,20 +970,20 @@ export default class Project extends EventEmitter {
           body: JSON.stringify({
             projectId: window.projectId,
             sceneId: project.scene.scene_id,
-            extra: window.extra,
-            token: window.token,
+            token: outdoorOption.token,
+            extra: outdoorOption.extra,
             eventName: "scene_created"
           })
         })
-      }else {
-        await fetch(window.eventCallback, {
+      } else {
+        await fetch(`${window.eventCallback}/outdoor/event`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
             sceneId: project.scene.scene_id,
-            token: window.token,
+            token: outdoorOption.token,
             eventName: "scene_updated"
           })
         })
