@@ -908,30 +908,60 @@ defmodule RetWeb.HubChannel do
     #추가 시작
     #공간에서 빠져나갈때 exit_event_url를 참고하여 나간 시간을 저장
 
-    request_body = %{
-      sessionId: socket.assigns.session_id,
-      endedAt: NaiveDateTime.utc_now(),
-    }
+    case Application.get_env(:ret, :event_url) do
+      nil ->
+            request_body = %{
+              sessionId: socket.assigns.session_id,
+              endedAt: NaiveDateTime.utc_now(),
+            }
+        
+        
+            Logger.info("Room Log event! Request to: #{Application.get_env(:ret, :event_exit_url)}")
+            Logger.info("Room Log event! Request Body: #{inspect(request_body)}")
+        
+            room_log_event_response = HTTPoison.patch(
+              Application.get_env(:ret, :event_exit_url),
+              request_body |> Poison.encode!,
+              %{"Content-Type" => "application/json"},
+              # TODO Fix to verify
+              ssl: [verify: :verify_none]
+            )
+        
+            case room_log_event_response do
+              {:ok, %{status_code: 200, body: body}} ->
+                Logger.info("Success Room Log event! Room Log Response body: #{body}")
+              {:ok, %{status_code: code, body: body}} ->\
+                Logger.error("Room Log event Request was successful but returned status code #{code}. Response body: #{body}")
+              {:error, error} ->\
+                Logger.error("Room Log event Request failed: #{inspect error}")
+            end
 
-
-    Logger.info("Room Log event! Request to: #{Application.get_env(:ret, :event_exit_url)}")
-    Logger.info("Room Log event! Request Body: #{inspect(request_body)}")
-
-    room_log_event_response = HTTPoison.patch(
-      Application.get_env(:ret, :event_exit_url),
-      request_body |> Poison.encode!,
-      %{"Content-Type" => "application/json"},
-      # TODO Fix to verify
-      ssl: [verify: :verify_none]
-    )
-
-    case room_log_event_response do
-      {:ok, %{status_code: 200, body: body}} ->
-        Logger.info("Success Room Log event! Room Log Response body: #{body}")
-      {:ok, %{status_code: code, body: body}} ->\
-        Logger.error("Room Log event Request was successful but returned status code #{code}. Response body: #{body}")
-      {:error, error} ->\
-        Logger.error("Room Log event Request failed: #{inspect error}")
+      event_url ->
+            request_body = %{
+              type: "room-exit",
+              sessionId: socket.assigns.session_id,
+              eventTime: NaiveDateTime.utc_now()
+            }
+        
+            Logger.info("Room Exit event! Request to: #{Application.get_env(:ret, :event_url)}")
+            Logger.info("Room Exit event! Request Body: #{inspect(request_body)}")
+        
+            room_log_event_response = HTTPoison.post(
+              Application.get_env(:ret, :event_url),
+              request_body |> Poison.encode!,
+              %{"Content-Type" => "application/json"},
+              # TODO Fix to verify
+              ssl: [verify: :verify_none]
+            )
+        
+            case room_log_event_response do
+              {:ok, %{status_code: 200, body: body}} ->
+                Logger.info("Success Room Log event! Room Log Response body: #{body}")
+              {:ok, %{status_code: code, body: body}} ->\
+                Logger.error("Room Log event Request was successful but returned status code #{code}. Response body: #{body}")
+              {:error, error} ->\
+                Logger.error("Room Log event Request failed: #{inspect error}")
+            end
     end
 
     #추가 끝
@@ -1249,35 +1279,70 @@ defmodule RetWeb.HubChannel do
       end
 
       #추가
-      #방에 입장할때 환경변수 event_enter_url를 참고하여 입장 시간 저장
+      #방에 입장할때 환경변수 event_enter_url를 참고하여 입장 시간 저장하고 환경변수 event_url가 있을때는 다른 형식으로 요청한다.
 
-      if socket.assigns.guardian_default_resource && socket.assigns.guardian_default_resource.account_id do
-        request_body = %{
-          sessionId: socket.assigns.session_id,
-          startedAt: socket.assigns.started_at,
-          roomId: socket.assigns.hub_sid,
-          reticulumAccountId: socket.assigns.guardian_default_resource.account_id
-        }
+      case Application.get_env(:ret, :event_url) do
+        nil ->
+            if socket.assigns.guardian_default_resource && socket.assigns.guardian_default_resource.account_id do
+              request_body = %{
+                sessionId: socket.assigns.session_id,
+                startedAt: socket.assigns.started_at,
+                roomId: socket.assigns.hub_sid,
+                reticulumAccountId: socket.assigns.guardian_default_resource.account_id
+              }
 
-        Logger.info("Room Log event! Request to: #{Application.get_env(:ret, :event_enter_url)}")
-        Logger.info("Room Log event! Request Body: #{inspect(request_body)}")
+              Logger.info("Room Log event! Request to: #{Application.get_env(:ret, :event_enter_url)}")
+              Logger.info("Room Log event! Request Body: #{inspect(request_body)}")
 
-        room_log_event_response = HTTPoison.post(
-          Application.get_env(:ret, :event_enter_url),
-          request_body |> Poison.encode!,
-          %{"Content-Type" => "application/json"},
-          # TODO Fix to verify
-          ssl: [verify: :verify_none]
-        )
+              room_log_event_response = HTTPoison.post(
+                Application.get_env(:ret, :event_enter_url),
+                request_body |> Poison.encode!,
+                %{"Content-Type" => "application/json"},
+                # TODO Fix to verify
+                ssl: [verify: :verify_none]
+              )
 
-        case room_log_event_response do
-          {:ok, %{status_code: 200, body: body}} ->
-            Logger.info("Success Room Log event! Room Log Response body: #{body}")
-          {:ok, %{status_code: code, body: body}} ->
-            Logger.error("Room Log event Request was successful but returned status code #{code}. Response body: #{body}")
-          {:error, error} ->
-            Logger.error("Room Log event Request failed: #{inspect error}")
-        end
+              case room_log_event_response do
+                {:ok, %{status_code: 200, body: body}} ->
+                  Logger.info("Success Room Log event! Room Log Response body: #{body}")
+                {:ok, %{status_code: code, body: body}} ->
+                  Logger.error("Room Log event Request was successful but returned status code #{code}. Response body: #{body}")
+                {:error, error} ->
+                  Logger.error("Room Log event Request failed: #{inspect error}")
+              end
+            end
+        event_url ->
+          if socket.assigns.guardian_default_resource && socket.assigns.guardian_default_resource.account_id do
+  
+              request_body = %{
+                type: "room-join",
+                eventTime: socket.assigns.started_at,
+                roomId: socket.assigns.hub_sid,
+                userId: socket.assigns.guardian_default_resource.account_id,
+                sessionId: socket.assigns.session_id
+              }
+
+              Logger.info("Room Join event! Request to: #{Application.get_env(:ret, :event_url)}")
+              Logger.info("Room Join event! Request Body: #{inspect(request_body)}")
+
+
+              room_log_event_response = HTTPoison.post(
+                Application.get_env(:ret, :event_url),
+                request_body |> Poison.encode!,
+                %{"Content-Type" => "application/json"},
+                # TODO Fix to verify
+                ssl: [verify: :verify_none]
+              )
+
+              case room_log_event_response do
+                {:ok, %{status_code: 200, body: body}} ->
+                  Logger.info("Success Room Join event! Room Log Response body: #{body}")
+                {:ok, %{status_code: code, body: body}} ->
+                  Logger.error("Room Join event Request was successful but returned status code #{code}. Response body: #{body}")
+                {:error, error} ->
+                  Logger.error("Room Join event Request failed: #{inspect error}")
+              end
+          end
       end
 
       #추가 끝
