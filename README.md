@@ -93,22 +93,24 @@ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo s
 ![image](/docs/259619993-78617a1e-a427-447c-9838-491ceb217da8.png)
 
 3.GlobalDNS에서 레코드를 추가해준다.
-![image](261252110-30756760-82e4-43fa-a02d-8bba303f7380.png)
+![image](/docs/261252110-30756760-82e4-43fa-a02d-8bba303f7380.png)
 
+4.아래와 같이 ACG를 설정해준다.
+![Alt text](/docs/haio_acg.png)
 
-4.SSH접속 후 유저를 만들고 sudo권한을 준 후 사용자를 변경한다.
+5.SSH접속 후 유저를 만들고 sudo권한을 준 후 사용자를 변경한다.
  ```sh
    sudo adduser [사용자명]
    sudo usermod -aG sudo [사용자명]
    sudo su -[사용자명]
  ```
 
-5.git을 설치한다.
+6.git을 설치한다.
 ```sh
     sudo apt-get update
     sudo apt-get install git
 ```
-6.docker를 설치한다.
+7.docker를 설치한다.
 ```sh
     sudo apt-get update &&
     sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common &&
@@ -143,6 +145,9 @@ docker ps가 권한 오류가 날 경우 세션을 재시작하거나 root로 �
 ```sh
     sudo bash reset_all.sh prod
 ```
+
+12.설치가 완료되면 사이트에서 로그인을 하고 admin을 설정해준다.
+![Alt text](./docs/set_admin.png)
 
 참고.
 FTP 서버 설치하여 NAS 데이터 이전

@@ -10,7 +10,7 @@ cd $THISDIR
 cp nginx.client.template nginx.conf.client
 replace_vars_in_files "nginx.conf.client"
 
-docker rm -f client
+docker rm -f client hubs-ex-vscode
 
 docker run --log-opt max-size=10m --log-opt max-file=3 -d --restart=always --name client \
 -v $SSL_CERT_FILE:/etc/nginx/certs/cert.pem \

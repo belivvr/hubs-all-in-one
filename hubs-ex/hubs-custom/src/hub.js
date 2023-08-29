@@ -196,7 +196,9 @@ import { ObjectMenuPrefab } from "./prefabs/object-menu";
 import { PDFMenuPrefab } from "./prefabs/pdf-menu";
 import { loadWaypointPreviewModel, WaypointPreview } from "./prefabs/waypoint-preview";
 import { preload } from "./utils/preload";
+import { serverUrl } from "./config";
 
+window.serverUrl = serverUrl
 window.APP = new App();
 renderAsEntity(APP.world, VideoMenuPrefab());
 renderAsEntity(APP.world, VideoMenuPrefab());
