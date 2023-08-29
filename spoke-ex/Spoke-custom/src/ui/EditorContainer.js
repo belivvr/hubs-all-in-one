@@ -85,6 +85,7 @@ class EditorContainer extends Component {
       error: null,
       project: null,
       parentSceneId: null,
+      outdoorOption: null,
       editor,
       settingsContext: {
         settings,
@@ -103,6 +104,21 @@ class EditorContainer extends Component {
     const { match, location } = this.props;
     const projectId = match.params.projectId;
     const queryParams = new URLSearchParams(location.search);
+
+    fetch(`${window.eventCallback}/outdoor/option/${window.optId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    }).then(async (res) => {
+      const outdoorOption = await res.json()
+      this.setState({
+        outdoorOption,
+      })
+      
+    }).catch((err) => {
+      console.log(err)
+    })
 
     if (projectId === "new") {
       if (queryParams.has("template")) {
@@ -335,6 +351,11 @@ class EditorContainer extends Component {
 
   generateToolbarMenu = () => {
     return [
+      {
+        name: "Back to My Site",
+        action: this.onBackMySite
+      }
+      ,
       {
         name: "Back to Projects",
         action: this.onOpenProject
@@ -583,7 +604,7 @@ class EditorContainer extends Component {
       this.hideDialog();
       return null;
     }
-
+    
     const abortController = new AbortController();
 
     this.showDialog(ProgressDialog, {
@@ -595,10 +616,11 @@ class EditorContainer extends Component {
         this.hideDialog();
       }
     });
-
+    
     editor.setProperty(editor.scene, "name", result.name, false);
     editor.scene.setMetadata({ name: result.name });
-
+    
+    console.log('teotoeto')
     const project = await this.props.api.createProject(
       editor.scene,
       parentSceneId,
@@ -628,6 +650,11 @@ class EditorContainer extends Component {
   onOpenProject = () => {
     this.props.history.push("/projects");
   };
+
+  onBackMySite = () => {
+    const callback = new URLSearchParams(location.search).get("callback");
+    window.location.href = `https://${callback}`;
+  }
 
   onSaveProject = async () => {
     trackEvent("Project Save Start");
@@ -839,6 +866,7 @@ class EditorContainer extends Component {
       const editor = this.state.editor;
       let project = this.state.project;
 
+      
       if (!project) {
         project = await this.createProject();
       }
@@ -847,7 +875,7 @@ class EditorContainer extends Component {
         return;
       }
 
-      project = await this.props.api.publishProject(project, editor, this.showDialog, this.hideDialog);
+      project = await this.props.api.publishProject(project, editor, this.showDialog, this.hideDialog, this.state.outdoorOption);
 
       if (!project) {
         return;

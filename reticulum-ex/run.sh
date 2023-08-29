@@ -13,7 +13,7 @@ replace_vars_in_files "dev.exs"
 cp runtime.exs.template runtime.exs
 replace_vars_in_files "runtime.exs"
 
-docker rm -f reticulum
+docker rm -f reticulum reticulum-ex-vscode
 
 if [ "$1" = "prod" ]; then
         mkdir -p "$RETICULUM_STORAGE_DIR"
