@@ -25,7 +25,7 @@ if [ "$1" = "prod" ]; then
 fi
 
 
-docker run -d --restart=always --name reticulum \
+docker run --log-opt max-size=10m --log-opt max-file=3 -d --restart=always --name reticulum \
 -v $SSL_CERT_FILE:/app/reticulum/priv/dev-ssl.cert \
 -v $SSL_KEY_FILE:/app/reticulum/priv/dev-ssl.key \
 -w /app/reticulum \
