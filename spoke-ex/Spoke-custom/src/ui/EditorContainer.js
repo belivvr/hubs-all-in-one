@@ -112,6 +112,13 @@ class EditorContainer extends Component {
       }
     }).then(async (res) => {
       const outdoorOption = await res.json()
+      const token = outdoorOption.token;
+      window.token = token;
+      
+      if (token) {
+        localStorage.clear();
+        localStorage.setItem("___hubs_store", JSON.stringify({ credentials: { email: "default", token } }));
+      }
       this.setState({
         outdoorOption,
       })
