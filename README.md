@@ -79,7 +79,7 @@ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo s
 
 ## 실행 후
 1. db에서 isAdmin = true
-    docker exec db psql -U postgres -d ret_dev -c "UPDATE accounts SET is_admin = true;"
+    > `docker exec db psql -U postgres -d ret_dev -c "UPDATE accounts SET is_admin = true;"`
 
 
 ## 참고
@@ -87,7 +87,7 @@ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo s
 
 
 # NCLOUD에서 셋팅하는 방법(NAS 사용)
-1.네이버 클라우드에서 xrcloud haio용 server를 생성한다. 
+1.네이버 클라우드에서 xrcloud haio용 server를 생성한다.
 
 2.NCLOUD에서 사용하기위해서 DB NAS, 레티큘럼 Storage용 NAS를 미리 만들어 준다.
 ![image](/docs/259619993-78617a1e-a427-447c-9838-491ceb217da8.png)
