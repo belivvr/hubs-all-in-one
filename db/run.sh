@@ -15,10 +15,10 @@ cd $THISDIR
 docker rm -f db
 
 if [ "$1" = "prod" ]; then
-    mkdir -p "$DB_VOLUME_DIR"
+    sudo mkdir -p "$DB_VOLUME_DIR"
 
     #마운트 실행
-    mount -t nfs $DB_NAS_LOCATION $DB_VOLUME_DIR
+    sudo mount -t nfs $DB_NAS_LOCATION $DB_VOLUME_DIR
 
     #마운트 정보 유지 설정(fstab 설정)
     echo "$DB_NAS_LOCATION $DB_VOLUME_DIR nfs ,defaults 0 0" | sudo tee -a /etc/fstab
