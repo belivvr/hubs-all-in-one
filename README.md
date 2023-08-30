@@ -143,7 +143,7 @@ docker ps가 권한 오류가 날 경우 세션을 재시작하거나 root로 �
 ```
 11.NAS를 적용할 경우 prod 옵션을 추가해서 reset_all을 실행 시킨다.
 ```sh
-    sudo bash reset_all.sh prod
+    bash reset_all.sh prod
 ```
 
 12.설치가 완료되면 사이트에서 로그인을 하고 admin을 설정해준다.
