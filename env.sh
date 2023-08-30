@@ -22,6 +22,8 @@ SOURCE=(
      #입장과 퇴장시 이벤트 로그를 남겨줄 API를 지정한다. 레티큘럼에서만 사용.
     EVENT_ENTER_URL="https://xrcloud.app/api"
     EVENT_EXIT_URL="https://xrcloud.app/api"
+    #전남대에서는 아래의 환경변수를 빼주어야함. 이벤트 요청의 형식이 다름.
+    EVENT_URL="https://vevv-test.vevv.io:3300/events"
     DB_VOLUME_DIR="/data/postgres"
     DB_NAS_LOCATION="169.254.84.53:/n3048487_HaioDevDB"
     RETICULUM_STORAGE_DIR="/storage"

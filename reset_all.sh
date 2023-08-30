@@ -29,8 +29,8 @@ if [ "$1" = "prod" ]; then
         #rpcbind가 자동으로 기동되도록 설정
         sudo systemctl enable rpcbind.service
 
-        sudo bash db/run.sh prod
-        sudo bash reticulum-ex/run.sh prod
+        bash db/run.sh prod
+        bash reticulum-ex/run.sh prod
 else
         bash db/run.sh
         bash reticulum-ex/run.sh
