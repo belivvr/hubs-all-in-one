@@ -1,1 +1,1 @@
-export const serverUrl = "https://xrcloud-dev-api.vevv.io:3300"
+export const serverUrl = "https://vevv-test.vevv.io:3300"
