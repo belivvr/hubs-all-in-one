@@ -23,7 +23,8 @@ let isAdmin = false;
   * .env 추가
   */
   "CNUMETA_JNU",
-  "NCLOUD"
+  "NCLOUD",
+  "BACKEND_URL"
 ].forEach(x => {
   const el = document.querySelector(`meta[name='env:${x.toLowerCase()}']`);
   configs[x] = el ? el.getAttribute("content") : process.env[x];

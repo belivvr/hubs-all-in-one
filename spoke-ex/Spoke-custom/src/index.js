@@ -34,7 +34,7 @@ const eventCallback = new URLSearchParams(location.search).get("event-callback")
 if (eventCallback) {
   // window.eventCallback = decodeURI(eventCallback);
 }
-window.eventCallback = serverUrl
+window.eventCallback = configs.BACKEND_URL;
 
 if (configs.SENTRY_DSN) {
   Sentry.init({

@@ -736,6 +736,7 @@ module.exports = async (env, argv) => {
            */
           CNUMETA_JNU: process.env.CNUMETA_JNU,
           NCLOUD: process.env.NCLOUD,
+          BACKEND_URL: process.env.BACKEND_URL,
           APP_CONFIG: appConfig
         })
       })
