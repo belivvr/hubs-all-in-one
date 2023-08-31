@@ -28,6 +28,7 @@ SOURCE=(
     DB_NAS_LOCATION="169.254.84.53:/n3048487_HaioDevDB"
     RETICULUM_STORAGE_DIR="/storage"
     STORAGE_NAS_LOCATION="169.254.84.53:/n3048487_HaioDevStorage"
+    XRCLOUD_BACKEND_URL="https://vevv-test.vevv.io:3300"
 )
 
 array_length=${#SOURCE[@]}
