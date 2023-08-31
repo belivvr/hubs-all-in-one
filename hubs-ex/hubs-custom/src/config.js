@@ -1,1 +1,3 @@
-export const serverUrl = "https://xrcloud-dev-api.vevv.io:3300"
+import configs from "./utils/configs";
+
+export const serverUrl = configs.BACKEND_URL
