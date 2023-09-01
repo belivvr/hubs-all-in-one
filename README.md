@@ -146,7 +146,17 @@ docker ps가 권한 오류가 날 경우 세션을 재시작하거나 root로 �
     bash reset_all.sh prod
 ```
 
-12.설치가 완료되면 사이트에서 로그인을 하고 admin을 설정해준다.
+12.`dev_team@belivvr.com`을 가입하고 admin으로 만들어야 한다.
+```
+
+docker exec -it db psql -U postgres -d ret_dev
+
+update accounts set is_admin = true;
+
+```
+
+
+13.설치가 완료되면 사이트에서 로그인을 하고 admin을 설정해준다.
 ![Alt text](./docs/set_admin.png)
 
 참고.
