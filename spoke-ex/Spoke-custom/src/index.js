@@ -6,7 +6,6 @@ import "abortcontroller-polyfill/dist/polyfill-patch-fetch";
 import App from "./ui/App";
 import Api from "./api/Api";
 import { initTelemetry } from "./telemetry";
-import { serverUrl } from "./constants";
 
 /**
  * belivvr custom

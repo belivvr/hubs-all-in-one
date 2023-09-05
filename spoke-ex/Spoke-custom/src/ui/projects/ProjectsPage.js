@@ -92,6 +92,7 @@ class ProjectsPage extends Component {
   }
 
   componentDidMount() {
+    this.props.history.goBack();
     document.title = configs.longName();
 
     // We dont need to load projects if the user isn't logged in
