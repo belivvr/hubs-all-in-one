@@ -146,9 +146,58 @@ docker ps가 권한 오류가 날 경우 세션을 재시작하거나 root로 �
     bash reset_all.sh prod
 ```
 
-12.설치가 완료되면 사이트에서 로그인을 하고 admin을 설정해준다.
-![Alt text](./docs/set_admin.png)
+12.`dev_team@belivvr.com`을 가입하고 admin으로 만들어야 한다.
+```
 
+docker exec -it db psql -U postgres -d ret_dev
+
+update accounts set is_admin = true;
+
+```
+
+## 백업
+
+1. storage 백업
+
+    ```sh
+    #ssh에서
+    sudo tar -czvf storage.tar.gz /storage
+    #sftp에서
+    get storage.tar.gz /Users/hunjuly/Downloads/storage.tar.gz
+    ```
+
+2. db 백업
+    ```sh
+    #ssh에서
+    docker run --rm  -v ./db_backup:/work -e PGPASSWORD=????  postgres:11-bullseye pg_dump -U xrcloud -h room.xrcloud.app ret_dev -b -f /work/backup.sql
+    #sftp에서
+    get backup.sql /Users/hunjuly/Downloads
+    ```
+
+3. storage 복원
+    ```sh
+    #sftp에서
+    put /Users/hunjuly/Downloads/storage.tar.gz storage.tar.gz
+    #ssh에서
+    tar -xzvf storage.tar.gz -C /
+    ```
+
+4. db 복원
+    ```sh
+    #sftp에서
+    put /Users/hunjuly/Downloads/backup.sql backup.sql
+
+    #ssh에서
+    #backup.sql파일을 컨테이너 접근 가능 폴더로 이동
+    #mv backup.sql /data/postgres/
+    # 복원
+    #docker exec db psql -U postgres ret_dev -f /var/lib/postgresql/data/backup.sql
+    # 검사
+    #docker exec -it db psql -U postgres -d ret_dev
+
+    ```
+
+### 에단이 작성한 백업 방법
 참고.
 FTP 서버 설치하여 NAS 데이터 이전
 ```sh
