@@ -359,13 +359,8 @@ class EditorContainer extends Component {
   generateToolbarMenu = () => {
     return [
       {
-        name: "Back to My Site",
-        action: this.onBackMySite
-      }
-      ,
-      {
         name: "Back to Projects",
-        action: this.onOpenProject
+        action: this.onBackMySite
       },
       {
         name: "File",
