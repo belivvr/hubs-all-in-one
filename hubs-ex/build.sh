@@ -10,8 +10,8 @@ cd $THISDIR
 rm -rf hubs
 git clone https://github.com/mozilla/hubs.git
 cd hubs
-#Commits on Jul 19, 2023
-git checkout f099ec6cb9a15c8f7554ffdbec592f9abf6c7267
+#Commits on Fri Sep 15 11:22:17 2023 +0200
+git checkout 8653fdd4c74943f55928ed10548cd5de4e3295f2
 cd ..
 
 cp client.env hubs/.env

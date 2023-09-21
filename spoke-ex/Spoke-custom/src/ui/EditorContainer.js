@@ -40,6 +40,7 @@ import Editor from "../editor/Editor";
 
 import defaultTemplateUrl from "./../assets/templates/crater.spoke";
 import tutorialTemplateUrl from "./../assets/templates/tutorial.spoke";
+import { withTranslation } from 'react-i18next';
 
 import { TERMS, PRIVACY } from "../constants";
 
@@ -105,7 +106,7 @@ class EditorContainer extends Component {
     const projectId = match.params.projectId;
     const queryParams = new URLSearchParams(location.search);
 
-    fetch(`${window.eventCallback}/outdoor/option/${window.optId}`, {
+    fetch(`${window.eventCallback}/console/scenes/option/${window.optId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -348,7 +349,6 @@ class EditorContainer extends Component {
 
   updateModifiedState = then => {
     const nextModified = this.state.editor.sceneModified && !this.state.creatingProject;
-
     if (nextModified !== this.state.modified) {
       this.setState({ modified: nextModified }, then);
     } else if (then) {
@@ -606,7 +606,7 @@ class EditorContainer extends Component {
       this.hideDialog();
       return null;
     }
-    
+
     const abortController = new AbortController();
 
     this.showDialog(ProgressDialog, {
@@ -618,11 +618,10 @@ class EditorContainer extends Component {
         this.hideDialog();
       }
     });
-    
+
     editor.setProperty(editor.scene, "name", result.name, false);
     editor.scene.setMetadata({ name: result.name });
-    
-    console.log('teotoeto')
+
     const project = await this.props.api.createProject(
       editor.scene,
       parentSceneId,
@@ -997,4 +996,4 @@ class EditorContainer extends Component {
   }
 }
 
-export default withApi(EditorContainer);
+export default withApi(withTranslation()(EditorContainer));
