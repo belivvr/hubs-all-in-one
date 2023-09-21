@@ -2,7 +2,7 @@
 set -e
 
 CERTS="$(pwd)/certs"
-SUFFIX="1.vevv.io"
+SUFFIX="vevv.io"
 
 SOURCE=(
     SSL_CERT_FILE="$CERTS/vevv.io_202303247.unified.crt.pem"
@@ -10,20 +10,18 @@ SOURCE=(
     PERMS_PRV_FILE="$CERTS/perms.prv.pem"
     PERMS_PUB_FILE="$CERTS/perms.pub.pem"
     PERMS_JWK_FILE="$CERTS/perms-jwk.json"
-    HUBS_HOST="hubs-${SUFFIX}"
-    PROXY_HOST="proxy-${SUFFIX}"
-    DB_HOST="db-${SUFFIX}"
+    HUBS_HOST="hubs-4.${SUFFIX}"
+    PROXY_HOST="proxy-4.${SUFFIX}"
+    DB_HOST="db-4.${SUFFIX}"
     DB_USER="xrcloud"
     DB_PASSWORD="ENrrYdFyD3f"
-    POSTGREST_HOST="postgrest-${SUFFIX}"
-    DIALOG_HOST="dialog-${SUFFIX}"
+    POSTGREST_HOST="postgrest-4.${SUFFIX}"
+    DIALOG_HOST="dialog-4.${SUFFIX}"
     DIALOG_PORT="4443"
-    THUMBNAIL_HOST="thumbnail-${SUFFIX}"
+    THUMBNAIL_HOST="thumbnail-4.${SUFFIX}"
      #입장과 퇴장시 이벤트 로그를 남겨줄 API를 지정한다. 레티큘럼에서만 사용.
     EVENT_ENTER_URL="https://xrcloud.app/api"
     EVENT_EXIT_URL="https://xrcloud.app/api"
-    #전남대에서는 아래의 환경변수를 빼주어야함. 이벤트 요청의 형식이 다름.
-    EVENT_URL="https://vevv-test.vevv.io:3300/events"
     DB_VOLUME_DIR="/data/postgres"
     DB_NAS_LOCATION="169.254.84.53:/n3048487_HaioDevDB"
     RETICULUM_STORAGE_DIR="/storage"

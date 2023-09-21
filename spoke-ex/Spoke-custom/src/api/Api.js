@@ -962,7 +962,7 @@ export default class Project extends EventEmitter {
        * 각 API를 호출함
        */
       if(window.isCreatingProject){
-        await fetch(`${window.eventCallback}/outdoor/event`, {
+        await fetch(`${window.eventCallback}/events/spoke`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -976,7 +976,7 @@ export default class Project extends EventEmitter {
           })
         })
       } else {
-        await fetch(`${window.eventCallback}/outdoor/event`, {
+        await fetch(`${window.eventCallback}/events/spoke`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
