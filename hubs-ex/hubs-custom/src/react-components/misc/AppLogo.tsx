@@ -12,8 +12,10 @@ export function AppLogo({ className }: { className?: string }) {
   const shouldDisplayHmcLogo = isHmc() && !logo;
 
   useEffect(() => {
-    const optId = new URLSearchParams(window.location.search).get("optId")
-    fetch(`${(window as any).serverUrl}/outdoor/option/${optId}`, {
+    const roomId = new URLSearchParams(window.location.search).get("private") || new URLSearchParams(window.location.search).get("public")
+    const privateType = new URLSearchParams(window.location.search).get("private") && "private"
+    const publicType = new URLSearchParams(window.location.search).get("public") && "public"
+    fetch(`${(window as any).serverUrl}/console/rooms/option/${roomId}?type=${privateType || publicType}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

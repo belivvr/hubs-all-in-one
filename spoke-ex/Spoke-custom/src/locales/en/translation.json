@@ -1,0 +1,33 @@
+{
+    "test": {
+        "helloworld": "helloworld",
+        "hello world": "hello world"
+    },
+
+    "header": {
+        "publish": "Publish Scene...",
+        "translateTooltip": "[T] Translate",
+        "rotateTooltip": "[R] Rotate",
+        "scaleTooltip": "[Y] Scale",
+        "spaceTooltip": "[Z] Toggle Transform Space",
+        "pivotTooltip": "[X] Toggle Transform Pivot",
+        "snapTooltip": "[C] Toggle Snap Mode",
+        "showGridTooltip": "Toggle Grid Visibility",
+        "minusHeightGridTooltip": "[-] Increment Grid Height",
+        "plusHeightGridTooltip": "[=] Decrement Grid Height"
+    },
+
+    "viewport": {
+        "title": "Viewport",
+        "flyModeEnabled": "[W][A][S][D] Move Camera | [Shift] Fly faster",
+        "flyModeDisabled": "[LMB] Orbit / Select | [MMB] Pan | [RMB] Fly",
+        "objectSelected": " | [F] Focus | [Q] Rotate Left | [E] Rotate Right",
+        "placement": " | [ESC / G] Cancel Placement",
+        "grap": " | [Shift + Click] Place Duplicate | [ESC / G] Cancel Grab",
+        "objectSelectedNotTransform": "| [G] Grab | [ESC] Deselect All"
+    },
+
+    "elements": {
+        "group": "Group"
+    }
+}
