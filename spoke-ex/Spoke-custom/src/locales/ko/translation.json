@@ -1,0 +1,33 @@
+{
+    "test": {
+        "helloworld": "헬로우월드",
+        "hello world": "헬로우 월드"
+    },
+
+    "header": {
+        "publish": "씬 만들기...",
+        "translateTooltip": "[T] 이동하기",
+        "rotateTooltip": "[R] 회전하기",
+        "scaleTooltip": "[Y] 규모 늘/줄이기",
+        "spaceTooltip": "[Z] 방향 변환 토글",
+        "pivotTooltip": "[X] 중심 전환 토글",
+        "snapTooltip": "[C] 맵 격자 간격 설정",
+        "showGridTooltip": "격자 노출하기",
+        "minusHeightGridTooltip": "[-] 격자 Y값 낮추기",
+        "plusHeightGridTooltip": "[=] 격자 Y값 높이기"
+    },
+
+    "viewport": {
+        "title": "화면 편집",
+        "flyModeEnabled": "[W][A][S][D] 카메라 이동 | [Shift] 더 빠르게 날기",
+        "flyModeDisabled": "[LMB] 궤도/선택 | [MMB] 이동 | [RMB] 비행",
+        "objectSelected": " | F] 초점 | [Q] 왼쪽 회전 | [E] 오른쪽 회전",
+        "placement": " | [ESC/G] 배치 취소",
+        "grap": " | [Shift + 클릭] 복제 배치 | [ESC/G] 잡기 취소",
+        "objectSelectedNotTransform": "| [G] 잡기 | [ESC] 모두 선택 해제"
+    },
+
+    "elements": {
+        "group": "그룹"
+    }
+}
