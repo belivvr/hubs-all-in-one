@@ -19,15 +19,18 @@ defmodule RetWeb.Api.V1.BelivvrMediaSearchController do
 
   #씬의 정보들을 페이지로 조회하기위해 함수 추가.
   def index(conn, %{"source" => "scenes", "user" => user} = params) do
-    # 쿼리 문자열을 콘솔에 출력합니다.
-    IO.puts("Query String: #{conn |> Plug.Conn.req_query_string}")
-
     account = conn |> Guardian.Plug.current_resource()
     allow_remixing = Map.get(params, "allow_remixing", nil)
     name = Map.get(params, "name", nil)
 
+    # name 값을 콘솔에 출력합니다.
+    IO.puts("Name Value: #{name}")
+
+    # 쿼리 문자열을 콘솔에 출력합니다.
+    IO.puts("Query String: #{conn.query_string}")
+
     if account && account.account_id == String.to_integer(user) do
-      {:commit, results} =
+      search_query =
         %Ret.BelivvrMediaHubSearchQuery{
           source: "scenes",
           cursor: params["cursor"] || "1",
@@ -36,7 +39,8 @@ defmodule RetWeb.Api.V1.BelivvrMediaSearchController do
           allow_remixing: allow_remixing,
           name: name
         }
-        |> Ret.BelivvrMediaSearch.search()
+
+      {:commit, results} = search_query |> Ret.BelivvrMediaSearch.search()
 
       conn |> render("index.json", results: results)
     else
