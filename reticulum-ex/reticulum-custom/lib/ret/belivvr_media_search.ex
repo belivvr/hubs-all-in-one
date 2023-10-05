@@ -68,15 +68,14 @@ defmodule Ret.BelivvrMediaSearch do
 
     # if 내에서 변경된 ecto_query 값을 재할당
     if name do
-      ecto_query =
-        ecto_query
-        |> from(s in ecto_query, where: ilike(s.name, ^"%#{name}%"))
+      like_pattern = "%#{name}%" # 이 부분을 추가함
+      ecto_query = from(s in ecto_query, where: ilike(s.name, ^like_pattern))
     end
 
     # 여기에서 변경된 ecto_query를 콘솔에 출력합니다.
     IO.inspect(ecto_query, label: "Generated Query After")
 
-  results =
+    results =
       ecto_query
       |> add_allow_remixing_filter(allow_remixing)
       |> Repo.paginate(%{page: cursor, page_size: page_size})
