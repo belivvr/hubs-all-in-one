@@ -66,8 +66,11 @@ defmodule Ret.BelivvrMediaSearch do
         preload: [:screenshot_owned_file, :model_owned_file, :scene_owned_file, :project]
 
     if name do
-      ecto_query = from s in ecto_query, where: s.name == ^name
+      ecto_query = from s in ecto_query, where: ilike(s.name, ^"%#{name}%")
     end
+
+    # 여기에서 ecto_query를 콘솔에 출력합니다.
+    IO.inspect(ecto_query, label: "Generated Query")
 
     results =
       ecto_query
