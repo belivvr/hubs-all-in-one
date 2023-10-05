@@ -60,16 +60,16 @@ defmodule Ret.BelivvrMediaSearch do
     cursor = cursor |> Integer.parse() |> elem(0)
     page_size = page_size |> Integer.parse() |> elem(0)
 
-    # 기존 ecto_query 정의
-    ecto_query =
-      from s in Scene,
-        where: s.account_id == ^account_id,
-        preload: [:screenshot_owned_file, :model_owned_file, :scene_owned_file, :project]
-
-    # if 내에서 변경된 ecto_query 값을 재할당
     if name do
-      like_pattern = "%#{name}%" # 이 부분을 추가함
-      ecto_query = from(s in ecto_query, where: ilike(s.name, ^like_pattern))
+      ecto_query =
+        from s in Scene,
+          where: s.account_id == ^account_id and ilike(s.name, ^"%#{name}%"),
+          preload: [:screenshot_owned_file, :model_owned_file, :scene_owned_file, :project]
+    else
+      ecto_query =
+        from s in Scene,
+          where: s.account_id == ^account_id,
+          preload: [:screenshot_owned_file, :model_owned_file, :scene_owned_file, :project]
     end
 
     # 여기에서 변경된 ecto_query를 콘솔에 출력합니다.
