@@ -56,7 +56,7 @@ defmodule Ret.BelivvrMediaSearch do
     {:commit, results}
   end
 
-  def search(%Ret.BelivvrMediaHubSearchQuery{source: "scenes", cursor: cursor, page_size: page_size, account_id: account_id, allow_remixing: allow_remixing}) do
+  def search(%Ret.BelivvrMediaHubSearchQuery{source: "scenes", cursor: cursor, page_size: page_size, account_id: account_id, allow_remixing: allow_remixing, name: name}) do
     cursor = cursor |> Integer.parse() |> elem(0)
     page_size = page_size |> Integer.parse() |> elem(0)
 
@@ -64,6 +64,10 @@ defmodule Ret.BelivvrMediaSearch do
       from s in Scene,
         where: s.account_id == ^account_id,
         preload: [:screenshot_owned_file, :model_owned_file, :scene_owned_file, :project]
+
+    if name do
+      ecto_query = from s in ecto_query, where: s.name == ^name
+    end
 
     results =
       ecto_query
