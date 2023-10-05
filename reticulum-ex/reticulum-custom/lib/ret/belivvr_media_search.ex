@@ -60,17 +60,16 @@ defmodule Ret.BelivvrMediaSearch do
     cursor = cursor |> Integer.parse() |> elem(0)
     page_size = page_size |> Integer.parse() |> elem(0)
 
-    if name do
-      ecto_query =
+    ecto_query =
+      if name do
         from s in Scene,
           where: s.account_id == ^account_id and ilike(s.name, ^"%#{name}%"),
           preload: [:screenshot_owned_file, :model_owned_file, :scene_owned_file, :project]
-    else
-      ecto_query =
+      else
         from s in Scene,
           where: s.account_id == ^account_id,
           preload: [:screenshot_owned_file, :model_owned_file, :scene_owned_file, :project]
-    end
+      end
 
     # 여기에서 변경된 ecto_query를 콘솔에 출력합니다.
     IO.inspect(ecto_query, label: "Generated Query After")
