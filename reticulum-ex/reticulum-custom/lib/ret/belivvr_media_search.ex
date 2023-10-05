@@ -60,6 +60,9 @@ defmodule Ret.BelivvrMediaSearch do
     cursor = cursor |> Integer.parse() |> elem(0)
     page_size = page_size |> Integer.parse() |> elem(0)
 
+    # name 값을 콘솔에 출력합니다.
+    IO.puts("Name Value In Search: #{name}")
+
     ecto_query =
       from s in Scene,
         where: s.account_id == ^account_id,
