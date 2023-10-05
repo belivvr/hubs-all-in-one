@@ -1,6 +1,6 @@
 defmodule Ret.BelivvrMediaHubSearchQuery do
   @enforce_keys [:source]
-  defstruct [:source, :type, :user, :collection, :filter, :q, :similar_to, :cursor, :page_size, :locale, :scene_sid, :hub_sids, :allow_remixing, :account_id]
+  defstruct [:source, :type, :user, :collection, :filter, :q, :similar_to, :cursor, :page_size, :locale, :scene_sid, :hub_sids, :allow_remixing, :account_id, :name]
 end
 
 defmodule Ret.BelivvrMediaSearch do
