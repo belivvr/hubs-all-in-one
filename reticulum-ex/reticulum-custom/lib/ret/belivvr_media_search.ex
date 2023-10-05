@@ -70,7 +70,7 @@ defmodule Ret.BelivvrMediaSearch do
     if name do
       ecto_query =
         ecto_query
-        |> from(s in, where: ilike(s.name, ^"%#{name}%"))
+        |> from(s in ecto_query, where: ilike(s.name, ^"%#{name}%"))
     end
 
     # 여기에서 변경된 ecto_query를 콘솔에 출력합니다.
