@@ -60,25 +60,23 @@ defmodule Ret.BelivvrMediaSearch do
     cursor = cursor |> Integer.parse() |> elem(0)
     page_size = page_size |> Integer.parse() |> elem(0)
 
-    # name 값을 콘솔에 출력합니다.
-    IO.puts("Name Value In Search: #{name}")
-
+    # 기존 ecto_query 정의
     ecto_query =
       from s in Scene,
         where: s.account_id == ^account_id,
         preload: [:screenshot_owned_file, :model_owned_file, :scene_owned_file, :project]
 
+    # if 내에서 변경된 ecto_query 값을 재할당
     if name do
-        # 여기에서 ecto_query를 콘솔에 출력합니다.
-        IO.inspect(ecto_query, label: "Generated Query In IF before")
-        ecto_query = from s in ecto_query, where: ilike(s.name, ^"%#{name}%")
-        IO.inspect(ecto_query, label: "Generated Query In IF after")
+      ecto_query =
+        ecto_query
+        |> from(s in, where: ilike(s.name, ^"%#{name}%"))
     end
 
-    # 여기에서 ecto_query를 콘솔에 출력합니다.
+    # 여기에서 변경된 ecto_query를 콘솔에 출력합니다.
     IO.inspect(ecto_query, label: "Generated Query After")
 
-    results =
+  results =
       ecto_query
       |> add_allow_remixing_filter(allow_remixing)
       |> Repo.paginate(%{page: cursor, page_size: page_size})
