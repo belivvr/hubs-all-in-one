@@ -109,6 +109,7 @@ import { usePermissions } from "./room/hooks/usePermissions";
 import { ChatContextProvider } from "./room/contexts/ChatContext";
 import ChatToolbarButton from "./room/components/ChatToolbarButton/ChatToolbarButton";
 
+
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
 
 const IN_ROOM_MODAL_ROUTER_PATHS = ["/media"];
@@ -219,6 +220,15 @@ class UIRoot extends Component {
 
     chatPrefix: "",
     chatAutofocus: false,
+    returnUrl: "",
+    isHost: false,
+
+    cameraButton: false,
+    invitationButton: false,
+    leftButton: false,
+    moreButton: false,
+    objectButton: false,
+    placeButton: false,
   };
 
   constructor(props) {
@@ -233,6 +243,7 @@ class UIRoot extends Component {
 
   componentDidUpdate(prevProps) {
     const { hubChannel, showSignInDialog } = this.props;
+
     if (hubChannel) {
       const { signedIn } = hubChannel;
       if (signedIn !== this.state.signedIn) {
@@ -433,6 +444,55 @@ class UIRoot extends Component {
     this.playerRig = scene.querySelector("#avatar-rig");
 
     scene.addEventListener("action_media_tweet", this.onTweet);
+
+    const roomId = new URLSearchParams(window.location.search).get("private") || new URLSearchParams(window.location.search).get("public")
+    const privateType = new URLSearchParams(window.location.search).get("private") && "private"
+    const publicType = new URLSearchParams(window.location.search).get("public") && "public"
+
+    fetch(`${window.serverUrl}/api/rooms/option/${roomId}?type=${privateType || publicType}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    }).then(async (res) => {
+      const data = await res.json()
+      if (!data.funcs) data.funcs = {}
+
+      if (data.funcs['camera-button']) {
+        const cameraButton = data.funcs['camera-button']
+        cameraButton && this.setState({ cameraButton: true })
+      }
+
+      if (data.funcs['invitation-button']) {
+        const invitationButton = data.funcs['invitation-button']
+        invitationButton && this.setState({ invitationButton: true })
+      }
+
+      if (data.funcs['left-button']) {
+        const leftButton = data.funcs['left-button']
+        leftButton && this.setState({ leftButton: true })
+      }
+
+      if (data.funcs['more-button']) {
+        const moreButton = data.funcs['more-button']
+        moreButton && this.setState({ moreButton: true })
+      }
+
+      if (data.funcs['object-button']) {
+        const objectButton = data.funcs['object-button']
+        objectButton && this.setState({ objectButton: true })
+      }
+
+      if (data.funcs['place-button']) {
+        const placeButton = data.funcs['place-button']
+        placeButton && this.setState({ placeButton: true })
+      }
+
+      const link =
+      window.document.querySelector("link[rel*='icon']")
+      this.setState({ returnUrl: data.returnUrl })
+      if (link) link.href = data.faviconUrl
+    })
   }
 
   UNSAFE_componentWillMount() {
@@ -1456,7 +1516,7 @@ class UIRoot extends Component {
                            */
                           
                           // showObjectList 
-                          objectButton && (
+                          (this.state.objectButton || objectButton) && (
                             <ObjectsMenuButton
                               active={this.state.sidebarId === "objects"}
                               onClick={() => this.toggleSidebar("objects")}
@@ -1642,14 +1702,16 @@ class UIRoot extends Component {
                  * funcs 에 invitation-button 이 있으면 초대하기 버튼을 보여줌
                  */
                 toolbarLeft={
-                  invitation && (
-                    <InvitePopoverContainer
-                      hub={this.props.hub}
-                      hubChannel={this.props.hubChannel}
-                      scene={this.props.scene}
-                      store={this.props.store}
-                    />
-                  )
+                  <>
+                    {(this.state.invitationButton || invitation) && (
+                      <InvitePopoverContainer
+                        hub={this.props.hub}
+                        hubChannel={this.props.hubChannel}
+                        scene={this.props.scene}
+                        store={this.props.store}
+                      />
+                    )}
+                  </>
                 }
                 toolbarCenter={
                   <>
@@ -1701,7 +1763,7 @@ class UIRoot extends Component {
                            * funcs=place-button
                            * funcs 에 place-button 이 있으면 방꾸미기 버튼(오브젝트, 그리기 등등) 을 보여줌
                            */
-                          placeButton && (
+                          (this.state.placeButton || placeButton) && (
                             <PlacePopoverContainer
                               scene={this.props.scene}
                               hubChannel={this.props.hubChannel}
@@ -1716,7 +1778,7 @@ class UIRoot extends Component {
                            * funcs=camera-button
                            * funcs 에 camera-button 이 있으면 사진찍기 버튼 추가
                            */
-                          camera && (
+                          (this.state.cameraButton || camera) && (
                             this.props.hubChannel.can("spawn_camera") && (
                               <ToolbarButton
                                 key="cameara"
@@ -1793,27 +1855,27 @@ class UIRoot extends Component {
                        * funcs=left-button
                        * funcs 에 left-button 이 있으면 방나가기 버튼을 보여줌
                        */
-                      entered && leftButton && (
+                      entered && (
                         <ToolbarButton
                           icon={<LeaveIcon />}
                           label={<FormattedMessage id="toolbar.leave-room-button" defaultMessage="Leave" />}
                           preset="cancel"
                           onClick={() => {
                             this.showNonHistoriedDialog(LeaveRoomModal, {
-                              destinationUrl: "/",
+                              destinationUrl: this.state.returnUrl,
                               reason: LeaveReason.leaveRoom
                             });
                           }}
                         />
                       )
-                    }
+                  }
                     {
                       /**
                        * belivvr custom
                        * funcs=more-button
                        * funcs 에 more-button 이 있으면 더보기 버튼을 보여줌
                        */
-                      moreButton && (
+                      (this.state.moreButton || moreButton) && (
                         <MoreMenuPopoverButton menu={moreMenu} />
                       )
                     }

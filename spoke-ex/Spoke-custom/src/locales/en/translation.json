@@ -1,4 +1,35 @@
 {
+    "menu": {
+        "backToProjects": "Back to Projects",
+        "file": {
+            "title": "File",
+            "newProjects": "New Projects",
+            "saveProjects": "Save Project",
+            "duplicatedSave": "Save As",
+            "publishProjects": "Publish Scene...",
+            "exportProjects": "Export as binary glTF (.glb) ...",
+            "importProjects": "Import legacy .spoke project",
+            "exportLegacy": "Export legacy .spoke project"
+        },
+        "help": {
+            "title": "Help",
+            "tutorial": "Tutorial",
+            "controls": "Keyboard and Mouse Controls",
+            "getSupport": "Get Support",
+            "submitFeedback": "Submit Feedback",
+            "reportIssue": "Report an Issue",
+            "joinDiscord": "Join us on Discord",
+            "termsofuse": "Terms of Use",
+            "privacyNotice": "Privacy Notice"
+        },
+        "developer": {
+            "title": "Developer",
+            "disableDeveloperMode": "Disable Experimental Features",
+            "enableDeveloperMode": "Enable Experimental Features"
+        },
+        "submitFeedback": "Submit Feedback"
+    },
+
     "test": {
         "helloworld": "helloworld",
         "hello world": "hello world"
@@ -29,5 +60,9 @@
 
     "elements": {
         "group": "Group"
+    },
+
+    "hierarchy": {
+        "title": "Hierarchy"
     }
 }
