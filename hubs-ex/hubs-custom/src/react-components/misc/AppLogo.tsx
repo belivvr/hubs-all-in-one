@@ -15,20 +15,13 @@ export function AppLogo({ className }: { className?: string }) {
     const roomId = new URLSearchParams(window.location.search).get("private") || new URLSearchParams(window.location.search).get("public")
     const privateType = new URLSearchParams(window.location.search).get("private") && "private"
     const publicType = new URLSearchParams(window.location.search).get("public") && "public"
-    fetch(`${(window as any).serverUrl}/console/rooms/option/${roomId}?type=${privateType || publicType}`, {
+    fetch(`${(window as any).serverUrl}/api/rooms/option/${roomId}?type=${privateType || publicType}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       }
     }).then(async (res) => {
-      const { faviconUrl, logoUrl, token } = await res.json()
-      const link =
-      window.document.querySelector("link[rel*='icon']")
-      
-      if (link) {
-        (link as any).href = faviconUrl
-      }
-
+      const { logoUrl } = await res.json()
       setProjectLogo(logoUrl)
     }).catch((error) => {
       console.log(error)
