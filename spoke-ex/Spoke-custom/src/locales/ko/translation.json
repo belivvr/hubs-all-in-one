@@ -64,5 +64,9 @@
 
     "hierarchy": {
         "title": "리소스 나열"
+    },
+
+    "assets": {
+        "title": "에셋"
     }
 }

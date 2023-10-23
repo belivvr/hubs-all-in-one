@@ -64,5 +64,9 @@
 
     "hierarchy": {
         "title": "Hierarchy"
+    },
+
+    "assets": {
+        "title": "Assets"
     }
 }

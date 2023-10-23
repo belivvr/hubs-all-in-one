@@ -567,7 +567,8 @@ export default function HierarchyPanel() {
   const [renamingNode, setRenamingNode] = useState(null);
   const [expandedNodes, setExpandedNodes] = useState({});
   const [nodes, setNodes] = useState([]);
-  const { t } = useTranslation();
+  const [update, setUpdate] = useState(false)
+  const { t, i18n } = useTranslation();
 
   const updateNodeHierarchy = useCallback(() => {
     setNodes(Array.from(treeWalker(editor, expandedNodes)));
@@ -634,18 +635,6 @@ export default function HierarchyPanel() {
     },
     [updateNodeHierarchy]
   );
-
-  useEffect(() => {
-    editor.addListener("sceneGraphChanged", updateNodeHierarchy);
-    editor.addListener("selectionChanged", updateNodeHierarchy);
-    editor.addListener("objectsChanged", onObjectChanged);
-
-    return () => {
-      editor.removeListener("sceneGraphChanged", updateNodeHierarchy);
-      editor.removeListener("selectionChanged", updateNodeHierarchy);
-      editor.removeListener("objectsChanged", onObjectChanged);
-    };
-  }, [editor, updateNodeHierarchy, onObjectChanged]);
 
   const onMouseDown = useCallback(
     (e, node) => {
@@ -846,6 +835,32 @@ export default function HierarchyPanel() {
   });
 
   useEffect(() => {
+    const localeData = require(`../../locales/${i18n.language}/renderElements.json`);
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i];
+      if (!localeData[node.object.nodeName]) continue
+      node.object.name = localeData[node.object.nodeName].title;
+    }
+    setUpdate(true);
+  }, [nodes, i18n.language])
+
+  useEffect(() => {
+    setUpdate(false);
+  }, [update])
+
+  useEffect(() => {
+    editor.addListener("sceneGraphChanged", updateNodeHierarchy);
+    editor.addListener("selectionChanged", updateNodeHierarchy);
+    editor.addListener("objectsChanged", onObjectChanged);
+
+    return () => {
+      editor.removeListener("sceneGraphChanged", updateNodeHierarchy);
+      editor.removeListener("selectionChanged", updateNodeHierarchy);
+      editor.removeListener("objectsChanged", onObjectChanged);
+    };
+  }, [editor, updateNodeHierarchy, onObjectChanged]);
+
+  useEffect(() => {
     updateNodeHierarchy();
   }, [expandedNodes, updateNodeHierarchy]);
 
@@ -855,28 +870,28 @@ export default function HierarchyPanel() {
         {editor.scene && (
           <AutoSizer>
             {({ height, width }) => (
-              <FixedSizeList
-                height={height}
-                width={width}
-                itemSize={32}
-                itemCount={nodes.length}
-                itemData={{
-                  renamingNode,
-                  nodes,
-                  onKeyDown,
-                  onChangeName,
-                  onRenameSubmit,
-                  onMouseDown,
-                  onClick,
-                  onToggle,
-                  onUpload
-                }}
-                itemKey={getNodeKey}
-                outerRef={treeContainerDropTarget}
-                innerElementType="ul"
-              >
-                {MemoTreeNode}
-              </FixedSizeList>
+              !update && <FixedSizeList
+              height={height}
+              width={width}
+              itemSize={32}
+              itemCount={nodes.length}
+              itemData={{
+                renamingNode,
+                nodes,
+                onKeyDown,
+                onChangeName,
+                onRenameSubmit,
+                onMouseDown,
+                onClick,
+                onToggle,
+                onUpload
+              }}
+              itemKey={getNodeKey}
+              outerRef={treeContainerDropTarget}
+              innerElementType="ul"
+            >
+              {MemoTreeNode}
+            </FixedSizeList>
             )}
           </AutoSizer>
         )}
