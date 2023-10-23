@@ -20,6 +20,9 @@ export function insertSeparator(children, separatorFn) {
   }, []);
 }
 
+/**
+ * 3. 데이터 수정 부분
+ */
 export function unique(arr, maybeComp, locale) {
   const set = new Set();
   const newArr = [];
