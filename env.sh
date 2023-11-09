@@ -2,7 +2,7 @@
 set -e
 
 CERTS="$(pwd)/certs"
-SUFFIX="vevv.io"
+SUFFIX="hubs-1.vevv.io"
 
 SOURCE=(
     SSL_CERT_FILE="$CERTS/vevv.io_202303247.unified.crt.pem"
@@ -10,15 +10,15 @@ SOURCE=(
     PERMS_PRV_FILE="$CERTS/perms.prv.pem"
     PERMS_PUB_FILE="$CERTS/perms.pub.pem"
     PERMS_JWK_FILE="$CERTS/perms-jwk.json"
-    HUBS_HOST="hubs-4.${SUFFIX}"
-    PROXY_HOST="proxy-4.${SUFFIX}"
-    DB_HOST="db-4.${SUFFIX}"
+    HUBS_HOST="${SUFFIX}"
+    PROXY_HOST="${SUFFIX}"
+    DB_HOST="${SUFFIX}"
     DB_USER="xrcloud"
     DB_PASSWORD="ENrrYdFyD3f"
-    POSTGREST_HOST="postgrest-4.${SUFFIX}"
-    DIALOG_HOST="dialog-4.${SUFFIX}"
+    POSTGREST_HOST="${SUFFIX}"
+    DIALOG_HOST="${SUFFIX}"
     DIALOG_PORT="4443"
-    THUMBNAIL_HOST="thumbnail-4.${SUFFIX}"
+    THUMBNAIL_HOST="${SUFFIX}"
      #입장과 퇴장시 이벤트 로그를 남겨줄 API를 지정한다. 레티큘럼에서만 사용.
     EVENT_ENTER_URL="https://xrcloud.app/api"
     EVENT_EXIT_URL="https://xrcloud.app/api"
@@ -46,4 +46,3 @@ for ((i = 0; i < array_length; i++)); do
     export "${SOURCE[i]}"
     echo "${SOURCE[i]}"
 done
-
