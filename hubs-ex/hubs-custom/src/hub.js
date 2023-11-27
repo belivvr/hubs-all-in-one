@@ -139,8 +139,6 @@ import "./components/avatar-audio-source";
 import "./components/avatar-inspect-collider";
 import "./components/video-texture-target";
 import "./components/mirror";
-import "./components/share-screen-button";
-import "./components/avatar-animation";
 
 import React from "react";
 import { createRoot } from "react-dom/client";
@@ -1314,8 +1312,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         type: "operator_notice",
         message: message.payload
       });
-    });
-  }
+    });  
+  } 
 
   belivvrChannel.on(hubId, (message) => {
     messageDispatch.receive({
