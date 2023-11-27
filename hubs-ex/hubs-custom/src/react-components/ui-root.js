@@ -223,12 +223,12 @@ class UIRoot extends Component {
     returnUrl: "",
     isHost: false,
 
-    cameraButton: false,
-    invitationButton: false,
-    leftButton: false,
-    moreButton: false,
-    objectButton: false,
-    placeButton: false,
+    "camera-button": false,
+    "invitation-button": false,
+    "left-button": false,
+    "more-button": false,
+    "object-button": false,
+    "place-button": false,
   };
 
   constructor(props) {
@@ -445,47 +445,32 @@ class UIRoot extends Component {
 
     scene.addEventListener("action_media_tweet", this.onTweet);
 
-    const roomId = new URLSearchParams(window.location.search).get("private") || new URLSearchParams(window.location.search).get("public")
+    const roomId = new URLSearchParams(window.location.search).get("private") || new URLSearchParams(window.location.search).get("public") || new URLSearchParams(window.location.search).get("static")
     const privateType = new URLSearchParams(window.location.search).get("private") && "private"
     const publicType = new URLSearchParams(window.location.search).get("public") && "public"
+    const staticType = new URLSearchParams(window.location.search).get("static") && "static"
 
-    fetch(`${window.serverUrl}/api/rooms/option/${roomId}?type=${privateType || publicType}`, {
+    fetch(`${window.serverUrl}/api/rooms/option/${roomId}?type=${privateType || publicType || staticType}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       }
     }).then(async (res) => {
-      const data = await res.json()
-      if (!data.funcs) data.funcs = {}
-
-      if (data.funcs['camera-button']) {
-        const cameraButton = data.funcs['camera-button']
-        cameraButton && this.setState({ cameraButton: true })
+      const data = await res.json();
+      const { token } = data;
+      const store = window.APP.store;
+      if (token) {
+        store.update({ credentials: { token } });
       }
 
-      if (data.funcs['invitation-button']) {
-        const invitationButton = data.funcs['invitation-button']
-        invitationButton && this.setState({ invitationButton: true })
-      }
-
-      if (data.funcs['left-button']) {
-        const leftButton = data.funcs['left-button']
-        leftButton && this.setState({ leftButton: true })
-      }
-
-      if (data.funcs['more-button']) {
-        const moreButton = data.funcs['more-button']
-        moreButton && this.setState({ moreButton: true })
-      }
-
-      if (data.funcs['object-button']) {
-        const objectButton = data.funcs['object-button']
-        objectButton && this.setState({ objectButton: true })
-      }
-
-      if (data.funcs['place-button']) {
-        const placeButton = data.funcs['place-button']
-        placeButton && this.setState({ placeButton: true })
+      if (data.funcs) {
+        const funcNames = ["camera-button", "invitation-button", "left-button", "more-button", "object-button", "place-button"];
+  
+        funcNames.forEach(funcName => {
+          if (data.funcs[funcName]) {
+            this.setState({ [funcName]: true });
+          }
+        });
       }
 
       const link =
@@ -1516,7 +1501,7 @@ class UIRoot extends Component {
                            */
                           
                           // showObjectList 
-                          (this.state.objectButton || objectButton) && (
+                          (this.state['object-button'] || objectButton) && (
                             <ObjectsMenuButton
                               active={this.state.sidebarId === "objects"}
                               onClick={() => this.toggleSidebar("objects")}
@@ -1703,7 +1688,7 @@ class UIRoot extends Component {
                  */
                 toolbarLeft={
                   <>
-                    {(this.state.invitationButton || invitation) && (
+                    {(this.state['invitation-button'] || invitation) && (
                       <InvitePopoverContainer
                         hub={this.props.hub}
                         hubChannel={this.props.hubChannel}
@@ -1763,7 +1748,7 @@ class UIRoot extends Component {
                            * funcs=place-button
                            * funcs 에 place-button 이 있으면 방꾸미기 버튼(오브젝트, 그리기 등등) 을 보여줌
                            */
-                          (this.state.placeButton || placeButton) && (
+                          (this.state['place-button'] || placeButton) && (
                             <PlacePopoverContainer
                               scene={this.props.scene}
                               hubChannel={this.props.hubChannel}
@@ -1778,7 +1763,7 @@ class UIRoot extends Component {
                            * funcs=camera-button
                            * funcs 에 camera-button 이 있으면 사진찍기 버튼 추가
                            */
-                          (this.state.cameraButton || camera) && (
+                          (this.state['camera-button'] || camera) && (
                             this.props.hubChannel.can("spawn_camera") && (
                               <ToolbarButton
                                 key="cameara"
@@ -1875,7 +1860,7 @@ class UIRoot extends Component {
                        * funcs=more-button
                        * funcs 에 more-button 이 있으면 더보기 버튼을 보여줌
                        */
-                      (this.state.moreButton || moreButton) && (
+                      (this.state['more-button'] || moreButton) && (
                         <MoreMenuPopoverButton menu={moreMenu} />
                       )
                     }
