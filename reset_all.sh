@@ -1,3 +1,5 @@
+docker network create haio
+
 docker rm -f postgrest
 docker rm -f dialog
 docker rm -f proxy
