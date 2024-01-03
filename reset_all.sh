@@ -43,7 +43,7 @@ bash hubs-ex/run-admin.sh
 bash hubs-ex/run-client.sh
 bash spoke-ex/run.sh
 bash postgrest/run.sh
-bash proxy/run.sh
 bash thumbnail/run.sh
+bash proxy/run.sh
 
 docker logs -f reticulum
