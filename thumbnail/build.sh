@@ -1,5 +1,4 @@
-!/bin/sh
 set -ex
-cd belivvr-nearspark
+cd /home/benny/hubs-all-in-one/thumbnail/belivvr-nearspark
 
 docker build -t thumbnail .
