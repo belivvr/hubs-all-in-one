@@ -54,5 +54,15 @@ http {
         access_log /var/log/nginx/access.log debug;
     }
 
+    server {
+        listen 5000 ssl;
+        server_name ${PROXY_HOST};
 
+        ssl_certificate /etc/nginx/certs/cert.pem;
+        ssl_certificate_key /etc/nginx/certs/key.pem;
+
+        location / {
+            proxy_pass http://thumbnail:5000;
+        }
+    }
 }
