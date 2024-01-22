@@ -36,3 +36,4 @@ import "./inject-main-camera-here";
  * shared-screen 추가
  */
 import "./shared-screen";
+import "./inline-frame-button";

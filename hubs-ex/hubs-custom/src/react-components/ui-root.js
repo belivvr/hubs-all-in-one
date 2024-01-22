@@ -75,6 +75,7 @@ import { ReactComponent as VRIcon } from "./icons/VR.svg";
 import { ReactComponent as LeaveIcon } from "./icons/Leave.svg";
 import { ReactComponent as EnterIcon } from "./icons/Enter.svg";
 import { ReactComponent as ExternalLink } from "./icons/ExternalLink.svg";
+import { ReactComponent as Share } from "./icons/Share.svg";
 import { ReactComponent as InviteIcon } from "./icons/Invite.svg";
 import { PeopleSidebarContainer, userFromPresence } from "./room/PeopleSidebarContainer";
 import { ObjectListProvider } from "./room/hooks/useObjectList";
@@ -108,6 +109,8 @@ import { NotificationsContainer } from "./room/NotificationsContainer";
 import { usePermissions } from "./room/hooks/usePermissions";
 import { ChatContextProvider } from "./room/contexts/ChatContext";
 import ChatToolbarButton from "./room/components/ChatToolbarButton/ChatToolbarButton";
+import { BackButton } from "./input/BackButton";
+import { IframeSidebar } from "./iframeSidebar/iframeSidebar";
 
 
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
@@ -229,6 +232,8 @@ class UIRoot extends Component {
     "more-button": false,
     "object-button": false,
     "place-button": false,
+
+    innerFrameURL: "",
   };
 
   constructor(props) {
@@ -356,6 +361,7 @@ class UIRoot extends Component {
     window.addEventListener("idle_detected", this.onIdleDetected);
     window.addEventListener("activity_detected", this.onActivityDetected);
     window.addEventListener("focus_chat", this.onFocusChat);
+    window.addEventListener("inline-url", this.onInlineFrame);
     document.querySelector(".a-canvas").addEventListener("mouseup", () => {
       if (this.state.showShareDialog) {
         this.setState({ showShareDialog: false });
@@ -457,9 +463,9 @@ class UIRoot extends Component {
       }
     }).then(async (res) => {
       const data = await res.json();
-      const { token } = data;
+      const { token, role } = data;
       const store = window.APP.store;
-      if (token) {
+      if (role.toLowerCase() === "host") {
         store.update({ credentials: { token } });
       }
 
@@ -855,6 +861,13 @@ class UIRoot extends Component {
     this.setState({ sidebarId, chatPrefix: "", chatAutofocus: false, selectedUserId: null, ...otherState });
   }
 
+  setIframeSize(size) {
+    this.setState({ iframeSize: size })
+    if (size === "large") {
+      this.toggleSidebar("chat", { chatPrefix: "", chatAutofocus: false })
+    }
+  }
+
   toggleSidebar(sidebarId, otherState) {
     this.setState(({ sidebarId: curSidebarId }) => {
       const nextSidebarId = curSidebarId === sidebarId ? null : sidebarId;
@@ -873,6 +886,15 @@ class UIRoot extends Component {
       chatAutofocus: true
     });
   };
+
+  onInlineFrame = e => {
+    if (!this.state.innerFrameURL) {
+      this.setState({
+        innerFrameURL: e.detail.url
+      })
+      this.toggleSidebar("chat", { chatPrefix: "", chatAutofocus: false })
+    }
+  }
 
   renderInterstitialPrompt = () => {
     return (
@@ -1488,6 +1510,43 @@ class UIRoot extends Component {
                 streaming={streaming}
                 viewport={
                   <>
+                    {this.state.innerFrameURL && (
+                      <div 
+                        id="viewport-inline" 
+                        style={{
+                          position:'absolute', 
+                          left:0, 
+                          top:0, 
+                          width: "100%",
+                          height: "100%"
+                        }}
+                      >
+                        <div
+                          style={{ 
+                            width: '100%', 
+                            height: '48px', 
+                            display:'flex', 
+                            alignItems: 'center', 
+                            padding: '0 1rem', 
+                            borderBottom: '1px solid #eee', 
+                            backgroundColor: '#fff' 
+                          }}>
+                            <BackButton onClick={() => {
+                              this.setState({ innerFrameURL: null })
+                              this.setSidebar()
+                            }} />
+                        </div>
+                        <iframe
+                          src={this.state.innerFrameURL}
+                          style={{ 
+                              width: '100%', 
+                              height: 'calc(100% - 48px)',
+                              outline: 'none',
+                              border: 'none',
+                            }}
+                        ></iframe>
+                      </div>
+                    )}
                     {!this.state.dialog && renderEntryFlow ? entryDialog : undefined}
                     {!this.props.selectedObject && <CompactMoreMenuButton />}
                     {(!this.props.selectedObject ||
@@ -1763,8 +1822,8 @@ class UIRoot extends Component {
                            * funcs=camera-button
                            * funcs 에 camera-button 이 있으면 사진찍기 버튼 추가
                            */
-                          (this.state['camera-button'] || camera) && (
-                            this.props.hubChannel.can("spawn_camera") && (
+                          (this.state['camera-button'] || camera) && 
+                            (
                               <ToolbarButton
                                 key="cameara"
                                 icon={<CameraIcon />}
@@ -1774,14 +1833,13 @@ class UIRoot extends Component {
                                 selected={!!anyEntityWith(APP.world, MyCameraTool)}
                               />
                             )
-                          )
                         }
-                        {this.props.hubChannel.can("spawn_emoji") && (
+                        {
                           <ReactionPopoverContainer
                             scene={this.props.scene}
                             initialPresence={getPresenceProfileForSession(this.props.presences, this.props.sessionId)}
                           />
-                        )}
+                        }
                       </>
                     )}
                     {!isLockedDownDemo && (
@@ -1853,7 +1911,7 @@ class UIRoot extends Component {
                           }}
                         />
                       )
-                  }
+                    }
                     {
                       /**
                        * belivvr custom

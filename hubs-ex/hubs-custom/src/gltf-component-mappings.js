@@ -298,6 +298,26 @@ AFRAME.GLTFModelPlus.registerComponent("video", "video", mediaInflator, (name, p
   }
 });
 AFRAME.GLTFModelPlus.registerComponent("link", "link", mediaInflator);
+AFRAME.GLTFModelPlus.registerComponent("inline-frame", "inline-frame", async (el, componentName, componentData, components) => {
+  el.setAttribute("networked", {
+    template: "#static-controlled-media",
+    owner: "scene",
+    persistent: true,
+    networkId: components.networked.id
+  });
+
+
+  el.setAttribute("media-loader", {
+    src: sanitizeUrl(componentData.src),
+    resolve: true,
+    fileIsOwned: true,
+    animate: false,
+    moveTheParentNotTheMesh: true
+  });
+
+  el.setAttribute("inner-frame", componentData.src);
+  el.setAttribute("hover-menu__test", { template: "#inline-hover-menu", isFlat: true });
+});
 
 AFRAME.GLTFModelPlus.registerComponent("hoverable", "is-remote-hover-target", el => {
   el.setAttribute("is-remote-hover-target", "");
