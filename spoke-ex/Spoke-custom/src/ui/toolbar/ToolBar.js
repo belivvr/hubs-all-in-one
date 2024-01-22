@@ -520,12 +520,16 @@ class ToolBar extends Component {
           </PublishButton>
         )} */}
         <LocaleWrapper>
-          <LocaleSelect style={{
-            height: 'fit-content'
+          <select style={{
+            height: 'fit-content',
+            padding: '0 8px',
+            borderRadius: '4px',
+            backgroundColor: '#4d535b',
+            color: '#fff',
           }} onChange={(e) => this.onChangeLocales(e.target.value)}>
             <option value="en">en</option>
             <option value="ko">한국어</option>
-          </LocaleSelect>
+          </select>
         </LocaleWrapper>
         <PublishButton id="publish-button" onClick={this.props.onPublish}>
           {configs.isMoz() ? "Publish to Hubs..." : t('header.publish')}

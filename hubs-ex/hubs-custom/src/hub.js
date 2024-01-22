@@ -1314,8 +1314,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         type: "operator_notice",
         message: message.payload
       });
-    });
-  }
+    });  
+  } 
 
   belivvrChannel.on(hubId, (message) => {
     messageDispatch.receive({
