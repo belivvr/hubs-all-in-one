@@ -1166,11 +1166,12 @@ export default class Project extends EventEmitter {
   async _uploadAsset(endpoint, editor, file, onProgress, signal) {
     let thumbnail_file_id = null;
     let thumbnail_access_token = null;
-
+    
     if (!matchesFileTypes(file, AudioFileTypes)) {
       const thumbnailBlob = await editor.generateFileThumbnail(file);
-
+      
       const response = await this.upload(thumbnailBlob, undefined, signal);
+
 
       thumbnail_file_id = response.file_id;
       thumbnail_access_token = response.meta.access_token;
@@ -1206,6 +1207,11 @@ export default class Project extends EventEmitter {
 
     const resp = await this.fetch(endpoint, { method: "POST", headers, body, signal });
 
+    const formData = new FormData();
+    formData.set("file", file)
+    const data = await this.fetch(`${window.eventCallback}/assets`, {method: "POST", body: formData})
+    const { fileUrl } = await data.json();
+
     const json = await resp.json();
 
     const asset = json.assets[0];
@@ -1215,7 +1221,7 @@ export default class Project extends EventEmitter {
     return {
       id: asset.asset_id,
       name: asset.name,
-      url: asset.file_url,
+      url: fileUrl,
       type: asset.type,
       attributions: {},
       images: {
