@@ -38,6 +38,8 @@ import TriggerVolumeNode from "./editor/nodes/TriggerVolumeNode";
 import TriggerVolumeNodeEditor from "./ui/properties/TriggerVolumeNodeEditor";
 import LinkNode from "./editor/nodes/LinkNode";
 import LinkNodeEditor from "./ui/properties/LinkNodeEditor";
+import InlineFrameNode from "./editor/nodes/InlineFrameNode";
+import InlineFrameNodeEditor from "./ui/properties/InlineFrameNodeEditor";
 import ParticleEmitterNode from "./editor/nodes/ParticleEmitterNode";
 import ParticleEmitterNodeEditor from "./ui/properties/ParticleEmitterNodeEditor";
 import KitPieceNode from "./editor/nodes/KitPieceNode";
@@ -94,6 +96,7 @@ export function createEditor(api, settings) {
   editor.registerNode(SpawnerNode, SpawnerNodeEditor);
   editor.registerNode(TriggerVolumeNode, TriggerVolumeNodeEditor);
   editor.registerNode(LinkNode, LinkNodeEditor);
+  editor.registerNode(InlineFrameNode, InlineFrameNodeEditor)
   editor.registerNode(ParticleEmitterNode, ParticleEmitterNodeEditor);
   editor.registerNode(KitPieceNode, KitPieceNodeEditor);
   editor.registerNode(SimpleWaterNode, SimpleWaterNodeEditor);
