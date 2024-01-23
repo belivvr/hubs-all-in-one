@@ -70,7 +70,7 @@ export default class InlineFrameNode extends EditorNodeMixin(Object3D) {
   prepareForExport() {
     super.prepareForExport();
     this.remove(this.helper);
-    this.addGLTFComponent("inlineFrame", {
+    this.addGLTFComponent("inline-frame", {
       src: this.src
     });
     this.addGLTFComponent("networked", {
