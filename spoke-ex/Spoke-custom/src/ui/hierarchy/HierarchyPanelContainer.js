@@ -839,7 +839,7 @@ export default function HierarchyPanel() {
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i];
       if (!localeData[node.object.nodeName]) continue
-      node.object.name = localeData[node.object.nodeName].title;
+      // node.object.name = localeData[node.object.nodeName].title;
     }
     setUpdate(true);
   }, [nodes, i18n.language])
