@@ -1,4 +1,3 @@
 set -ex
-cd /home/benny/hubs-all-in-one/thumbnail/belivvr-nearspark
-
+cd "$(dirname "$0")"
 docker build -t thumbnail .
