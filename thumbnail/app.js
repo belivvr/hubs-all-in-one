@@ -3,10 +3,6 @@ const express = require("express");
 
 const app = express();
 
-// app.get('/_healthz', function (req, res) {
-//   res.send('1');
-// });
-
 app.get("/thumbnail/:b64url", function(req, res) {
   try{
     lambda.handler(
