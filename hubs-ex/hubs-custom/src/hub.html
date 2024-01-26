@@ -614,15 +614,14 @@
             </template>
 
             <template id="inline-hover-menu">
-                <a-entity class="ui interactable-ui hover-container" visible="false">
-                    <a-entity mixin="rounded-text-action-button ui" is-remote-hover-target
-                        tags="singleActionButton: true; isHoverMenuChild: true;" inline-frame-button position="0 0 0.001">
+                <a-entity id="inline-wrapper" class="ui interactable-ui hover-container" visible="false">
+                    <a-entity id="inline-frame-button" mixin="rounded-text-action-button ui" is-remote-hover-target
+                        tags="singleActionButton: true; isHoverMenuChild: true;" inline-frame-button="src:''; frameOption:'';" position="0 0 0.001">
                         <a-entity text="value:open link; textAlign:center;" text-raycast-hack
                             position="0 0 0.02"></a-entity>
                     </a-entity>
                 </a-entity>
             </template>
-
             <template id="photo-hover-menu">
                 <a-entity class="ui interactable-ui hover-container" visible="false">
                     <a-entity mixin="rounded-twitter-text-action-button ui" is-remote-hover-target

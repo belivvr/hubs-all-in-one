@@ -2,6 +2,11 @@ import { guessContentType } from "../utils/media-url-utils";
 import { handleExitTo2DInterstitial } from "../utils/vr-interstitial";
 
 AFRAME.registerComponent("inline-frame-button", {
+  schema: {
+    src: { default: "" },
+    frameOption: { default: "" }
+  },
+
   init() {
     this.label = this.el.querySelector("[text]");
 
@@ -22,7 +27,7 @@ AFRAME.registerComponent("inline-frame-button", {
     this.onClick = async () => {
       // const exitImmersive = async () => await handleExitTo2DInterstitial(false, () => {}, true);
       // await exitImmersive();
-      window.dispatchEvent(new CustomEvent("inline-url", { detail: { url: this.src } }))
+      window.dispatchEvent(new CustomEvent("inline-url", { detail: { url: this.data.src, option: this.data.frameOption } }))
     };
 
     NAF.utils.getNetworkedEntity(this.el).then(networkedEl => {

@@ -309,14 +309,14 @@ AFRAME.GLTFModelPlus.registerComponent("inline-frame", "inline-frame", async (el
 
   el.setAttribute("media-loader", {
     src: sanitizeUrl(componentData.src),
+    frameOption: componentData.frameOption,
     resolve: true,
     fileIsOwned: true,
     animate: false,
-    moveTheParentNotTheMesh: true
+    moveTheParentNotTheMesh: true,
   });
 
-  el.setAttribute("inner-frame", componentData.src);
-  el.setAttribute("hover-menu__test", { template: "#inline-hover-menu", isFlat: true });
+  el.setAttribute("inner-frame", "true");
 });
 
 AFRAME.GLTFModelPlus.registerComponent("hoverable", "is-remote-hover-target", el => {
