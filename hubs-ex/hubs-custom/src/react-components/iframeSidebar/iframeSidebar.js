@@ -18,10 +18,6 @@ export function IframeSidebar({
         <div className={styles.header}>
           <div className={styles.beforeTitle}>{beforeTitle}</div>
           <h5>{title}</h5>
-          <div className={styles.afterTitle}>
-            <button>big</button>
-            <button>small</button>
-          </div>
         </div>
       )}
       <div className={classNames(styles.content, disableOverflowScroll ? "" : styles.overflowY, contentClassName)}>

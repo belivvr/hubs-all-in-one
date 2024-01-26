@@ -234,6 +234,7 @@ class UIRoot extends Component {
     "place-button": false,
 
     innerFrameURL: "",
+    mainInnerFrame: false,
   };
 
   constructor(props) {
@@ -888,11 +889,13 @@ class UIRoot extends Component {
   };
 
   onInlineFrame = e => {
-    if (!this.state.innerFrameURL) {
-      this.setState({
-        innerFrameURL: e.detail.url
-      })
-      this.toggleSidebar("chat", { chatPrefix: "", chatAutofocus: false })
+    this.setState({ innerFrameURL: e.detail.url });
+    if (e.detail.option === 'main') {
+      this.setState({ mainInnerFrame: true });
+      return this.toggleSidebar("chat", { chatPrefix: "", chatAutofocus: false });
+    }
+    if (this.state.sidebarId !== "side-iframe") {
+      this.toggleSidebar("side-iframe");
     }
   }
 
@@ -1510,7 +1513,7 @@ class UIRoot extends Component {
                 streaming={streaming}
                 viewport={
                   <>
-                    {this.state.innerFrameURL && (
+                    {this.state.mainInnerFrame && (
                       <div 
                         id="viewport-inline" 
                         style={{
@@ -1532,7 +1535,7 @@ class UIRoot extends Component {
                             backgroundColor: '#fff' 
                           }}>
                             <BackButton onClick={() => {
-                              this.setState({ innerFrameURL: null })
+                              this.setState({ mainInnerFrame: false })
                               this.setSidebar()
                             }} />
                         </div>
@@ -1735,6 +1738,14 @@ class UIRoot extends Component {
                       )}
                       {this.state.sidebarId === "ecs-debug" && (
                         <ECSDebugSidebarContainer onClose={() => this.setSidebar(null)} />
+                      )}
+                      {this.state.sidebarId === "side-iframe" && (
+                        <IframeSidebar
+                          title={<FormattedMessage id="room-settings-sidebar.iframe" defaultMessage="Room Settings" />}
+                          beforeTitle={<BackButton onClick={() => this.setSidebar()} />}
+                        >
+                          <iframe src={this.state.innerFrameURL} style={{ position: 'absolute', width: '100%', height: '100%', backgroundColor: 'transparent', border: 'none'}}></iframe>
+                        </IframeSidebar>
                       )}
                     </>
                   ) : undefined
