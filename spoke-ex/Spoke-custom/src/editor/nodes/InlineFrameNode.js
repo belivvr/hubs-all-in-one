@@ -17,9 +17,11 @@ export default class InlineFrameNode extends EditorNodeMixin(Object3D) {
   static async deserialize(editor, json) {
     const node = await super.deserialize(editor, json);
 
-    const { src } = json.components.find(c => c.name === "inlineFrame").props;
+    const { src, frameOption } = json.components.find(c => c.name === "inlineFrame").props;
 
+    console.log(json.components.find(c => c.name === "inlineFrame").props, node)
     node.src = src;
+    node.frameOption = frameOption;
 
     return node;
   }
@@ -28,6 +30,7 @@ export default class InlineFrameNode extends EditorNodeMixin(Object3D) {
     super(editor);
 
     this.src = "";
+    this.frameOption = "main";
 
     const geometry = new PlaneBufferGeometry();
     const material = new MeshBasicMaterial();
@@ -62,7 +65,8 @@ export default class InlineFrameNode extends EditorNodeMixin(Object3D) {
   serialize() {
     return super.serialize({
       inlineFrame: {
-        src: this.src
+        src: this.src,
+        frameOption: this.frameOption
       }
     });
   }
@@ -71,7 +75,8 @@ export default class InlineFrameNode extends EditorNodeMixin(Object3D) {
     super.prepareForExport();
     this.remove(this.helper);
     this.addGLTFComponent("inline-frame", {
-      src: this.src
+      src: this.src,
+      frameOption: this.frameOption
     });
     this.addGLTFComponent("networked", {
       id: this.uuid
