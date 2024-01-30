@@ -503,5 +503,10 @@
   "audio-debug-view.media.rolloffFactor": "Rolloff",
   "auto-exit-warning-modal.message": "이 세션이 {secondsRemaining} 초 후 자동으로 종료됩니다.",
   "auto-exit-warning-modal.reason.concurrent-session": "다른 세션을 시작하셨습니다.",
-  "auto-exit-warning-modal.reason.idle": "오랜 시간 움직이지 않으셨습니다."
+  "auto-exit-warning-modal.reason.idle": "오랜 시간 움직이지 않으셨습니다.",
+  "share-tooltip.description": "화면 또는 웹캠을 회의실의 객체로 표시합니다.",
+  "react-tooltip.description": "리액션",
+  "invite-tooltip.description": "다른 사람을 방에 초대하려면 방 링크를 복사하세요.",
+  "mute": "음소거",
+  "mute-tooltip.description": "{muteStatus} 마이크 (M)"
 }

@@ -468,6 +468,8 @@ class UIRoot extends Component {
       const store = window.APP.store;
       if (role.toLowerCase() === "host") {
         store.update({ credentials: { token } });
+      } else {
+        store.update({ credentials: { token: "" } });
       }
 
       if (data.funcs) {
@@ -892,7 +894,8 @@ class UIRoot extends Component {
     this.setState({ innerFrameURL: e.detail.url });
     if (e.detail.option === 'main') {
       this.setState({ mainInnerFrame: true });
-      return this.toggleSidebar("chat", { chatPrefix: "", chatAutofocus: false });
+      if (window.innerWidth > 992) this.toggleSidebar("chat", { chatPrefix: "", chatAutofocus: false });
+      return;
     }
     if (this.state.sidebarId !== "side-iframe") {
       this.toggleSidebar("side-iframe");
@@ -1515,14 +1518,15 @@ class UIRoot extends Component {
                   <>
                     {this.state.mainInnerFrame && (
                       <div 
-                        id="viewport-inline" 
-                        style={{
-                          position:'absolute', 
-                          left:0, 
-                          top:0, 
-                          width: "100%",
-                          height: "100%"
-                        }}
+                      id="viewport-inline" 
+                      style={{
+                        position:'absolute', 
+                        left:0, 
+                        top:0, 
+                        width: "100%",
+                        height: "100%",
+                        zIndex: 10,
+                      }}
                       >
                         <div
                           style={{ 
