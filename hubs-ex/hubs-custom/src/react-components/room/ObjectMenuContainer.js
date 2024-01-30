@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { ObjectMenu, ObjectMenuButton } from "./ObjectMenu";
 import { useObjectList } from "./hooks/useObjectList";
@@ -66,6 +66,16 @@ function ObjectMenuItems({ hubChannel, scene, activeObject, deselectObject, onGo
 
   return (
     <>
+      <ObjectMenuButton disabled={!window.APP.hubChannel.can('kick_users')} onClick={togglePinned}>
+        <PinIcon />
+        <span>
+          {isPinned ? (
+            <FormattedMessage id="object-menu.unpin-object-button" defaultMessage="Unpin" />
+          ) : (
+            <FormattedMessage id="object-menu.pin-object-button" defaultMessage="Pin" />
+          )}
+        </span>
+      </ObjectMenuButton>
       {
         /**
          * belivvr custom

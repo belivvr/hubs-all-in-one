@@ -19,7 +19,6 @@ export default class InlineFrameNode extends EditorNodeMixin(Object3D) {
 
     const { src, frameOption } = json.components.find(c => c.name === "inlineFrame").props;
 
-    console.log(json.components.find(c => c.name === "inlineFrame").props, node)
     node.src = src;
     node.frameOption = frameOption;
 
@@ -58,6 +57,7 @@ export default class InlineFrameNode extends EditorNodeMixin(Object3D) {
     }
 
     this.src = source.src;
+    this.frameOption = source.frameOption;
 
     return this;
   }
@@ -76,7 +76,7 @@ export default class InlineFrameNode extends EditorNodeMixin(Object3D) {
     this.remove(this.helper);
     this.addGLTFComponent("inline-frame", {
       src: this.src,
-      frameOption: this.frameOption
+      frameOption: this.frameOption === "Main" ? "main" : "sideView"
     });
     this.addGLTFComponent("networked", {
       id: this.uuid
