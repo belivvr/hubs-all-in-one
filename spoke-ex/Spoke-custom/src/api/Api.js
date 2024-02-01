@@ -103,7 +103,7 @@ export default class Project extends EventEmitter {
     this.projectDirectoryPath = "/api/files/";
 
     // Max size in MB
-    this.maxUploadSize = 128;
+    this.maxUploadSize = 300;
   }
 
   getAuthContainer() {
