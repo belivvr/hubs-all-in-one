@@ -22,7 +22,7 @@ defmodule RetWeb.Router do
       parsers: [:urlencoded, :multipart, :json],
       pass: ["*/*"],
       json_decoder: Phoenix.json_library(),
-      length: 157_286_400,
+      length: 314_572_800,
       read_timeout: 300_000
   end
 
