@@ -574,6 +574,14 @@ AFRAME.registerComponent("media-loader", {
         this.el.removeAttribute("audio-zone-source");
         this.el.removeAttribute("media-pdf");
         this.el.removeAttribute("media-pager");
+        this.el.setAttribute(
+          "media-image",
+          Object.assign({}, this.data.mediaOptions, {
+            src: thumbnail,
+            version,
+            contentType: guessContentType(thumbnail) || "image/png"
+          })
+        );
         this.el.addEventListener(
           "image-loaded",
           async () => {
@@ -596,6 +604,14 @@ AFRAME.registerComponent("media-loader", {
                   child.childNodes[1].setAttribute("inline-frame-button", `src: ${this.data.src}; frameOption: ${this.data.frameOption};`);
                 }
               });
+              this.el.setAttribute(
+                "media-image",
+                Object.assign({}, this.data.mediaOptions, {
+                  src: this.el.getAttribute('inner-thumbnail') || thumbnail,
+                  version,
+                  contentType: guessContentType(thumbnail) || "image/png"
+                })
+              );
             } else {
               this.el.setAttribute("hover-menu__link", { template: "#link-hover-menu", isFlat: true });
             }
@@ -604,14 +620,6 @@ AFRAME.registerComponent("media-loader", {
           { once: true }
         );
         this.el.setAttribute("floaty-object", { reduceAngularFloat: true, releaseGravity: -1 });
-        this.el.setAttribute(
-          "media-image",
-          Object.assign({}, this.data.mediaOptions, {
-            src: thumbnail,
-            version,
-            contentType: guessContentType(thumbnail) || "image/png"
-          })
-        );
         if (this.el.components["position-at-border__freeze"]) {
           this.el.setAttribute("position-at-border__freeze", { isFlat: true });
         }
