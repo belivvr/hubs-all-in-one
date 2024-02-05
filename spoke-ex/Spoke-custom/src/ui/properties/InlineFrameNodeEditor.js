@@ -25,6 +25,10 @@ export default class InlineFrameNodeEditor extends Component {
 
   static description = `Link to a open another website by iframe`;
 
+  onChangeImageURL = imageURL => {
+    this.props.editor.setPropertySelected("imageURL", imageURL);
+  };
+
   onChangeSrc = src => {
     this.props.editor.setPropertySelected("src", src);
   };
@@ -38,7 +42,10 @@ export default class InlineFrameNodeEditor extends Component {
 
     return (
       <NodeEditor description={InlineFrameNodeEditor.description} {...this.props}>
-        <InputGroup name="Url">
+        <InputGroup name="Image URL">
+          <StringInput value={node.imageURL} onChange={this.onChangeImageURL} />
+        </InputGroup>
+        <InputGroup name="URL">
           <StringInput value={node.src} onChange={this.onChangeSrc} />
         </InputGroup>
         <InputGroup name="Frame Option">

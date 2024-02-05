@@ -316,6 +316,8 @@ AFRAME.GLTFModelPlus.registerComponent("inline-frame", "inline-frame", async (el
     moveTheParentNotTheMesh: true,
   });
 
+  el.setAttribute("inner-thumbnail", componentData.imageURL)
+
   el.setAttribute("inner-frame", "true");
 });
 

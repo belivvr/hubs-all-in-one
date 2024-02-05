@@ -17,10 +17,11 @@ export default class InlineFrameNode extends EditorNodeMixin(Object3D) {
   static async deserialize(editor, json) {
     const node = await super.deserialize(editor, json);
 
-    const { src, frameOption } = json.components.find(c => c.name === "inlineFrame").props;
+    const { src, frameOption, imageURL } = json.components.find(c => c.name === "inlineFrame").props;
 
     node.src = src;
     node.frameOption = frameOption;
+    node.imageURL = imageURL;
 
     return node;
   }
@@ -28,6 +29,7 @@ export default class InlineFrameNode extends EditorNodeMixin(Object3D) {
   constructor(editor) {
     super(editor);
 
+    this.imageURL = "";
     this.src = "";
     this.frameOption = "main";
 
@@ -58,6 +60,7 @@ export default class InlineFrameNode extends EditorNodeMixin(Object3D) {
 
     this.src = source.src;
     this.frameOption = source.frameOption;
+    this.imageURL = source.imageURL;
 
     return this;
   }
@@ -66,7 +69,8 @@ export default class InlineFrameNode extends EditorNodeMixin(Object3D) {
     return super.serialize({
       inlineFrame: {
         src: this.src,
-        frameOption: this.frameOption
+        frameOption: this.frameOption,
+        imageURL: this.imageURL
       }
     });
   }
@@ -76,7 +80,8 @@ export default class InlineFrameNode extends EditorNodeMixin(Object3D) {
     this.remove(this.helper);
     this.addGLTFComponent("inline-frame", {
       src: this.src,
-      frameOption: this.frameOption === "Main" ? "main" : "sideView"
+      frameOption: this.frameOption === "Main" ? "main" : "sideView",
+      imageURL: this.imageURL
     });
     this.addGLTFComponent("networked", {
       id: this.uuid
