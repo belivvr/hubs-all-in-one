@@ -25,10 +25,6 @@ export default function InlineViewNodeEditor(props) {
   const onChangeBillboard = useSetPropertySelected(editor, "billboard");
   const onChangeFrameOption = useSetPropertySelected(editor, "frameOption");
 
-  useEffect(() => {
-    console.log(node)
-  }, [])
-
   return (
     <NodeEditor description={InlineViewNodeEditor.description} {...props}>
       <InputGroup name="Image URL" info="Enter the address of the thumbnail image of the component that will appear in Hubs.">
