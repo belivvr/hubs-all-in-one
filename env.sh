@@ -42,7 +42,19 @@ function replace_vars_in_files() {
     done
 }
 
+function cp_and_replace() {
+    TEMPLATE=$1
+    FILE=$2
+
+    cp $TEMPLATE $FILE
+
+    for ((i = 0; i < array_length; i++)); do
+
+        IFS="=" read -r NAME VALUE <<<"${SOURCE[i]}"
+        sed -i "s/\${${NAME}}/${VALUE//\//\\/}/g" $FILE
+    done
+}
+
 for ((i = 0; i < array_length; i++)); do
     export "${SOURCE[i]}"
-    echo "${SOURCE[i]}"
 done
