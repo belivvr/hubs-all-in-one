@@ -136,6 +136,7 @@ export default class InlineViewNode extends EditorNodeMixin(Image) {
     this.remove(this.helper);
 
     this.addGLTFComponent("inline-frame", {
+      name: this.name,
       src: this.inlineURL,
       frameOption: this.frameOption === "Main" ? "main" : "sideView",
       imageURL: this.src

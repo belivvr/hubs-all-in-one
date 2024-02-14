@@ -136,6 +136,7 @@ AFRAME.GLTFModelPlus.registerComponent("waypoint", "waypoint", (el, componentNam
 import { findAncestorWithComponent } from "./utils/scene-graph";
 import { createElementEntity } from "./utils/jsx-entity";
 import { setInitialNetworkedData } from "./utils/assign-network-ids";
+import { guessContentType } from "./utils/media-url-utils";
 /** @jsx createElementEntity */ createElementEntity;
 
 AFRAME.GLTFModelPlus.registerComponent("media-frame", "media-frame", (el, _componentName, componentData) => {
@@ -300,25 +301,28 @@ AFRAME.GLTFModelPlus.registerComponent("video", "video", mediaInflator, (name, p
 AFRAME.GLTFModelPlus.registerComponent("link", "link", mediaInflator);
 AFRAME.GLTFModelPlus.registerComponent("inline-frame", "inline-frame", async (el, componentName, componentData, components) => {
   el.setAttribute("networked", {
-    template: "#static-controlled-media",
+    template: "#inline-static-controlled-media",
     owner: "scene",
     persistent: true,
     networkId: components.networked.id
   });
 
+  el.setAttribute(
+    "media-image",
+    Object.assign({}, componentData.mediaOptions, {
+      src: componentData.imageURL,
+      version: 1,
+      contentType: guessContentType(componentData.imageURL) || "image/png"
+    })
+  );
 
-  el.setAttribute("media-loader", {
-    src: sanitizeUrl(componentData.src),
-    frameOption: componentData.frameOption,
-    resolve: true,
-    fileIsOwned: true,
-    animate: false,
-    moveTheParentNotTheMesh: true,
+  el.setAttribute("hover-menu__link", { template: "#inline-hover-menu", isFlat: true });
+  el.childNodes.forEach((child) => {
+      if (child.id === 'inline-wrapper') {
+        child.childNodes[1].setAttribute("id", componentData.name);
+        child.childNodes[1].setAttribute("inline-frame-button", `name: ${componentData.name}; src: ${componentData.src}; frameOption: ${componentData.frameOption};`);
+      }
   });
-
-  el.setAttribute("inner-thumbnail", componentData.imageURL)
-
-  el.setAttribute("inner-frame", "true");
 });
 
 AFRAME.GLTFModelPlus.registerComponent("hoverable", "is-remote-hover-target", el => {
