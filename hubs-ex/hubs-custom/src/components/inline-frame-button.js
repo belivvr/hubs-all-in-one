@@ -9,8 +9,8 @@ AFRAME.registerComponent("inline-frame-button", {
     this.label = this.el.querySelector("[text]");
 
     this.onClick = async () => {
-      const thisSrc = this.data.src;
-      const thisSearchParams = new URLSearchParams(thisSrc);
+      const thisSrcParams = new URL(this.data.src).search;
+      const thisSearchParams = new URLSearchParams(thisSrcParams);
       const params = window.location.search;
       const searchParams = new URLSearchParams(params);
       window.dispatchEvent(new CustomEvent("inline-url", {
