@@ -39,6 +39,7 @@ export default class InlineViewNode extends EditorNodeMixin(Image) {
     this._canonicalUrl = "";
     this.inlineURL = "";
     this.frameOption = "Main";
+    this.billboard = false;
   }
 
   get src() {
@@ -115,6 +116,7 @@ export default class InlineViewNode extends EditorNodeMixin(Image) {
     this._canonicalUrl = source._canonicalUrl;
     this.inlineURL = source.inlineURL;
     this.frameOption = source.frameOption;
+    this.billboard = source.billboard;
 
     return this;
   }
@@ -128,6 +130,10 @@ export default class InlineViewNode extends EditorNodeMixin(Image) {
       }
     };
 
+    if (this.billboard) {
+      components.billboard = {};
+    }
+
     return super.serialize(components);
   }
 
@@ -136,10 +142,15 @@ export default class InlineViewNode extends EditorNodeMixin(Image) {
     this.remove(this.helper);
 
     this.addGLTFComponent("inline-frame", {
+      name: this.name,
       src: this.inlineURL,
       frameOption: this.frameOption === "Main" ? "main" : "sideView",
       imageURL: this.src
     });
+
+    if (this.billboard) {
+      this.addGLTFComponent("billboard", {});
+    }
 
     this.addGLTFComponent("networked", {
       id: this.uuid

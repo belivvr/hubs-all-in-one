@@ -30,7 +30,6 @@ import { waitForDOMContentLoaded } from "../utils/async-utils";
 import { SHAPE } from "three-ammo/constants";
 import { addComponent, entityExists, removeComponent } from "bitecs";
 import { MediaContentBounds, MediaLoading } from "../bit-components";
-import { string } from "prop-types";
 
 let loadingObject;
 
@@ -46,7 +45,6 @@ AFRAME.registerComponent("media-loader", {
     fileId: { type: "string" },
     fileIsOwned: { type: "boolean" },
     src: { type: "string" },
-    frameOption: { default: null },
     version: { type: "number", default: 1 }, // Used to force a re-resolution
     fitToBox: { default: false },
     moveTheParentNotTheMesh: { default: false },
@@ -574,14 +572,6 @@ AFRAME.registerComponent("media-loader", {
         this.el.removeAttribute("audio-zone-source");
         this.el.removeAttribute("media-pdf");
         this.el.removeAttribute("media-pager");
-        this.el.setAttribute(
-          "media-image",
-          Object.assign({}, this.data.mediaOptions, {
-            src: thumbnail,
-            version,
-            contentType: guessContentType(thumbnail) || "image/png"
-          })
-        );
         this.el.addEventListener(
           "image-loaded",
           async () => {
@@ -597,21 +587,6 @@ AFRAME.registerComponent("media-loader", {
                 template: "#hubs-destination-hover-menu",
                 isFlat: true
               });
-            } else if (this.el.getAttribute('inner-frame')) {
-              this.el.setAttribute("hover-menu__link", { template: "#inline-hover-menu", isFlat: true });
-              this.el.childNodes.forEach((child) => {
-                if (child.id === 'inline-wrapper') {
-                  child.childNodes[1].setAttribute("inline-frame-button", `src: ${this.data.src}; frameOption: ${this.data.frameOption};`);
-                }
-              });
-              this.el.setAttribute(
-                "media-image",
-                Object.assign({}, this.data.mediaOptions, {
-                  src: this.el.getAttribute('inner-thumbnail') || thumbnail,
-                  version,
-                  contentType: guessContentType(thumbnail) || "image/png"
-                })
-              );
             } else {
               this.el.setAttribute("hover-menu__link", { template: "#link-hover-menu", isFlat: true });
             }
@@ -620,6 +595,14 @@ AFRAME.registerComponent("media-loader", {
           { once: true }
         );
         this.el.setAttribute("floaty-object", { reduceAngularFloat: true, releaseGravity: -1 });
+        this.el.setAttribute(
+          "media-image",
+          Object.assign({}, this.data.mediaOptions, {
+            src: thumbnail,
+            version,
+            contentType: guessContentType(thumbnail) || "image/png"
+          })
+        );
         if (this.el.components["position-at-border__freeze"]) {
           this.el.setAttribute("position-at-border__freeze", { isFlat: true });
         }
