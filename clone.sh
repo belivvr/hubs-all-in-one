@@ -33,9 +33,20 @@ cp_and_replace ./reticulum/dev.exs.template ./reticulum/config/dev.exs
 cp_and_replace ./reticulum/runtime.exs.template ./reticulum/config/runtime.exs
 cp_and_replace ./reticulum/.vscode/launch.json.template ./reticulum/.vscode/launch.json
 
+# dialog
 [ ! -d "dialog" ] && git clone https://github.com/belivvr/dialog.git
 
 mkdir -p ./dialog/certs
 cp $SSL_CERT_FILE ./dialog/certs/cert.pem
 cp $SSL_KEY_FILE ./dialog/certs/key.pem
 cp $PERMS_PUB_FILE ./dialog/certs/perms.pub.pem
+
+# spoke
+[ ! -d "spoke" ] && git clone https://github.com/belivvr/spoke.git
+
+mkdir -p ./spoke/certs
+cp $SSL_CERT_FILE ./spoke/certs/cert.pem
+cp $SSL_KEY_FILE ./spoke/certs/key.pem
+
+cp_and_replace ./spoke/env.template ./spoke/.env.prod
+cp_and_replace ./spoke/nginx.template ./spoke/nginx.conf

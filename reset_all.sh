@@ -14,11 +14,10 @@ docker rm -f thumbnail
 docker volume ls -q | xargs docker volume rm
 
 bash dialog/build.sh
-# bash dialog-ex/build.sh
 bash postgrest/build.sh
 bash hubs/build.sh
 bash hubs/admin/build.sh
-bash spoke-ex/build.sh
+bash spoke/build.sh
 bash thumbnail/build.sh
 bash reticulum/build.sh
 
@@ -42,10 +41,9 @@ else
 fi
 
 bash dialog/run.sh
-# bash dialog-ex/run.sh
 bash hubs/run.sh
 bash hubs/admin/run.sh
-bash spoke-ex/run.sh
+bash spoke/run.sh
 bash postgrest/run.sh
 bash thumbnail/run.sh
 bash proxy/run.sh
