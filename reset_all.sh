@@ -8,9 +8,6 @@ docker network create haio
 docker rm -f postgrest
 docker rm -f dialog
 docker rm -f proxy
-docker rm -f reticulum
-# docker rm -f client
-# docker rm -f admin
 docker rm -f db
 docker rm -f spoke
 docker rm -f thumbnail
@@ -19,12 +16,11 @@ docker volume ls -q | xargs docker volume rm
 
 bash dialog-ex/build.sh
 bash postgrest/build.sh
-# bash hubs-ex/build.sh
 bash hubs/build.sh
 bash hubs/admin/build.sh
 bash spoke-ex/build.sh
 bash thumbnail/build.sh
-bash reticulum-ex/build.sh
+bash reticulum/build.sh
 
 docker images -a | grep "<none>" | awk '{print $3}' | xargs docker rmi
 
@@ -39,15 +35,13 @@ if [ "$1" = "prod" ]; then
         sudo systemctl enable rpcbind.service
 
         bash db/run.sh prod
-        bash reticulum-ex/run.sh prod
+        bash reticulum/run.sh prod
 else
         bash db/run.sh
-        bash reticulum-ex/run.sh
+        bash reticulum/run.sh
 fi
 
 bash dialog-ex/run.sh
-# bash hubs-ex/run-admin.sh
-# bash hubs-ex/run-client.sh
 bash hubs/run.sh
 bash hubs/admin/run.sh
 bash spoke-ex/run.sh
