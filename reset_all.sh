@@ -6,7 +6,6 @@ bash clone.sh
 docker network create haio
 
 docker rm -f postgrest
-docker rm -f dialog
 docker rm -f proxy
 docker rm -f db
 docker rm -f spoke
@@ -14,7 +13,8 @@ docker rm -f thumbnail
 
 docker volume ls -q | xargs docker volume rm
 
-bash dialog-ex/build.sh
+bash dialog/build.sh
+# bash dialog-ex/build.sh
 bash postgrest/build.sh
 bash hubs/build.sh
 bash hubs/admin/build.sh
@@ -41,7 +41,8 @@ else
         bash reticulum/run.sh
 fi
 
-bash dialog-ex/run.sh
+bash dialog/run.sh
+# bash dialog-ex/run.sh
 bash hubs/run.sh
 bash hubs/admin/run.sh
 bash spoke-ex/run.sh

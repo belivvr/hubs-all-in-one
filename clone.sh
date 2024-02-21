@@ -26,7 +26,7 @@ cp_and_replace ./hubs/admin/nginx.conf.template ./hubs/admin/nginx.conf
 mkdir -p ./reticulum/certs
 cp $SSL_CERT_FILE ./reticulum/certs/cert.pem
 cp $SSL_KEY_FILE ./reticulum/certs/key.pem
-cp $PERMS_PUB_FILE ./reticulum/certs/perms.pub.pem
+cp $PERMS_PRV_FILE ./reticulum/certs/perms.prv.pem
 
 cp_and_replace ./reticulum/env.template ./reticulum/.env
 cp_and_replace ./reticulum/dev.exs.template ./reticulum/config/dev.exs
