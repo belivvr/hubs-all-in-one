@@ -567,7 +567,6 @@ export default function HierarchyPanel() {
   const [renamingNode, setRenamingNode] = useState(null);
   const [expandedNodes, setExpandedNodes] = useState({});
   const [nodes, setNodes] = useState([]);
-  const [update, setUpdate] = useState(false)
   const { t, i18n } = useTranslation();
 
   const updateNodeHierarchy = useCallback(() => {
@@ -841,12 +840,7 @@ export default function HierarchyPanel() {
       if (!localeData[node.object.nodeName]) continue
       // node.object.name = localeData[node.object.nodeName].title;
     }
-    setUpdate(true);
   }, [nodes, i18n.language])
-
-  useEffect(() => {
-    setUpdate(false);
-  }, [update])
 
   useEffect(() => {
     editor.addListener("sceneGraphChanged", updateNodeHierarchy);
@@ -870,7 +864,7 @@ export default function HierarchyPanel() {
         {editor.scene && (
           <AutoSizer>
             {({ height, width }) => (
-              !update && <FixedSizeList
+              <FixedSizeList
               height={height}
               width={width}
               itemSize={32}
