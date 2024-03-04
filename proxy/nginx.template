@@ -65,4 +65,16 @@ http {
             proxy_pass http://thumbnail:5000;
         }
     }
+
+    server {
+        listen 3200 ssl;
+        server_name cnu-api.vevv.io;
+
+        ssl_certificate /etc/nginx/xrcloud/chain.pem;
+        ssl_certificate_key /etc/nginx/xrcloud/private.pem;
+
+        location / {
+            proxy_pass http://xrcloud-backend:3000;
+        }
+    }
 }

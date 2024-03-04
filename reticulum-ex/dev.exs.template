@@ -211,4 +211,3 @@ config :ret, Ret.Coturn, realm: "ret"
 
 config :ret, :event_enter_url, "${EVENT_ENTER_URL}"
 config :ret, :event_exit_url, "${EVENT_EXIT_URL}"
-config :ret, :event_url, "${EVENT_URL}"

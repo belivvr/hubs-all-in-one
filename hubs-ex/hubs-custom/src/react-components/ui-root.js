@@ -482,11 +482,10 @@ class UIRoot extends Component {
         });
       }
 
-      const link =
-      window.document.querySelector("link[rel*='icon']")
       this.setState({ returnUrl: data.returnUrl })
-      if (link) link.href = data.faviconUrl
     })
+    const link = window.document.querySelector("link[rel*='icon']")
+    if (link) link.href = "https://cnumeta.jnu.ac.kr/favicon.svg"
   }
 
   UNSAFE_componentWillMount() {

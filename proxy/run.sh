@@ -18,6 +18,8 @@ docker rm -f proxy||true
 docker run --log-opt max-size=10m --log-opt max-file=3 -d --restart=always --name proxy --network haio \
     -p 4080:4080 \
     -p 5000:5000 \
+    -p 3200:3200 \
+    -v /home/jdm/etc/ssl:/etc/nginx/xrcloud \
     -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf \
     -v $SSL_CERT_FILE:/etc/nginx/certs/cert.pem \
     -v $SSL_KEY_FILE:/etc/nginx/certs/key.pem \
