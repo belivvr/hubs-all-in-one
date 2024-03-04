@@ -2,11 +2,11 @@
 set -e
 
 CERTS="$(pwd)/certs"
-SUFFIX="cnumetaxr.jnu.ac.kr"
+SUFFIX="hubs-1.vevv.io"
 
 SOURCE=(
-    SSL_CERT_FILE="$CERTS/wildcard.jnu.ac.kr.unified.crt"
-    SSL_KEY_FILE="$CERTS/open_wildcard.jnu.ac.kr.key"
+    SSL_CERT_FILE="$CERTS/vevv.io_202303247.unified.crt.pem"
+    SSL_KEY_FILE="$CERTS/vevv.io_202303247.key.pem"
     PERMS_PRV_FILE="$CERTS/perms.prv.pem"
     PERMS_PUB_FILE="$CERTS/perms.pub.pem"
     PERMS_JWK_FILE="$CERTS/perms-jwk.json"
@@ -14,19 +14,21 @@ SOURCE=(
     PROXY_HOST="${SUFFIX}"
     DB_HOST="${SUFFIX}"
     DB_USER="xrcloud"
-    DB_PASSWORD="xrcloud123!"
+    DB_PASSWORD="ENrrYdFyD3f"
     POSTGREST_HOST="${SUFFIX}"
     DIALOG_HOST="${SUFFIX}"
     DIALOG_PORT="4443"
     THUMBNAIL_HOST="${SUFFIX}"
-     #입장과 퇴장시 이벤트 로그를 남겨줄 API를 지정한다. 레티큘럼에서만 사용.
-    EVENT_ENTER_URL="https://cnumeta.jnu.ac.kr/api/v1/rooms/logs"
-    EVENT_EXIT_URL="https://cnumeta.jnu.ac.kr/api/v1/rooms/logs"
+    # 입장과 퇴장시 이벤트 로그를 남겨줄 API를 지정한다. 레티큘럼에서만 사용.
+    # EVENT_*을 빈칸으로 두면 응답이 없어서 룸 입장 시 멈춘다
+    EVENT_ENTER_URL="https://xrcloud.app/api"
+    EVENT_EXIT_URL="https://xrcloud.app/api"
+    EVENT_URL="https://xrcloud.app/api"
     DB_VOLUME_DIR="/data/postgres"
-    DB_NAS_LOCATION="169.254.170.76:/n009102_xrcloudJnuDBVolume"
+    DB_NAS_LOCATION="169.254.84.53:/n3048487_HaioDevDB"
     RETICULUM_STORAGE_DIR="/storage"
-    STORAGE_NAS_LOCATION="169.254.170.76:/n009102_xrcloudJnu"
-    XRCLOUD_BACKEND_URL="https://cnu-api.vevv.io:3200"
+    STORAGE_NAS_LOCATION="169.254.84.53:/n3048487_HaioDevStorage"
+    XRCLOUD_BACKEND_URL=""
 )
 
 array_length=${#SOURCE[@]}
