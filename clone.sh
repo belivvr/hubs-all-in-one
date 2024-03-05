@@ -4,10 +4,6 @@ cd "$(dirname "$0")"
 
 . ./env.sh
 
-CERTS="$(pwd)/certs"
-SSL_CERT_FILE="$CERTS/vevv.io_202303247.unified.crt.pem"
-SSL_KEY_FILE="$CERTS/vevv.io_202303247.key.pem"
-
 # hubs
 [ ! -d "hubs" ] && git clone https://github.com/belivvr/hubs.git
 
