@@ -10,9 +10,7 @@ cd $THISDIR
 touch error.log
 touch access.log
 
-
-cp nginx.template nginx.conf
-replace_vars_in_files "nginx.conf"
+cp_and_replace nginx.template nginx.conf
 
 docker rm -f proxy||true
 docker run --log-opt max-size=10m --log-opt max-file=3 -d --restart=always --name proxy --network haio \

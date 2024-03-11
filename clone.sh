@@ -25,7 +25,13 @@ cp $SSL_KEY_FILE ./reticulum/certs/key.pem
 cp $PERMS_PRV_FILE ./reticulum/certs/perms.prv.pem
 
 cp_and_replace ./reticulum/env.template ./reticulum/.env
+add_env_var_to_file "EVENT_ENTER_URL" "./reticulum/.env" "EVENT_ENTER_URL=\${EVENT_ENTER_URL}"
+add_env_var_to_file "EVENT_EXIT_URL" "./reticulum/.env" "EVENT_EXIT_URL=\${EVENT_EXIT_URL}"
+add_env_var_to_file "EVENT_URL" "./reticulum/.env" "EVENT_URL=\${EVENT_URL}"
 cp_and_replace ./reticulum/dev.exs.template ./reticulum/config/dev.exs
+add_env_var_to_file "EVENT_ENTER_URL" "./reticulum/config/dev.exs" "config :ret, :event_enter_url, \\\"\${EVENT_ENTER_URL}\\\""
+add_env_var_to_file "EVENT_EXIT_URL" "./reticulum/config/dev.exs" "config :ret, :event_exit_url, \\\"\${EVENT_EXIT_URL}\\\""
+add_env_var_to_file "EVENT_URL" "./reticulum/config/dev.exs" "config :ret, :event_url, \\\"\${EVENT_URL}\\\""
 cp_and_replace ./reticulum/runtime.exs.template ./reticulum/config/runtime.exs
 cp_and_replace ./reticulum/.vscode/launch.json.template ./reticulum/.vscode/launch.json
 

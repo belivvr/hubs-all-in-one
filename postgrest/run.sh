@@ -7,8 +7,7 @@ cd ..
 . ./env.sh
 cd $THISDIR
 
-cp postgrest.template postgrest.conf
-replace_vars_in_files "postgrest.conf"
+cp_and_replace postgrest.template postgrest.conf
 
 docker rm -f postgrest
 
