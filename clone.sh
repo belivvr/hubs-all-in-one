@@ -5,6 +5,7 @@ cd "$(dirname "$0")"
 . ./env.sh
 
 # hubs
+rmdir hubs
 [ ! -d "hubs" ] && git clone https://github.com/belivvr/hubs.git
 
 mkdir -p ./hubs/certs
@@ -17,6 +18,7 @@ cp_and_replace ./hubs/admin/env.template ./hubs/admin/.env
 cp_and_replace ./hubs/admin/nginx.conf.template ./hubs/admin/nginx.conf
 
 # reticulum
+rmdir reticulum
 [ ! -d "reticulum" ] && git clone https://github.com/belivvr/reticulum.git
 
 mkdir -p ./reticulum/certs
@@ -36,6 +38,7 @@ cp_and_replace ./reticulum/runtime.exs.template ./reticulum/config/runtime.exs
 cp_and_replace ./reticulum/.vscode/launch.json.template ./reticulum/.vscode/launch.json
 
 # dialog
+rmdir dialog
 [ ! -d "dialog" ] && git clone https://github.com/belivvr/dialog.git
 
 mkdir -p ./dialog/certs
@@ -44,6 +47,7 @@ cp $SSL_KEY_FILE ./dialog/certs/key.pem
 cp $PERMS_PUB_FILE ./dialog/certs/perms.pub.pem
 
 # spoke
+rmdir spoke
 [ ! -d "spoke" ] && git clone https://github.com/belivvr/spoke.git
 
 mkdir -p ./spoke/certs
