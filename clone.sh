@@ -4,8 +4,21 @@ cd "$(dirname "$0")"
 
 . ./env.sh
 
+clone_repo() {
+  local repo_url="$1"
+  local repo_dir="$2"
+
+  if [ -d "$repo_dir" ] && [ -z "$(ls -A "$repo_dir")" ]; then
+    rm -rf "$repo_dir"
+  fi
+
+  if [ ! -d "$repo_dir" ]; then
+    git clone "$repo_url" "$repo_dir"
+  fi
+}
+
 # hubs
-[ ! -d "hubs" ] && git clone https://github.com/belivvr/hubs.git
+clone_repo "https://github.com/belivvr/hubs.git" "hubs"
 
 mkdir -p ./hubs/certs
 cp $SSL_CERT_FILE ./hubs/certs/cert.pem
@@ -17,7 +30,7 @@ cp_and_replace ./hubs/admin/env.template ./hubs/admin/.env
 cp_and_replace ./hubs/admin/nginx.conf.template ./hubs/admin/nginx.conf
 
 # reticulum
-[ ! -d "reticulum" ] && git clone https://github.com/belivvr/reticulum.git
+clone_repo "https://github.com/belivvr/reticulum.git" "reticulum"
 
 mkdir -p ./reticulum/certs
 cp $SSL_CERT_FILE ./reticulum/certs/cert.pem
@@ -36,7 +49,7 @@ cp_and_replace ./reticulum/runtime.exs.template ./reticulum/config/runtime.exs
 cp_and_replace ./reticulum/.vscode/launch.json.template ./reticulum/.vscode/launch.json
 
 # dialog
-[ ! -d "dialog" ] && git clone https://github.com/belivvr/dialog.git
+clone_repo "https://github.com/belivvr/dialog.git" "dialog"
 
 mkdir -p ./dialog/certs
 cp $SSL_CERT_FILE ./dialog/certs/cert.pem
@@ -44,7 +57,7 @@ cp $SSL_KEY_FILE ./dialog/certs/key.pem
 cp $PERMS_PUB_FILE ./dialog/certs/perms.pub.pem
 
 # spoke
-[ ! -d "spoke" ] && git clone https://github.com/belivvr/spoke.git
+clone_repo "https://github.com/belivvr/spoke.git" "spoke"
 
 mkdir -p ./spoke/certs
 cp $SSL_CERT_FILE ./spoke/certs/cert.pem
