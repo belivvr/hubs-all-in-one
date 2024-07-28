@@ -1,6 +1,11 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
+if [ "$1" != "prod" ] && [ "$1" != "dev" ]; then
+    echo "Usage: $0 {prod|dev}"
+    exit 1
+fi
+
 bash clone.sh
 
 docker network create haio
