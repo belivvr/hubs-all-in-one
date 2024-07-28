@@ -1,8 +1,8 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
-if [ "$1" != "prod" ] && [ "$1" != "dev" ]; then
-    echo "Usage: $0 {prod|dev}"
+if [ "$1" != "prod" ] && [ "$1" != "devinit" ]; then
+    echo "Usage: $0 {prod|devinit}"
     exit 1
 fi
 
@@ -29,19 +29,19 @@ bash reticulum/build.sh
 docker images -a | grep "<none>" | awk '{print $3}' | xargs docker rmi
 
 if [ "$1" = "prod" ]; then
-        #nfs-common 패키지 설치
+        #nfs-common 
         sudo apt-get install nfs-common
 
-        #NFS 관련 데몬 기동
+        #NFS demon start
         sudo systemctl start rpcbind.service
 
-        #rpcbind가 자동으로 기동되도록 설정
+        #rpcbind auto running setting
         sudo systemctl enable rpcbind.service
 
         bash db/run.sh prod
         bash reticulum/run.sh prod
 else
-        bash db/run.sh
+        bash db/run.sh #db init
         bash reticulum/run.sh
 fi
 
