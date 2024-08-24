@@ -1,8 +1,8 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
-if [ "$1" != "prod" ] && [ "$1" != "devinit" ]; then
-    echo "Usage: $0 {prod|devinit}"
+if [ "$1" != "prod" ] && [ "$1" != "dev" ]; then
+    echo "Usage: $0 {prod|dev}"
     exit 1
 fi
 
@@ -15,6 +15,9 @@ docker rm -f proxy
 docker rm -f db
 docker rm -f spoke
 docker rm -f thumbnail
+docker rm -f reticulum
+docker rm -f dialog
+
 
 docker volume ls -q | xargs docker volume rm
 
@@ -41,7 +44,7 @@ if [ "$1" = "prod" ]; then
         bash db/run.sh prod
         bash reticulum/run.sh prod
 else
-        bash db/run.sh #db init
+        bash db/run.sh
         bash reticulum/run.sh
 fi
 
