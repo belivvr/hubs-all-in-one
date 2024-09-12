@@ -2,7 +2,15 @@
 set -ex
 cd "$(dirname "$0")"
 
-. ./env.sh
+# 첫 번째 파라미터에 따라 환경 파일을 로드합니다.
+if [ "$1" == "prod" ]; then
+  . ./env.sh
+elif [ "$1" == "dev" ]; then
+  . ./env.dev.sh
+else
+  echo "Error: You must specify 'prod' or 'dev' as the first parameter."
+  exit 1
+fi
 
 clone_repo() {
   local repo_url="$1"
@@ -21,8 +29,14 @@ clone_repo() {
 clone_repo "https://github.com/belivvr/hubs.git" "hubs"
 
 mkdir -p ./hubs/certs
+rm -rf ./hubs/certs/*.pem
+
+echo $SSL_CERT_FILE 
+echo $SSL_KEY_FILE
+
 cp $SSL_CERT_FILE ./hubs/certs/cert.pem
 cp $SSL_KEY_FILE ./hubs/certs/key.pem
+
 
 cp_and_replace ./hubs/env.template ./hubs/.env
 cp_and_replace ./hubs/nginx.conf.template ./hubs/nginx.conf
@@ -33,11 +47,14 @@ cp_and_replace ./hubs/admin/nginx.conf.template ./hubs/admin/nginx.conf
 clone_repo "https://github.com/belivvr/reticulum.git" "reticulum"
 
 mkdir -p ./reticulum/certs
+rm -rf ./reticulum/certs/*.pem
 cp $SSL_CERT_FILE ./reticulum/certs/cert.pem
 cp $SSL_KEY_FILE ./reticulum/certs/key.pem
 cp $PERMS_PRV_FILE ./reticulum/certs/perms.prv.pem
 
+rm -rf ./reticulum/.env
 cp_and_replace ./reticulum/env.template ./reticulum/.env
+
 add_env_var_to_file "EVENT_ENTER_URL" "./reticulum/.env" "EVENT_ENTER_URL=\${EVENT_ENTER_URL}"
 add_env_var_to_file "EVENT_EXIT_URL" "./reticulum/.env" "EVENT_EXIT_URL=\${EVENT_EXIT_URL}"
 add_env_var_to_file "EVENT_URL" "./reticulum/.env" "EVENT_URL=\${EVENT_URL}"
@@ -52,6 +69,7 @@ cp_and_replace ./reticulum/.vscode/launch.json.template ./reticulum/.vscode/laun
 clone_repo "https://github.com/belivvr/dialog.git" "dialog"
 
 mkdir -p ./dialog/certs
+rm -rf ./dialog/certs/*.pem
 cp $SSL_CERT_FILE ./dialog/certs/cert.pem
 cp $SSL_KEY_FILE ./dialog/certs/key.pem
 cp $PERMS_PUB_FILE ./dialog/certs/perms.pub.pem
@@ -60,6 +78,8 @@ cp $PERMS_PUB_FILE ./dialog/certs/perms.pub.pem
 clone_repo "https://github.com/belivvr/spoke.git" "spoke"
 
 mkdir -p ./spoke/certs
+rm -rf ./spoke/certs/*.pem
+cp $SSL_CERT_FILE ./dialo
 cp $SSL_CERT_FILE ./spoke/certs/cert.pem
 cp $SSL_KEY_FILE ./spoke/certs/key.pem
 
