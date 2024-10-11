@@ -25,9 +25,7 @@ SOURCE=(
     EVENT_EXIT_URL="https://${HUBS_HOST}/api"
     EVENT_URL="https://${XRCLOUD_HOST}/events/hub"
     DB_VOLUME_DIR="/app/haio/db"
-    #DB_NAS_LOCATION="169.254.84.53:/n3048487_HaioDevDB"
-    RETICULUM_STORAGE_DIR="/app/haio/storage"
-    #STORAGE_NAS_LOCATION="169.254.84.53:/n3048487_HaioDevStorage"
+    RETICULUM_STORAGE_DIR="/data/haio/storage"
     XRCLOUD_BACKEND_URL="https://${XRCLOUD_HOST}"
 )
 
@@ -48,8 +46,8 @@ function cp_and_replace() {
     TEMPLATE=$1
     FILE=$2
 
-    echo "Copying $TEMPLATE to $FILE"  # 디버깅 출력 추가
-    cp $TEMPLATE $FILE  # 템플릿 파일 복사
+    echo "Copying $TEMPLATE to $FILE" # 디버깅 출력 추가
+    cp $TEMPLATE $FILE                # 템플릿 파일 복사
 
     if [ $? -ne 0 ]; then
         echo "Failed to copy $TEMPLATE to $FILE"
@@ -58,11 +56,10 @@ function cp_and_replace() {
 
     for ((i = 0; i < array_length; i++)); do
         IFS="=" read -r NAME VALUE <<<"${SOURCE[i]}"
-        echo "Replacing \${${NAME}} with ${VALUE} in ${FILE}"  # 디버깅 출력 추가
+        echo "Replacing \${${NAME}} with ${VALUE} in ${FILE}" # 디버깅 출력 추가
         sed -i "s/\${${NAME}}/${VALUE//\//\\/}/g" $FILE
     done
 }
-
 
 function add_env_var_to_file() {
     local env_var_name=$1
@@ -73,7 +70,7 @@ function add_env_var_to_file() {
     if [ ! -z "$env_var_value" ]; then
         # 평가하여 formatted_string 내에서 환경변수 값을 대체
         local to_add=$(eval echo "$formatted_string")
-        echo "$to_add" >> "$file_name"
+        echo "$to_add" >>"$file_name"
     fi
 }
 
