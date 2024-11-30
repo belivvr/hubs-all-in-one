@@ -20,12 +20,10 @@ SOURCE=(
     POSTGREST_HOST="${HUBS_HOST}"
     DIALOG_HOST="${DIALOG_HOST}"
     DIALOG_PORT="4443"
-    THUMBNAIL_HOST="${HUBS_HOST}"
-    EVENT_ENTER_URL="https://${HUBS_HOST}/api"
-    EVENT_EXIT_URL="https://${HUBS_HOST}/api"
-    EVENT_URL="https://${XRCLOUD_HOST}/events/hub"
-    DB_VOLUME_DIR="/app/haio/db"
-    RETICULUM_STORAGE_DIR="/data/haio/storage"
+    THUMBNAIL_HOST="${HUBS_HOST}"    
+    LOGGING_URL="https://${XRCLOUD_HOST}/logs/"
+    DB_VOLUME_DIR="/app/dev.haio/db"
+    RETICULUM_STORAGE_DIR="/data/dev.haio/storage"
     XRCLOUD_BACKEND_URL="https://${XRCLOUD_HOST}"
 )
 
