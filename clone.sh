@@ -38,6 +38,7 @@ if [ -z "$2" ] || [ "$2" == "dialog" ]; then
 fi
 
 # 두 번째 파라미터가 없거나 hubs일 때 dialog를 제외한 나머지 실행
+# hubs는 cnu에서 dialog제외하고 실행하기 위한 옵션
 if [ -z "$2" ] || [ "$2" == "hubs" ]; then
   # hubs
   clone_repo "https://github.com/belivvr/hubs.git" "hubs"
@@ -51,7 +52,11 @@ if [ -z "$2" ] || [ "$2" == "hubs" ]; then
   cp $SSL_CERT_FILE ./hubs/certs/cert.pem
   cp $SSL_KEY_FILE ./hubs/certs/key.pem
 
-  cp_and_replace ./hubs/env.template ./hubs/.env
+  if [ "$1" == "dev" ]; then
+    cp_and_replace ./hubs/env.dev.template ./hubs/.env
+  else
+    cp_and_replace ./hubs/env.template ./hubs/.env
+  fi
   cp_and_replace ./hubs/nginx.conf.template ./hubs/nginx.conf
   cp_and_replace ./hubs/admin/env.template ./hubs/admin/.env
   cp_and_replace ./hubs/admin/nginx.conf.template ./hubs/admin/nginx.conf
