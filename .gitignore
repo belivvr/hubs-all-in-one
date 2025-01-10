@@ -2,5 +2,8 @@
 *.env
 *.env.*
 
+*.log
+*/logs/*
+
 # Ignore certs directory and its contents
 certs/
