@@ -7,3 +7,10 @@
 
 # Ignore certs directory and its contents
 certs/
+
+# Ignore postgrest directory and its contents
+postgrest/postgrest.conf
+
+# Ignore proxy directory and its contents
+proxy/*.log
+
