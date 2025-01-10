@@ -46,7 +46,12 @@ if [ -z "$OPTION" ] || [ "$OPTION" == "hubs" ]; then
     bash proxy/run.sh "$ENV_FILE"
 fi
 
-docker logs -f reticulum
-
 # Example of using an environment variable
 echo "Running with HUBS_HOST: $HUBS_HOST"
+
+if [ "$OPTION" = "dialog" ]; then
+    docker logs -f dialog
+else    
+    docker logs -f reticulum
+fi
+
