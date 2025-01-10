@@ -1,0 +1,9 @@
+docker stop proxy
+docker stop admin
+docker stop client
+docker stop db
+docker stop spoke
+docker stop thumbnail
+docker stop postgrest
+docker stop dialog
+docker stop reticulum

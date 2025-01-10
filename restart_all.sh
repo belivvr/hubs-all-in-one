@@ -1,50 +1,52 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
-if [ "$1" != "prod" ] && [ "$1" != "dev" ]; then
-      echo "Usage: $0 {prod|dev} [dialog|hubs]"
+# Use the ENV environment variable if set, otherwise use the first argument
+ENV_FILE="${ENV:-$1}"
+OPTION="$2"
+
+# Print usage if no parameters are provided
+if [ -z "$ENV_FILE" ]; then
+    echo "Usage: $0 ENV_FILE [OPTION]"
+    echo "OPTION:"
+    echo "  dialog  - Run dialog only"
+    echo "  hubs    - Run hubs only"
+    echo "  (none)  - Run both hubs and dialog"
     exit 1
 fi
 
-bash clone.sh $1 $2
+bash clean_all.sh
 
-docker network create haio
-docker rm -f postgrest
-docker rm -f proxy
-docker rm -f db
-docker rm -f spoke
-docker rm -f thumbnail
-docker rm -f reticulum
-docker rm -f dialog
-
-docker volume ls -q | xargs docker volume rm
-
-# 두 번째 파라미터가 없거나 dialog일 때 dialog 빌드
-if [ -z "$2" ] || [ "$2" == "dialog" ]; then
-    bash dialog/build.sh $1
+# Check if the environment configuration file exists
+if [ ! -f "$ENV_FILE" ]; then
+    echo "Error: Environment file '$ENV_FILE' not found."
+    exit 1
 fi
 
-# 두 번째 파라미터가 없거나 hubs일 때 dialog를 제외한 나머지 빌드
-if [ -z "$2" ] || [ "$2" == "hubs" ]; then
-    bash postgrest/build.sh $1
-    bash hubs/build.sh $1
-    bash hubs/admin/build.sh $1
-    bash spoke/build.sh $1
-    bash thumbnail/build.sh $1
-    bash reticulum/build.sh $1
+# Source the environment configuration file
+source "$ENV_FILE"
+source ./functions.sh
+
+docker network create haio || true
+
+# Run dialog if no parameter or if 'dialog' is specified
+if [ -z "$OPTION" ] || [ "$OPTION" == "dialog" ]; then
+    bash dialog/run.sh
 fi
 
-docker images -a | grep "<none>" | awk '{print $3}' | xargs docker rmi
+# Run everything except dialog if no parameter or if 'hubs' is specified
+if [ -z "$OPTION" ] || [ "$OPTION" == "hubs" ]; then
+    bash db/run.sh "$ENV_FILE"
+    bash reticulum/run.sh
+    bash hubs/run.sh
+    bash hubs/admin/run.sh
+    bash spoke/run.sh
+    bash postgrest/run.sh "$ENV_FILE"
+    bash thumbnail/run.sh
+    bash proxy/run.sh "$ENV_FILE"
+fi
 
-if [ "$1" = "prod" ]; then
-        #nfs-common 
-        sudo apt-get install nfs-common
+docker logs -f reticulum
 
-        #NFS demon start
-        sudo systemctl start rpcbind.service
-
-        #rpcbind auto running setting
-        sudo systemctl enable rpcbind.service        
-fi        
-        
-bash run.sh $1 $2
+# Example of using an environment variable
+echo "Running with HUBS_HOST: $HUBS_HOST"

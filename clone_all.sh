@@ -2,15 +2,20 @@
 set -ex
 cd "$(dirname "$0")"
 
-# 첫 번째 파라미터에 따라 환경 파일을 로드합니다.
-if [ "$1" == "prod" ]; then
-  . ./env.sh
-elif [ "$1" == "dev" ]; then
-  . ./env.dev.sh
-else
-  echo "Error: You must specify 'prod' or 'dev' as the first parameter."
+# Load the environment file based on the first parameter
+ENV_FILE="$1"
+
+# Check if the environment configuration file exists
+if [ ! -f "$ENV_FILE" ]; then
+  echo "Error: Environment file '$ENV_FILE' not found."
   exit 1
 fi
+
+# Source the environment configuration file
+source "$ENV_FILE"
+
+# Source functions.sh
+source ./functions.sh "$ENV_FILE"
 
 clone_repo() {
   local repo_url="$1"
@@ -25,7 +30,7 @@ clone_repo() {
   fi
 }
 
-# 두 번째 파라미터가 없거나 dialog일 때 dialog 실행
+# If the second parameter is not provided or is 'dialog', execute dialog
 if [ -z "$2" ] || [ "$2" == "dialog" ]; then
   # dialog
   clone_repo "https://github.com/belivvr/dialog.git" "dialog"
@@ -37,8 +42,7 @@ if [ -z "$2" ] || [ "$2" == "dialog" ]; then
   cp $PERMS_PUB_FILE ./dialog/certs/perms.pub.pem
 fi
 
-# 두 번째 파라미터가 없거나 hubs일 때 dialog를 제외한 나머지 실행
-# hubs는 cnu에서 dialog제외하고 실행하기 위한 옵션
+# If the second parameter is not provided or is 'hubs', execute everything except dialog
 if [ -z "$2" ] || [ "$2" == "hubs" ]; then
   # hubs
   clone_repo "https://github.com/belivvr/hubs.git" "hubs"
@@ -52,13 +56,13 @@ if [ -z "$2" ] || [ "$2" == "hubs" ]; then
   cp $SSL_CERT_FILE ./hubs/certs/cert.pem
   cp $SSL_KEY_FILE ./hubs/certs/key.pem
 
-  if [ "$1" == "dev" ]; then
-    cp_and_replace ./hubs/env.dev.template ./hubs/.env
-  else
-    cp_and_replace ./hubs/env.template ./hubs/.env
-  fi
+  echo "Copying and replacing variables in hubs/env.template to create hubs/.env"
+  cp_and_replace ./hubs/env.template ./hubs/.env
+  echo "Copying and replacing variables in hubs/nginx.conf.template to create hubs/nginx.conf"
   cp_and_replace ./hubs/nginx.conf.template ./hubs/nginx.conf
+  echo "Copying and replacing variables in hubs/admin/env.template to create hubs/admin/.env"
   cp_and_replace ./hubs/admin/env.template ./hubs/admin/.env
+  echo "Copying and replacing variables in hubs/admin/nginx.conf.template to create hubs/admin/nginx.conf"
   cp_and_replace ./hubs/admin/nginx.conf.template ./hubs/admin/nginx.conf
 
   # reticulum
@@ -84,10 +88,15 @@ if [ -z "$2" ] || [ "$2" == "hubs" ]; then
 
   mkdir -p ./spoke/certs
   rm -rf ./spoke/certs/*.pem
-  cp $SSL_CERT_FILE ./dialo
   cp $SSL_CERT_FILE ./spoke/certs/cert.pem
   cp $SSL_KEY_FILE ./spoke/certs/key.pem
 
   cp_and_replace ./spoke/env.template ./spoke/.env.prod
   cp_and_replace ./spoke/nginx.template ./spoke/nginx.conf
+
+  # Copy and replace variables in nginx.template for proxy
+  cp_and_replace ./proxy/nginx.template ./proxy/nginx.conf
+  cp_and_replace ./postgrest/postgrest.template ./postgrest/postgrest.conf
+
 fi
+

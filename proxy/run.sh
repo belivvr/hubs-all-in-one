@@ -2,27 +2,27 @@
 set -ex
 cd "$(dirname "$0")"
 THISDIR=$(pwd)
-# .env가 현재 경로를 기준으로 파일을 가져온다.
+# Load the .env file based on the current directory
 cd ..
 
-# 첫 번째 파라미터에 따라 환경 파일을 로드합니다.
-if [ "$1" == "prod" ]; then
-  . ./env.sh
-elif [ "$1" == "dev" ]; then
-  . ./env.dev.sh
-else
-  echo "Error: You must specify 'prod' or 'dev' as the first parameter."
+# Get the environment file from the first parameter
+ENV_FILE="$1"
+
+# Check if the environment file exists
+if [ ! -f "$ENV_FILE" ]; then
+  echo "Error: Environment file '$ENV_FILE' not found."
   exit 1
 fi
+
+# Source the environment file
+source "$ENV_FILE"
 
 cd $THISDIR
 
 touch error.log
 touch access.log
 
-cp_and_replace nginx.template nginx.conf
-
-docker rm -f proxy||true
+docker rm -f proxy || true
 docker run --log-opt max-size=10m --log-opt max-file=3 -d --restart=always --name proxy --network haio \
     -p 4080:4080 \
     -p 5000:5000 \
@@ -35,6 +35,3 @@ docker run --log-opt max-size=10m --log-opt max-file=3 -d --restart=always --nam
 
 docker logs proxy
 
-# curl "https://hubs1.vevv.io:4080/http://${HUBS_HOST}:9000/abc123?query=123&test=abc#1234"
-# curl "https://${PROXY_HOST}:4080/https://uploads-prod.reticulum.io:443/files/728260ab-4e8f-4052-8e1a-c7fae3492989.glb"
-# curl "https://${PROXY_HOST}:4080"
