@@ -2,8 +2,12 @@
 *.env
 *.env.*
 
+# 로그 파일
 *.log
-*/logs/*
+proxy/access.log
+proxy/error.log
+logs/
+**/logs/
 
 # Ignore certs directory and its contents
 certs/
@@ -13,4 +17,6 @@ postgrest/postgrest.conf
 
 # Ignore proxy directory and its contents
 proxy/*.log
+proxy/access.log
+proxy/error.log
 
