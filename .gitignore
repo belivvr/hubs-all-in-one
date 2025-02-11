@@ -12,11 +12,19 @@ logs/
 # Ignore certs directory and its contents
 certs/
 
-# Ignore postgrest directory and its contents
 postgrest/postgrest.conf
+nginx/nginx.conf
 
 # Ignore proxy directory and its contents
 proxy/*.log
 proxy/access.log
 proxy/error.log
 
+# Certificates
+*.pem
+*.crt
+*.key
+*.jwk.json
+certs/
+
+!keygen/
